@@ -9,16 +9,15 @@
 	<link rel="stylesheet" type="text/css" href="./css/global.css">
 <title>Login Form</title>
 </head>
-<body>
+<body class="bg">
 
-	<section class="container-fluid bg">
+	<section class="container-fluid">
 		<section class="row justify-content-center">
 			<section class="col-12 col-sm-6 col-md-3">
 				<form class="form-container" action="/home" method="POST">
 					<div class="form-group">
 						<label for="exampleInputEmail1">Email address</label> 
 						<input class="form-control" name="user" aria-describedby="emailHelp" placeholder="Enter user"> 
-							
 					</div>
 					<div class="form-group">
 						<label for="exampleInputPassword1">Password</label> 
