@@ -58,6 +58,10 @@ public class loginController {
 		public String Algoritmos(ModelMap model) {
 			return "algoritmos";
 		}
+		@RequestMapping(value="/ficheros",method = RequestMethod.GET)
+		public String Ficheros(ModelMap model) {
+			return "ficheros";
+		}
 		
 		@RequestMapping(value="/perfil",method = RequestMethod.GET)
 		public String MiPerfil(ModelMap model,HttpServletRequest request, @CookieValue(value = "username", defaultValue = "Atta") String username) throws Exception {
