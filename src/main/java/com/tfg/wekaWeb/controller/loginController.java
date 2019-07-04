@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,7 +36,7 @@ public class loginController {
 
 		
 		@RequestMapping(value="/",method = RequestMethod.GET)
-		public String login(Model model) {
+		public String login(Model model) {		
 			return "index";
 		}
 		
@@ -63,10 +66,8 @@ public class loginController {
 			model.addAttribute("nombre",e.getNombre());
 			model.addAttribute("apellido1",e.getPrimerApellido());
 			model.addAttribute("apellido2",e.getSegundoApellido());
-			
-				model.addAttribute("activo",e.getFlag());
-			
-			
+			model.addAttribute("activo",e.getFlag());
+			model.addAttribute("id",e.getId());
 			
 			return "perfil";
 		}
@@ -76,6 +77,20 @@ public class loginController {
 			return "home";
 		}
 		
+		@RequestMapping(value="/updateUser/{id}", method = RequestMethod.POST)
+		public String updateUserService(String id,String nombre,String apellido1,String apellido2,ModelMap model,HttpServletRequest request) throws Exception  {
+			User e = userService.findById(Integer.parseInt(id));
+			e.setNombre(nombre);
+			e.setPrimerApellido(apellido1);
+			e.setSegundoApellido(apellido2);
+			e = userService.updateUser(e);
+			model.addAttribute("nombre",e.getNombre());
+			model.addAttribute("apellido1",e.getPrimerApellido());
+			model.addAttribute("apellido2",e.getSegundoApellido());
+			model.addAttribute("activo",e.getFlag());
+			model.addAttribute("id",e.getId());
+			return "redirect:/perfil";
+		}
 		
 		
 		
