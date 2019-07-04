@@ -2,6 +2,7 @@ package com.tfg.wekaWeb.dto;
 
 import java.util.Date;
 
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -9,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="user")
-public class User {
+public class User  {
 
 	@Id
 	Integer id;
@@ -102,4 +103,7 @@ public class User {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	
+	
+
 }

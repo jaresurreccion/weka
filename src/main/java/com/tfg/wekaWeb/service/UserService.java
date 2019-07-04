@@ -22,6 +22,10 @@ public class UserService {
 			return userRepository.findAll();
 		}
 		
+		public User findById(int id) {
+			return userRepository.findById(id);
+		}
+		
 		public User buscarPorUsuario(String username) throws Exception{
 			if(username.isEmpty()) {
 				throw new Exception("Usuario invalido");
@@ -42,6 +46,12 @@ public class UserService {
 			else {
 				return false;
 			}
-			
+					
 		}
+		
+		public User updateUser(User e) {
+			return userRepository.save(e);
+			}
+		
+	
 }
