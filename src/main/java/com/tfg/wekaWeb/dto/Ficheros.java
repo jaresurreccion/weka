@@ -3,32 +3,42 @@ package com.tfg.wekaWeb.dto;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name="Ficheros")
 public class Ficheros {
 
 	@Id
+	@GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
 	Integer idFichero;
-	String ruta;
+	
+	String contentType;
 	String nombreFichero;
+	
+	@Lob
+	byte[] datos;
+	
 	Integer userId;
-	Date adjuntado;
-	Integer IdAlgoritmo;
 	Date creado;
 	Date modificado;
 	
-	public Ficheros(Integer idFichero, String ruta, String nombreFichero, Integer userId, Date adjuntado,
-			Integer idAlgoritmo, Date creado, Date modificado) {
+	public Ficheros() {
+		
+	}
+	public Ficheros( String contentType, String nombreFichero, byte[] datos, Integer userId,
+			Date creado, Date modificado) {
 		super();
-		this.idFichero = idFichero;
-		this.ruta = ruta;
+		
+		this.contentType = contentType;
 		this.nombreFichero = nombreFichero;
 		this.userId = userId;
-		this.adjuntado = adjuntado;
-		IdAlgoritmo = idAlgoritmo;
 		this.creado = creado;
 		this.modificado = modificado;
 	}
@@ -38,11 +48,11 @@ public class Ficheros {
 	public void setIdFichero(Integer idFichero) {
 		this.idFichero = idFichero;
 	}
-	public String getRuta() {
-		return ruta;
+	public String getcontentType() {
+		return contentType;
 	}
-	public void setRuta(String ruta) {
-		this.ruta = ruta;
+	public void setcontentType(String contentType) {
+		this.contentType = contentType;
 	}
 	public String getNombreFichero() {
 		return nombreFichero;
@@ -56,18 +66,7 @@ public class Ficheros {
 	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
-	public Date getAdjuntado() {
-		return adjuntado;
-	}
-	public void setAdjuntado(Date adjuntado) {
-		this.adjuntado = adjuntado;
-	}
-	public Integer getIdAlgoritmo() {
-		return IdAlgoritmo;
-	}
-	public void setIdAlgoritmo(Integer idAlgoritmo) {
-		IdAlgoritmo = idAlgoritmo;
-	}
+	
 	public Date getCreado() {
 		return creado;
 	}
@@ -80,6 +79,14 @@ public class Ficheros {
 	public void setModificado(Date modificado) {
 		this.modificado = modificado;
 	}
+	public byte[] getDatos() {
+		return datos;
+	}
+	public void setDatos(byte[] datos) {
+		this.datos = datos;
+	}
+	
+	
 	
 	
 	
