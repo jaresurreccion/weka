@@ -28,13 +28,12 @@ public class Ficheros {
 	Date modificado;
 	String comentario;
 	
-	@Lob
-	byte[] datos;
+	String ruta;
 	
 	public Ficheros() {
 		
 	}
-	public Ficheros( String contentType, String nombreFichero, byte[] datos, Integer idUsuario,
+	public Ficheros( String contentType, String nombreFichero, String ruta, Integer idUsuario,
 			Date creado, Date modificado,String comentario) {
 		super();
 		
@@ -44,6 +43,7 @@ public class Ficheros {
 		this.creado = creado;
 		this.modificado = modificado;
 		this.comentario = comentario;
+		this.ruta = ruta;
 	}
 	public Integer getIdFichero() {
 		return idFichero;
@@ -82,11 +82,11 @@ public class Ficheros {
 	public void setModificado(Date modificado) {
 		this.modificado = modificado;
 	}
-	public byte[] getDatos() {
-		return datos;
+	public String getRuta() {
+		return ruta;
 	}
-	public void setDatos(byte[] datos) {
-		this.datos = datos;
+	public void setRuta(String ruta) {
+		this.ruta = ruta;
 	}
 	public String getComentario() {
 		return comentario;

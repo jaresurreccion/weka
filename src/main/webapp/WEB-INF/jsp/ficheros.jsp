@@ -94,7 +94,7 @@
 					<form method="POST" action="/uploadFile"
 						enctype="multipart/form-data">
 						<div class="custom-file mb-3">
-							<input type="file" class="custom-file-input" id="customFile"
+							<input type="file" class="custom-file-input" id="file"
 								name="file"> <label class="custom-file-label"
 								for="customFile">Elegir dataset</label>
 						</div>

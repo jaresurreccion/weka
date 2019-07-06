@@ -19,16 +19,18 @@ public class FicherosService {
 	@Autowired
 	private FicherosRepository ficherosRepository;
 
+	private static String UPLOADED_FOLDER = "C:\\Users\\Jose\\Documents\\NAS\\datasets\\";
+	
 	public Ficheros guardarFichero(MultipartFile file, int userId,String comentario) throws FileSystemException {
 
-		String filename = StringUtils.cleanPath(file.getOriginalFilename());
+		String filename = file.getOriginalFilename();
 
 		try {
 			if (filename.contains("..")) {
 				throw new FileSystemException("El fichero contiene carácterés inválidos");
 			}
-
-			Ficheros fichero = new Ficheros(file.getContentType(), filename, file.getBytes(), userId, new Date(),
+			String path = UPLOADED_FOLDER + file.getOriginalFilename();
+			Ficheros fichero = new Ficheros(file.getContentType(), filename, path, userId, new Date(),
 					new Date(),comentario);
 			return ficherosRepository.save(fichero);
 		} catch (IOException ex) {
@@ -51,5 +53,7 @@ public class FicherosService {
 	public void deleteFicherosById(int idFichero) {
 		 ficherosRepository.deleteById(idFichero);
 	}
+	
+	
 
 }

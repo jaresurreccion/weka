@@ -24,7 +24,6 @@ import com.tfg.wekaWeb.service.UserService;
 
 //@RestController
 @Controller
-
 public class loginController {
 	   private static final Logger logger = LoggerFactory.getLogger(loginController.class);
 
@@ -81,15 +80,12 @@ public class loginController {
 		}
 		
 		@RequestMapping(value="/algoritmos",method = RequestMethod.GET)
-		public String Algoritmos(ModelMap model) {
-			return "algoritmos";
-		}
-		@RequestMapping(value="/ficheros",method = RequestMethod.GET)
-		public String Ficheros(ModelMap model, @CookieValue(value = "userId", defaultValue = "Attat") String userId) {
+		public String Algoritmos(ModelMap model, @CookieValue(value = "userId", defaultValue = "Attat") String userId) {
 			List<Ficheros> ficherosXusuario = ficherosService.getFicherosByIdUser(Integer.parseInt(userId));
 			model.addAttribute("ListaFicheros",ficherosXusuario);
-			return "ficheros";
+			return "algoritmos";
 		}
+		
 		
 		@RequestMapping(value="/perfil",method = RequestMethod.GET)
 		public String MiPerfil(ModelMap model,HttpServletRequest request, @CookieValue(value = "username", defaultValue = "Atta") String username) throws Exception {
@@ -122,6 +118,13 @@ public class loginController {
 			model.addAttribute("activo",e.getFlag());
 			model.addAttribute("id",e.getId());
 			return "redirect:/perfil";
+		}
+		
+		@RequestMapping(value="/ficheros",method = RequestMethod.GET)
+		public String Ficheros(ModelMap model, @CookieValue(value = "userId", defaultValue = "Attat") String userId) {
+			List<Ficheros> ficherosXusuario = ficherosService.getFicherosByIdUser(Integer.parseInt(userId));
+			model.addAttribute("ListaFicheros",ficherosXusuario);
+			return "ficheros";
 		}
 		
 		
