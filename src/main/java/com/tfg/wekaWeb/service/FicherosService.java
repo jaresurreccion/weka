@@ -3,6 +3,7 @@ package com.tfg.wekaWeb.service;
 import java.io.IOException;
 import java.nio.file.FileSystemException;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class FicherosService {
 	@Autowired
 	private FicherosRepository ficherosRepository;
 
-	public Ficheros guardarFichero(MultipartFile file, int userId) throws FileSystemException {
+	public Ficheros guardarFichero(MultipartFile file, int userId,String comentario) throws FileSystemException {
 
 		String filename = StringUtils.cleanPath(file.getOriginalFilename());
 
@@ -28,7 +29,7 @@ public class FicherosService {
 			}
 
 			Ficheros fichero = new Ficheros(file.getContentType(), filename, file.getBytes(), userId, new Date(),
-					new Date());
+					new Date(),comentario);
 			return ficherosRepository.save(fichero);
 		} catch (IOException ex) {
 			throw new FileSystemException("No se pudo guardar");
@@ -41,6 +42,14 @@ public class FicherosService {
 
 	public Optional<Ficheros> getFichero(int idFichero) {
 		return ficherosRepository.findById(idFichero);
+	}
+	
+	public List<Ficheros> getFicherosByIdUser(int idUser){
+		return ficherosRepository.findAllByIdUser(idUser);
+	} 
+	
+	public void deleteFicherosById(int idFichero) {
+		 ficherosRepository.deleteById(idFichero);
 	}
 
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import java.util.List;
 
 import com.tfg.wekaWeb.dto.Ficheros;
 import com.tfg.wekaWeb.service.FicherosService;
@@ -30,12 +31,13 @@ public class fileController {
 	private FicherosService ficherosService;
 	
 	@PostMapping("/uploadFile")
-	public String uploadFile(@RequestParam("file") MultipartFile file, @CookieValue(value = "userId", defaultValue = "Attat") int userId) {
+	public String uploadFile(@RequestParam("file") MultipartFile file, @CookieValue(value = "userId", defaultValue = "Attat") String userId,String comentario) {
 		
 		Ficheros f;
 		try {
-			f = ficherosService.guardarFichero(file, userId);
-			return "ok";
+			f = ficherosService.guardarFichero(file, Integer.parseInt(userId),comentario);
+			
+			return "redirect:/ficheros";
 		} catch (FileSystemException e) {
 			
 			e.printStackTrace();
@@ -53,6 +55,13 @@ public class fileController {
                 .contentType(MediaType.parseMediaType(dbFile.get().getcontentType()))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + dbFile.get().getNombreFichero() + "\"")
                 .body(new ByteArrayResource(dbFile.get().getDatos()));
+    }
+	
+	@GetMapping("/deleteFile/{fileId}")
+    public String deleteFile(@PathVariable String fileId) {
+      ficherosService.deleteFicherosById(Integer.parseInt(fileId));
+      
+        return "redirect:/ficheros";
     }
 	
 }

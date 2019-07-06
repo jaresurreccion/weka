@@ -26,6 +26,7 @@ public class Ficheros {
 	Integer idUsuario;
 	Date creado;
 	Date modificado;
+	String comentario;
 	
 	@Lob
 	byte[] datos;
@@ -34,7 +35,7 @@ public class Ficheros {
 		
 	}
 	public Ficheros( String contentType, String nombreFichero, byte[] datos, Integer idUsuario,
-			Date creado, Date modificado) {
+			Date creado, Date modificado,String comentario) {
 		super();
 		
 		this.contentType = contentType;
@@ -42,6 +43,7 @@ public class Ficheros {
 		this.idUsuario = idUsuario;
 		this.creado = creado;
 		this.modificado = modificado;
+		this.comentario = comentario;
 	}
 	public Integer getIdFichero() {
 		return idFichero;
@@ -85,6 +87,12 @@ public class Ficheros {
 	}
 	public void setDatos(byte[] datos) {
 		this.datos = datos;
+	}
+	public String getComentario() {
+		return comentario;
+	}
+	public void setComentario(String comentario) {
+		this.comentario = comentario;
 	}
 	
 	

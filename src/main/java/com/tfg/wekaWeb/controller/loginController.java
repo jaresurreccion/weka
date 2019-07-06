@@ -1,6 +1,7 @@
 package com.tfg.wekaWeb.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.tfg.wekaWeb.dto.Ficheros;
 import com.tfg.wekaWeb.dto.User;
+import com.tfg.wekaWeb.service.FicherosService;
 import com.tfg.wekaWeb.service.UserService;
 
 //@RestController
@@ -29,6 +32,9 @@ public class loginController {
 
 		@Autowired
 		private UserService userService;
+		
+		@Autowired
+		private FicherosService ficherosService;
 
 		
 		@RequestMapping(value="/",method = RequestMethod.GET)
@@ -48,6 +54,8 @@ public class loginController {
 				User e = userService.buscarPorUsuario(user);
 				Cookie cookie = new Cookie("username",e.getUsername());
 				response.addCookie(cookie);
+				Cookie cookieid= new Cookie("userId",e.getId().toString());
+				response.addCookie(cookieid);
 				return "home";
 			}
 			else {				
@@ -63,16 +71,13 @@ public class loginController {
 				if(e!= null) {
 					Cookie cookie = new Cookie("username",e.getUsername());
 					response.addCookie(cookie);
+					Cookie cookieid= new Cookie("userId",e.getId().toString());
+					response.addCookie(cookieid);
 					return "home";
 				}else {
 					return "index";
 				}
-				
-				
-			
-							
-				
-			
+
 		}
 		
 		@RequestMapping(value="/algoritmos",method = RequestMethod.GET)
@@ -80,7 +85,9 @@ public class loginController {
 			return "algoritmos";
 		}
 		@RequestMapping(value="/ficheros",method = RequestMethod.GET)
-		public String Ficheros(ModelMap model) {
+		public String Ficheros(ModelMap model, @CookieValue(value = "userId", defaultValue = "Attat") String userId) {
+			List<Ficheros> ficherosXusuario = ficherosService.getFicherosByIdUser(Integer.parseInt(userId));
+			model.addAttribute("ListaFicheros",ficherosXusuario);
 			return "ficheros";
 		}
 		
