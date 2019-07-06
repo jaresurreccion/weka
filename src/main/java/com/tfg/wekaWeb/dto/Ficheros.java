@@ -15,30 +15,31 @@ import org.hibernate.annotations.GenericGenerator;
 public class Ficheros {
 
 	@Id
-	@GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
+	@GeneratedValue
 	Integer idFichero;
 	
 	String contentType;
 	String nombreFichero;
 	
-	@Lob
-	byte[] datos;
 	
-	Integer userId;
+	
+	Integer idUsuario;
 	Date creado;
 	Date modificado;
+	
+	@Lob
+	byte[] datos;
 	
 	public Ficheros() {
 		
 	}
-	public Ficheros( String contentType, String nombreFichero, byte[] datos, Integer userId,
+	public Ficheros( String contentType, String nombreFichero, byte[] datos, Integer idUsuario,
 			Date creado, Date modificado) {
 		super();
 		
 		this.contentType = contentType;
 		this.nombreFichero = nombreFichero;
-		this.userId = userId;
+		this.idUsuario = idUsuario;
 		this.creado = creado;
 		this.modificado = modificado;
 	}
@@ -60,11 +61,11 @@ public class Ficheros {
 	public void setNombreFichero(String nombreFichero) {
 		this.nombreFichero = nombreFichero;
 	}
-	public Integer getUserId() {
-		return userId;
+	public Integer getidUsuario() {
+		return idUsuario;
 	}
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setidUsuario(Integer idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 	
 	public Date getCreado() {

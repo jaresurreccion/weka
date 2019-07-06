@@ -1,17 +1,6 @@
 package com.tfg.wekaWeb.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Date;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +8,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.tfg.wekaWeb.dto.User;
 import com.tfg.wekaWeb.service.UserService;
@@ -40,6 +36,11 @@ public class loginController {
 			return "index";
 		}
 		
+		@RequestMapping(value="/nuevoUsuario",method = RequestMethod.GET)
+		public String nuevoUsuario(Model model) {		
+			return "nuevoUsuario";
+		}
+		
 		@RequestMapping(value="/home", method = RequestMethod.POST)
 		public String loginOK(String user,String pass,ModelMap model,HttpServletResponse response) throws Exception  {
 			Boolean login = userService.login(user, pass);
@@ -52,6 +53,26 @@ public class loginController {
 			else {				
 				return "index";
 			}
+		}
+		
+		@RequestMapping(value="/createUsuario", method = RequestMethod.POST)
+		public String createUsuario(String nombre,String apellido1,String apellido2,
+			String username,String pass,ModelMap model,HttpServletResponse response) throws Exception  {
+				User e = new User(apellido1, apellido2, nombre, username, pass, 1, new Date(), new Date(), new Date());
+				e = userService.saveUser(e);
+				if(e!= null) {
+					Cookie cookie = new Cookie("username",e.getUsername());
+					response.addCookie(cookie);
+					return "home";
+				}else {
+					return "index";
+				}
+				
+				
+			
+							
+				
+			
 		}
 		
 		@RequestMapping(value="/algoritmos",method = RequestMethod.GET)

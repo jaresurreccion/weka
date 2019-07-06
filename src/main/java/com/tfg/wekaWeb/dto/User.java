@@ -2,8 +2,8 @@ package com.tfg.wekaWeb.dto;
 
 import java.util.Date;
 
-
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -13,7 +13,9 @@ import javax.persistence.Table;
 public class User  {
 
 	@Id
+	@GeneratedValue
 	Integer id;
+	
 	String primerApellido;
 	String segundoApellido;
 	String nombre;
@@ -29,10 +31,9 @@ public class User  {
 	public User() {
 		
 	}
-	public User(Integer id, String primerApellido, String segundoApellido, String nombre, String username, String password,
+	public User(String primerApellido, String segundoApellido, String nombre, String username, String password,
 			Integer flag, Date creado, Date modificado, Date last_access) {
-		super();
-		this.id = id;
+		
 		this.primerApellido = primerApellido;
 		this.segundoApellido = segundoApellido;
 		this.nombre = nombre;

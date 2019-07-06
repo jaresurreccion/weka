@@ -12,6 +12,7 @@
 <body class="bg">
 
 	<section class="container-fluid">
+	
 		<section class="row justify-content-center">
 			<section class="col-12 col-sm-6 col-md-3">
 				<form class="form-container" action="/home" method="POST">
@@ -24,9 +25,11 @@
 						<input type="password" class="form-control" name="pass" placeholder="Password">
 					</div>
 					<button type="submit" class="btn btn-primary btn-block">Submit</button>
+					<a href="/nuevoUsuario">¿No tienes usuario? Pincha aquí</a>
 				</form>
 				
 			</section>
+			
 		</section>
 
 	</section>
