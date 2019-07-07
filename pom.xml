@@ -31,6 +31,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		<dependency>
+	<groupId>nz.ac.waikato.cms.weka.thirdparty</groupId>
+	<artifactId>java-cup-11b-runtime</artifactId>
+	<version>2015.03.26</version>
+</dependency>
+<!-- Thanks for using https://jar-download.com -->
+		
 
 		<dependency>
 			<groupId>mysql</groupId>

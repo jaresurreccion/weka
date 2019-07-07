@@ -91,27 +91,36 @@
 			<div class="container-fluid">
 				<h2 class="mt-4">Weka</h2>
 				<div>
-				<div class="input-group">
-					<span class="input-group-addon">J48</span> <input id="msg"
-						type="text" class="form-control" name="msg"
-						placeholder="Additional Info" value="${J48}">
+					<div class="input-group">
+						<span class="input-group-text">J48</span> <input id="msg"
+							type="text" class="form-control" name="msg"
+							placeholder="Additional Info" value="${J48}">
+					</div>
+					<div class="input-group">
+						<span class="input-group-text">PART</span> <input id="msg"
+							type="text" class="form-control" name="msg"
+							placeholder="Additional Info" value="${PART}">
+					</div>
+					<div class="input-group">
+						<span class="input-group-text">TABLE</span> <input id="msg"
+							type="text" class="form-control" name="msg"
+							placeholder="Additional Info" value="${TABLE}">
+					</div>
+					<div class="input-group">
+						<span class="input-group-text">DECISION</span> <input id="msg"
+							type="text" class="form-control" name="msg"
+							placeholder="Additional Info" value="${DECISION}">
+					</div>
 				</div>
-				<div class="input-group">
-					<span class="input-group-addon">PART</span> <input id="msg"
-						type="text" class="form-control" name="msg"
-						placeholder="Additional Info" value="${PART}">
-				</div>
-				<div class="input-group">
-					<span class="input-group-addon">TABLE</span> <input id="msg"
-						type="text" class="form-control" name="msg"
-						placeholder="Additional Info" value="${TABLE}">
-				</div>
-				<div class="input-group">
-					<span class="input-group-addon">DECISION</span> <input id="msg"
-						type="text" class="form-control" name="msg"
-						placeholder="Additional Info" value="${DECISION}">
-				</div>
-				</div>
+				<br>
+				<br>
+				<c:if test="${error}">
+					<div class="container">
+						<div class="alert alert-danger">
+							<strong>¡Error!</strong> No se ha podido realizar la acción requerida
+						</div>
+					</div>
+				</c:if>
 				<br> <br> <br>
 				<h2>Lista de dataset</h2>
 				<table class="table table-striped">
@@ -134,20 +143,20 @@
 										pattern="dd-MMM-yyyy" /></td>
 								<td><c:out value="${element.comentario}" /></td>
 								<td><a class="btn btn-primary"
-									href="/weka/${element.idFichero}" aria-label="Delete">
-										<i class="fa fa-download" aria-hidden="true"></i>
+									href="/weka/${element.idFichero}" aria-label="Delete"> <i
+										class="fa fa-cog" aria-hidden="true"></i>
 								</a></td>
 							</tr>
 						</c:forEach>
 					</tbody>
 				</table>
 
-				
 
 
+
+			</div>
 		</div>
-	</div>
-	<!-- /#page-content-wrapper -->
+		<!-- /#page-content-wrapper -->
 
 	</div>
 	<!-- /#wrapper -->

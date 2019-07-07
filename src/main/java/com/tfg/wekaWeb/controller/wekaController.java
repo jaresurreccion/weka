@@ -3,16 +3,19 @@ package com.tfg.wekaWeb.controller;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tfg.wekaWeb.dto.Ficheros;
 import com.tfg.wekaWeb.service.FicherosService;
@@ -36,7 +39,8 @@ public class wekaController {
 	
 	
 	@GetMapping("/weka/{idFile}")
-    public String wekaFile(ModelMap model,@PathVariable String idFile ) {
+    public String  wekaFile(@PathVariable String idFile,@CookieValue(value = "userId", defaultValue = "Attat") String userId,
+    		RedirectAttributes model) {
       
       Optional <Ficheros> f = ficherosService.getFichero(Integer.parseInt(idFile));
       try {
@@ -58,14 +62,16 @@ public class wekaController {
               }
     
           /* Ejecutamos cada diferentes modelos */
-          model.addAttribute("J48",ejecutarModelo( new J48(), trainingSplits, testingSplits)); // a decision tree
-          model.addAttribute("PART",ejecutarModelo( new PART(), trainingSplits, testingSplits));
-          model.addAttribute("TABLE",ejecutarModelo( new DecisionTable(), trainingSplits, testingSplits));//decision table majority classifier
-          model.addAttribute("DECISION",ejecutarModelo( new DecisionStump(), trainingSplits, testingSplits)); //one-level decision tree
+          model.addFlashAttribute("J48",ejecutarModelo( new J48(), trainingSplits, testingSplits)); // a decision tree
+          model.addFlashAttribute("PART",ejecutarModelo( new PART(), trainingSplits, testingSplits));
+          model.addFlashAttribute("TABLE",ejecutarModelo( new DecisionTable(), trainingSplits, testingSplits));//decision table majority classifier
+          model.addFlashAttribute("DECISION",ejecutarModelo( new DecisionStump(), trainingSplits, testingSplits)); //one-level decision tree
+          return "redirect:/algoritmos";
+          
       } catch (Exception ex) { ex.printStackTrace(); }
       	
-      
-        return "algoritmos";
+      	model.addFlashAttribute("error","true");
+      	return "redirect:/algoritmos";
     }
 	
 	public String ejecutarModelo(Classifier model, Instances[] trainingSplits, Instances[] testingSplits) throws Exception {

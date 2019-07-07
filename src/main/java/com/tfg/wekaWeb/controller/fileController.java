@@ -47,11 +47,11 @@ public class fileController {
 	
 	@PostMapping("/uploadFile")
 	public String uploadFile(@RequestParam("file") MultipartFile file, @CookieValue(value = "userId", defaultValue = "Attat") String userId,String comentario
-			, RedirectAttributes redirectAttributes) {
+			, RedirectAttributes redirectAttributes) throws NumberFormatException, Exception {
 		
 		Ficheros f;
 		try {
-			f = ficherosService.guardarFichero(file, Integer.parseInt(userId),comentario);
+			
 			byte[] bytes = null;
 			try {
 				bytes = file.getBytes();
@@ -59,9 +59,10 @@ public class fileController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
+            Path path = Paths.get(UPLOADED_FOLDER+file.getOriginalFilename());
             try {
 				Files.write(path, bytes);
+				f = ficherosService.guardarFichero(file, Integer.parseInt(userId),comentario);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
