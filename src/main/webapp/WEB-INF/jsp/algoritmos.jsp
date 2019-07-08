@@ -43,7 +43,7 @@
 				<a href="/home"
 					class="list-group-item list-group-item-action bg-light">Dashboard</a>
 				<a href="/algoritmos"
-					class="list-group-item list-group-item-action bg-light">Algoritmos</a>
+					class="list-group-item list-group-item-action bg-light">Procesado de datos</a>
 				<a href="/ficheros"
 					class="list-group-item list-group-item-action bg-light">Datasets</a>
 				<a href="/perfil"
@@ -90,6 +90,35 @@
 
 			<div class="container-fluid">
 				<h2 class="mt-4">Weka</h2>
+								<h2>Lista de dataset</h2>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">Nombre</th>
+							<th scope="col">Creado</th>
+							<th scope="col">Comentario</th>
+							<th scope="col">Acción</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach items="${ListaFicheros}" var="element" varStatus="loop">
+
+							<tr>
+								<th scope="row">${loop.count}</th>
+								<td><c:out value="${element.nombreFichero}" /></td>
+								<td><fmt:formatDate value="${element.creado}"
+										pattern="dd-MMM-yyyy" /></td>
+								<td><c:out value="${element.comentario}" /></td>
+								<td><a class="btn btn-primary"
+									href="/weka/${element.idFichero}" aria-label="Delete"> <i
+										class="fa fa-cog" aria-hidden="true"></i>
+								</a></td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+				<br><br>
 				<div>
 					<div class="input-group">
 						<span class="input-group-text">J48</span> <input id="msg"
@@ -122,37 +151,30 @@
 					</div>
 				</c:if>
 				<br> <br> <br>
-				<h2>Lista de dataset</h2>
+				<h2>Lista de atributos</h2>
 				<table class="table table-striped">
 					<thead>
 						<tr>
 							<th scope="col">#</th>
-							<th scope="col">Nombre</th>
-							<th scope="col">Creado</th>
-							<th scope="col">Comentario</th>
-							<th scope="col">Acción</th>
+							<th scope="col">Atributo</th>
+							
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach items="${ListaFicheros}" var="element" varStatus="loop">
+						<c:forEach items="${lista}" var="element" varStatus="loop">
 
 							<tr>
 								<th scope="row">${loop.count}</th>
-								<td><c:out value="${element.nombreFichero}" /></td>
-								<td><fmt:formatDate value="${element.creado}"
-										pattern="dd-MMM-yyyy" /></td>
-								<td><c:out value="${element.comentario}" /></td>
-								<td><a class="btn btn-primary"
-									href="/weka/${element.idFichero}" aria-label="Delete"> <i
-										class="fa fa-cog" aria-hidden="true"></i>
-								</a></td>
+								<td><c:out value="${element}" /></td>
 							</tr>
 						</c:forEach>
 					</tbody>
 				</table>
-
-
-
+	<div class="input-group">
+						<span class="input-group-text">clase</span> <input id="msg"
+							type="text" class="form-control" name="msg"
+							placeholder="Additional Info" value="${clase}">
+					</div>
 
 			</div>
 		</div>

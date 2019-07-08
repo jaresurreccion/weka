@@ -30,6 +30,13 @@ public class FicherosService {
 	public Ficheros guardarFichero(MultipartFile file, int userId,String comentario) throws Exception {
 		
 		String filename = file.getOriginalFilename();
+		
+		if(filename.contains(".arff")) {
+			String path = UPLOADED_FOLDER + file.getOriginalFilename();
+			Ficheros fichero = new Ficheros(file.getContentType(), filename, path, userId, new Date(),
+					new Date(),comentario);
+			return ficherosRepository.save(fichero);
+		}else {
 		String[] fileNameArff = filename.split("\\.");
 		filename = fileNameArff[0] + ".arff";
 		try {
@@ -40,8 +47,10 @@ public class FicherosService {
 			Ficheros fichero = new Ficheros(file.getContentType(), filename, path, userId, new Date(),
 					new Date(),comentario);
 			return ficherosRepository.save(fichero);
+		
 		} catch (IOException ex) {
 			throw new FileSystemException("No se pudo guardar");
+		}
 		}
 	}
 

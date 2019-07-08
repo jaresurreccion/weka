@@ -3,6 +3,7 @@ package com.tfg.wekaWeb.controller;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,11 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tfg.wekaWeb.dto.Ficheros;
@@ -27,6 +26,7 @@ import weka.classifiers.rules.DecisionTable;
 import weka.classifiers.rules.PART;
 import weka.classifiers.trees.DecisionStump;
 import weka.classifiers.trees.J48;
+import weka.core.Attribute;
 import weka.core.Instances;
 
 @Controller
@@ -50,7 +50,13 @@ public class wekaController {
            
           /* Seleccionamos la columna de los datos a estimar */
           data.setClassIndex(data.numAttributes() - 1);
-
+          List<String> list = new ArrayList<>();
+          Enumeration<Attribute> e = data.enumerateAttributes();
+          while(e.hasMoreElements()){
+        	  list.add(e.nextElement().toString());
+          }
+          model.addFlashAttribute("lista",list);
+          model.addFlashAttribute("clase",data.classAttribute().toString());
           /* Creamos dos grupos uno de entreno y otro de test */
           int numFolds=14;
           Instances[] trainingSplits=new Instances[numFolds];
