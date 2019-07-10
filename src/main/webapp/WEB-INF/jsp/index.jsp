@@ -1,18 +1,8 @@
 <!DOCTYPE html>
 <html>
-<head>
-<link
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
-	<link rel="stylesheet" type="text/css" href="./css/global.css">
-<title>Login Form</title>
-</head>
+<jsp:include page="header.jsp"></jsp:include>
 <body class="bg">
-
 	<section class="container-fluid">
-	
 		<section class="row justify-content-center">
 			<section class="col-12 col-sm-6 col-md-3">
 				<form class="form-container" action="/home" method="POST">
@@ -27,15 +17,9 @@
 					<button type="submit" class="btn btn-primary btn-block">Submit</button>
 					<a href="/nuevoUsuario">¿No tienes usuario? Pincha aquí</a>
 				</form>
-				
 			</section>
-			
 		</section>
-
 	</section>
-
-
-
 	<script
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"

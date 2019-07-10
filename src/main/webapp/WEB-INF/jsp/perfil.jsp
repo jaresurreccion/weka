@@ -1,80 +1,12 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<html lang="en">
-
-<head>
-
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="">
-<meta name="author" content="">
-
-<title>Dasboard</title>
-
-<!-- Bootstrap core CSS -->
-<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-<!-- Custom styles for this template -->
-<link href="css/simple-sidebar.css" rel="stylesheet">
-
-</head>
-
+<html lang="es">
+		<jsp:include page="header.jsp"></jsp:include>
 <body>
-
 	<div class="d-flex" id="wrapper">
-
-		<!-- Sidebar -->
-		<div class="bg-light border-right" id="sidebar-wrapper">
-			<div class="sidebar-heading">Inicio</div>
-			<div class="list-group list-group-flush">
-				<a href="/home"
-					class="list-group-item list-group-item-action bg-light">Dashboard</a>
-				<a href="/algoritmos"
-					class="list-group-item list-group-item-action bg-light">Procesado de datos</a>
-					<a href="/ficheros" class="list-group-item list-group-item-action bg-light">Datasets</a>
-				<a href="/perfil"
-					class="list-group-item list-group-item-action bg-light">Perfil</a>
-			</div>
-		</div>
-		<!-- /#sidebar-wrapper -->
-
-		<!-- Page Content -->
+		<jsp:include page="sidebar.jsp"></jsp:include>
 		<div id="page-content-wrapper">
-
-			<nav
-				class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-				<button class="btn btn-primary" id="menu-toggle">Toggle
-					Menu</button>
-
-				<button class="navbar-toggler" type="button" data-toggle="collapse"
-					data-target="#navbarSupportedContent"
-					aria-controls="navbarSupportedContent" aria-expanded="false"
-					aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-						<li class="nav-item active"><a class="nav-link" href="#">Home
-								<span class="sr-only">(current)</span>
-						</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-						<li class="nav-item dropdown"><a
-							class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
-							role="button" data-toggle="dropdown" aria-haspopup="true"
-							aria-expanded="false"> Dropdown </a>
-							<div class="dropdown-menu dropdown-menu-right"
-								aria-labelledby="navbarDropdown">
-								<a class="dropdown-item" href="#">Action</a> <a
-									class="dropdown-item" href="#">Another action</a>
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="#">Something else here</a>
-							</div></li>
-					</ul>
-				</div>
-			</nav>
-
+		<jsp:include page="nav.jsp"></jsp:include>
 			<div class="container-fluid">
 				<h1 class="mt-4">Mi Perfil</h1>
 				<form class="form-container" action="/updateUser/${id}" method="POST">
@@ -90,17 +22,14 @@
 						<span class="input-group-text" id="inputGroup-sizing-default">Primer apellido</span>
 					</div>
 					<input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="apellido1" value="${apellido1}">
-				</div>
-				
+				</div>			
 				<div class="input-group mb-3">
 					<div class="input-group-prepend">
 						<span class="input-group-text" id="inputGroup-sizing-default">Segundo apellido</span>
 					</div>
 					<input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="apellido2" value="${apellido2}">
 				</div>
-				
-				<input type="hidden" name="id" value="${id}" > 
-				
+				<input type="hidden" name="id" value="${id}" > 		
 				<div class="input-group mb-3"> 
  					<div class="input-group-prepend"> 
  						<span class="input-group-text" id="inputGroup-sizing-default">Activo</span> 
@@ -110,13 +39,8 @@
     				<option value="0" >No activo</option>
  					</select> 
 			    </div> 
-				
-				
-				
 				<button type="submit" class="btn btn-outline-success  btn-sm">Actualizar</button>
 			</form>
-				
-
 			</div>
 		</div>
 		<!-- /#page-content-wrapper -->

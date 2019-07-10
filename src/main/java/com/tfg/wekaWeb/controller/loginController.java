@@ -37,7 +37,8 @@ public class loginController {
 
 		
 		@RequestMapping(value="/",method = RequestMethod.GET)
-		public String login(Model model) {		
+		public String login(Model model) {
+			model.addAttribute("index",true);
 			return "index";
 		}
 		

@@ -1,45 +1,8 @@
 <!DOCTYPE html>
 <html>
-<head>
-<link
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
-	<link rel="stylesheet" type="text/css" href="./css/global.css">
-	  <!-- SweetAlert2 -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
-<title>Login Form</title>
-
-<script>
-	function validarPassword(){
-		var nombre = document.getElementsByName("nombre")[0].value;
-		var apellido1= document.getElementsByName("apellido1")[0].value;
-		var apellido2 = document.getElementsByName("apellido2")[0].value;
-		var username = document.getElementsByName("username")[0].value;
-		var pass = document.getElementsByName("pass")[0].value;
-		var pass2 = document.getElementsByName("pass2")[0].value;
-		if(pass != pass2 || nombre =='' || apellido1 =='' || apellido2 ==''|| username ==''){
-			
-			swal(
-					'Error!',
-					'¡Rellene todos lo campos!',
-					'error'
-				)
-			return false;
-		}else{
-			return true;	
-
-			}
-		}
-	
-</script>
-</head>
+<jsp:include page="header.jsp"></jsp:include>
 <body class="bg">
-
 	<section class="container-fluid">
-	
 		<section class="row justify-content-center">
 			<section class="col-12 col-sm-6 col-md-3">
 				<form class="form-container" action="/createUsuario" method="POST">
