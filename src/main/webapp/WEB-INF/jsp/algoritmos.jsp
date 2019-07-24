@@ -2,7 +2,8 @@
 <html lang="es">
 
 <jsp:include page="header.jsp"></jsp:include>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <body>
 	<div class="d-flex" id="wrapper">
 		<jsp:include page="sidebar.jsp"></jsp:include>

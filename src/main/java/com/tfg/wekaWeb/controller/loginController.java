@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.tfg.wekaWeb.dto.Ficheros;
 import com.tfg.wekaWeb.dto.User;
+import com.tfg.wekaWeb.dto.SesionTrabajo;
 import com.tfg.wekaWeb.service.FicherosService;
+import com.tfg.wekaWeb.service.SesionTrabajoService;
 import com.tfg.wekaWeb.service.UserService;
 
 //@RestController
@@ -27,13 +30,16 @@ import com.tfg.wekaWeb.service.UserService;
 public class loginController {
 	   private static final Logger logger = LoggerFactory.getLogger(loginController.class);
 
-
+	   HttpSession session;
 
 		@Autowired
 		private UserService userService;
 		
 		@Autowired
 		private FicherosService ficherosService;
+		
+		@Autowired
+		private SesionTrabajoService trabajosService;
 
 		
 		@RequestMapping(value="/",method = RequestMethod.GET)
@@ -48,7 +54,7 @@ public class loginController {
 		}
 		
 		@RequestMapping(value="/home", method = RequestMethod.POST)
-		public String loginOK(String user,String pass,ModelMap model,HttpServletResponse response) throws Exception  {
+		public String loginOK(String user,String pass,ModelMap model,HttpServletResponse response,HttpServletRequest request) throws Exception  {
 			Boolean login = userService.login(user, pass);
 			if(login ) {
 				User e = userService.buscarPorUsuario(user);
@@ -56,6 +62,10 @@ public class loginController {
 				response.addCookie(cookie);
 				Cookie cookieid= new Cookie("userId",e.getId().toString());
 				response.addCookie(cookieid);
+				session = request.getSession(true);
+				session.setAttribute("username", e.getUsername());
+				session.setAttribute("idUser", e.getId());
+				session.setAttribute("trabajo", (List<SesionTrabajo>) trabajosService.buscarSesiones(e.getId()));
 				return "home";
 			}
 			else {				
