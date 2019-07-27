@@ -34,7 +34,7 @@
 			
 			swal(
 					'Error!',
-					'¡Rellene todos lo campos!',
+					'ï¿½Rellene todos lo campos!',
 					'error'
 				)
 			return false;

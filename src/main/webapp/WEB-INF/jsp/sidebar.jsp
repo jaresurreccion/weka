@@ -1,14 +1,16 @@
-<!-- Sidebar -->
-		<div class="bg-light border-right" id="sidebar-wrapper">
-			<div class="sidebar-heading">Inicio</div>
-			<div class="list-group list-group-flush">
-				<a href="/home"
-					class="list-group-item list-group-item-action bg-light">Dashboard</a>
-				<a href="/algoritmos"
-					class="list-group-item list-group-item-action bg-light">Procesado de datos</a>
-				<a href="/ficheros"
-					class="list-group-item list-group-item-action bg-light">Datasets</a>
-				<a href="/perfil"
-					class="list-group-item list-group-item-action bg-light">Perfil</a>
-			</div>
-		</div>
+<link href="css/simple-sidebar.css" rel="stylesheet">
+<aside id="aside" class="navigation">
+
+	<img src="../images/weka-icon.png" id="image-weka">
+	<ul class="mainmenu">
+		<li><a href="">Inicio</a></li>
+		<li><a href="">About</a></li>
+		<li><a href="">Products</a>
+			<ul class="submenu">
+				<li><a href="">Tops</a></li>
+				<li><a href="">Bottoms</a></li>
+				<li><a href="">Footwear</a></li>
+			</ul></li>
+		<li><a href="">Contact us</a></li>
+	</ul>
+</aside>

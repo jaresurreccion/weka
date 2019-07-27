@@ -1,49 +1,114 @@
-/*!
- * Start Bootstrap - Simple Sidebar (https://startbootstrap.com/template-overviews/simple-sidebar)
- * Copyright 2013-2019 Start Bootstrap
- * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-simple-sidebar/blob/master/LICENSE)
- */
-body {
-  overflow-x: hidden;
-}
-
-#sidebar-wrapper {
-  min-height: 100vh;
-  margin-left: -15rem;
-  -webkit-transition: margin .25s ease-out;
-  -moz-transition: margin .25s ease-out;
-  -o-transition: margin .25s ease-out;
-  transition: margin .25s ease-out;
-}
-
-#sidebar-wrapper .sidebar-heading {
-  padding: 0.875rem 1.25rem;
-  font-size: 1.2rem;
-}
-
-#sidebar-wrapper .list-group {
-  width: 15rem;
-}
-
 #page-content-wrapper {
-  min-width: 100vw;
+
+    width: 85%;
+    height: 86%;
+    position: absolute;
+    left: 12%;
+    top: 12%;
+    background-color: white;
+    padding: 2% 0% 2% 0%;
+    border: 1px outset #2183C4;
+    border-radius: 40px 40px 40px 4px;
 }
 
-#wrapper.toggled #sidebar-wrapper {
-  margin-left: 0;
+#aside {
+     position: absolute;
+    height: 100%;
+    width: 10%;
+    background-color: darkslategrey;
+    
 }
 
-@media (min-width: 768px) {
-  #sidebar-wrapper {
-    margin-left: 0;
-  }
 
-  #page-content-wrapper {
-    min-width: 0;
+/* define a fixed width for the entire menu */
+
+.navigation {
     width: 100%;
-  }
+}
 
-  #wrapper.toggled #sidebar-wrapper {
-    margin-left: -15rem;
-  }
+
+/* reset our lists to remove bullet points and padding */
+
+.mainmenu,
+.submenu {
+	position: relative;
+    top: 15%;
+    list-style: none;
+    width: 100%;
+}
+
+
+
+
+/* make ALL links (main and submenu) have padding and background color */
+
+.mainmenu a {
+    display: block;
+    background-color: darkslategrey;
+    text-decoration: none;
+    padding: 10px;
+    color: white;
+    width: 100%;
+}
+
+
+/* add hover behaviour */
+
+.mainmenu a:hover {
+    background-color: darkslategrey;
+    font-size: 150%;
+    border-bottom: 2px solid aqua;
+}
+
+
+/* when hovering over a .mainmenu item,
+  display the submenu inside it.
+  we're changing the submenu's max-height from 0 to 200px;
+*/
+
+.mainmenu li:hover .submenu {
+    display: block;
+    max-height: 200px;
+    
+    
+}
+
+
+/*
+  we now overwrite the background-color for .submenu links only.
+  CSS reads down the page, so code at the bottom will overwrite the code at the top.
+*/
+
+.submenu a {
+    background-color: darkslategrey;
+    
+    
+}
+
+
+/* hover behaviour for links inside .submenu */
+
+.submenu a:hover {
+    background-color: darkslategrey;
+    font-size: 150%;
+    border-bottom: 2px solid aqua;
+}
+
+
+/* this is the initial state of all submenus.
+  we set it to max-height: 0, and hide the overflowed content.
+*/
+
+.submenu {
+    overflow: hidden;
+    max-height: 0;
+    -webkit-transition: all 0.5s ease-out;
+}
+
+#image-weka {
+	    position: fixed;
+    left: 2%;
+    height: auto;
+    width: 5%;
+    top: 2%;
 }
