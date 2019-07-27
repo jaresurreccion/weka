@@ -8,7 +8,7 @@
 	<div class="d-flex" id="wrapper">
 		<jsp:include page="sidebar.jsp"></jsp:include>
 		<div id="page-content-wrapper">
-		<jsp:include page="nav.jsp"></jsp:include>	
+	
 			<div class="container-fluid">
 				<h2 class="mt-4">Weka</h2>
 								<h2>Lista de dataset</h2>

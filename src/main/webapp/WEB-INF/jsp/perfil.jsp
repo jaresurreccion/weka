@@ -6,7 +6,6 @@
 	<div class="d-flex" id="wrapper">
 		<jsp:include page="sidebar.jsp"></jsp:include>
 		<div id="page-content-wrapper">
-		<jsp:include page="nav.jsp"></jsp:include>
 			<div class="container-fluid">
 				<h1 class="mt-4">Mi Perfil</h1>
 				<form class="form-container" action="/updateUser/${id}" method="POST">
@@ -52,13 +51,6 @@
 	<script src="vendor/jquery/jquery.min.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-	<!-- Menu Toggle Script -->
-	<script>
-		$("#menu-toggle").click(function(e) {
-			e.preventDefault();
-			$("#wrapper").toggleClass("toggled");
-		});
-	</script>
 
 </body>
 
