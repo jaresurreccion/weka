@@ -1,6 +1,7 @@
 package com.tfg.wekaWeb.controller;
 
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
@@ -43,7 +44,10 @@ public class loginController {
 
 		
 		@RequestMapping(value="/",method = RequestMethod.GET)
-		public String login(Model model) {
+		public String login(Model model,HttpServletRequest request) {
+			if(!request.getSession().isNew()){
+				request.getSession().invalidate();
+			}
 			model.addAttribute("index",true);
 			return "index";
 		}
@@ -112,7 +116,15 @@ public class loginController {
 		}
 		
 		@RequestMapping(value="/home",method = RequestMethod.GET)
-		public String miHome(ModelMap model) {
+		public String miHome(ModelMap model,HttpServletRequest request) {
+			session = request.getSession();
+			Enumeration<String> e = session.getAttributeNames();
+			session.setAttribute("trabajo", (List<SesionTrabajo>) trabajosService.buscarSesiones(Integer.parseInt(session.getAttribute("idUser").toString())));
+			while(e.hasMoreElements()){
+				System.out.println(e.nextElement());
+			}
+			
+			
 			return "home";
 		}
 		
