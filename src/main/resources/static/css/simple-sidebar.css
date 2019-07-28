@@ -1,15 +1,17 @@
 #page-content-wrapper {
 
     width: 85%;
-    height: 86%;
+    height: 85%;
     position: absolute;
     left: 12%;
     top: 12%;
     background-color: white;
     padding: 2% 0% 2% 0%;
-    border: 1px outset #2183C4;
-    border-radius: 40px 40px 40px 4px;
+    
+    
 }
+
+
 
 #aside {
      position: absolute;
