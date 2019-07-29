@@ -12,12 +12,14 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tfg.wekaWeb.dto.Ficheros;
 import com.tfg.wekaWeb.dto.User;
@@ -28,7 +30,7 @@ import com.tfg.wekaWeb.service.UserService;
 
 //@RestController
 @Controller
-public class loginController {
+public class loginController implements ErrorController{
 	   private static final Logger logger = LoggerFactory.getLogger(loginController.class);
 
 	   HttpSession session;
@@ -45,10 +47,13 @@ public class loginController {
 		
 		@RequestMapping(value="/",method = RequestMethod.GET)
 		public String login(Model model,HttpServletRequest request) {
-			if(!request.getSession().isNew()){
+			session = request.getSession(false);
+			if(session != null){
 				request.getSession().invalidate();
 			}
+			
 			model.addAttribute("index",true);
+			System.out.println(model.toString());
 			return "index";
 		}
 		
@@ -58,9 +63,9 @@ public class loginController {
 		}
 		
 		@RequestMapping(value="/home", method = RequestMethod.POST)
-		public String loginOK(String user,String pass,ModelMap model,HttpServletResponse response,HttpServletRequest request) throws Exception  {
+		public String loginOK(String user,String pass,ModelMap model,HttpServletResponse response,HttpServletRequest request,RedirectAttributes modelflash) throws Exception  {
 			Boolean login = userService.login(user, pass);
-			if(login ) {
+			if(login) {
 				User e = userService.buscarPorUsuario(user);
 				Cookie cookie = new Cookie("username",e.getUsername());
 				response.addCookie(cookie);
@@ -72,8 +77,10 @@ public class loginController {
 				session.setAttribute("trabajo", (List<SesionTrabajo>) trabajosService.buscarSesiones(e.getId()));
 				return "home";
 			}
-			else {				
-				return "index";
+			else {		
+			
+				modelflash.addFlashAttribute("error",true);
+				return "redirect:/";
 			}
 		}
 		
@@ -118,13 +125,14 @@ public class loginController {
 		@RequestMapping(value="/home",method = RequestMethod.GET)
 		public String miHome(ModelMap model,HttpServletRequest request) {
 			session = request.getSession();
+			if(session==null) {
+				return "redirect:/error";
+			}
 			Enumeration<String> e = session.getAttributeNames();
 			session.setAttribute("trabajo", (List<SesionTrabajo>) trabajosService.buscarSesiones(Integer.parseInt(session.getAttribute("idUser").toString())));
 			while(e.hasMoreElements()){
 				System.out.println(e.nextElement());
 			}
-			
-			
 			return "home";
 		}
 		
@@ -150,6 +158,15 @@ public class loginController {
 			return "ficheros";
 		}
 		
+		@RequestMapping(value = "/error")
+	    public String error() {
+	        return "redirect:/";
+	    }
+
+	    @Override
+	    public String getErrorPath() {
+	        return "/error";
+	    }
 		
 		
 		
