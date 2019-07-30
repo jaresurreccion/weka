@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.system.ApplicationHome;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,26 +26,32 @@ public class FicherosService {
 	@Autowired
 	private FicherosRepository ficherosRepository;
 
-	private static String UPLOADED_FOLDER = "C:\\Users\\Jose\\Documents\\NAS\\datasets\\";
+	static ApplicationHome app = new ApplicationHome();
+	static File home = app.getDir();
+	static File datasets = new File(home, "datasets");
+	private static String UPLOADED_FOLDER = datasets.getAbsolutePath();
 	
 	public Ficheros guardarFichero(MultipartFile file, int userId,String comentario) throws Exception {
 		
+		File path = new File(UPLOADED_FOLDER, file.getOriginalFilename());
 		String filename = file.getOriginalFilename();
 		
 		if(filename.contains(".arff")) {
-			String path = UPLOADED_FOLDER + file.getOriginalFilename();
-			Ficheros fichero = new Ficheros(file.getContentType(), filename, path, userId, new Date(),
+			//String path = UPLOADED_FOLDER + file.getOriginalFilename();
+			Ficheros fichero = new Ficheros(file.getContentType(), filename, path.getAbsolutePath(), userId, new Date(),
 					new Date(),comentario);
 			return ficherosRepository.save(fichero);
-		}else {
+		}
+		else {
+			
 		String[] fileNameArff = filename.split("\\.");
 		filename = fileNameArff[0] + ".arff";
 		try {
 			if (filename.contains("..")) {
 				throw new FileSystemException("El fichero contiene carácterés inválidos");
 			}
-			String path = convertirCSVtoARFF(UPLOADED_FOLDER + file.getOriginalFilename());
-			Ficheros fichero = new Ficheros(file.getContentType(), filename, path, userId, new Date(),
+			String pathCSV = convertirCSVtoARFF(path.getAbsolutePath());
+			Ficheros fichero = new Ficheros(file.getContentType(), filename, pathCSV, userId, new Date(),
 					new Date(),comentario);
 			return ficherosRepository.save(fichero);
 		

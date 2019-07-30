@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.1.5.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.tfg</groupId>
 	<artifactId>wekaWeb</artifactId>
@@ -32,12 +33,18 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
-	<groupId>nz.ac.waikato.cms.weka.thirdparty</groupId>
-	<artifactId>java-cup-11b-runtime</artifactId>
-	<version>2015.03.26</version>
-</dependency>
-<!-- Thanks for using https://jar-download.com -->
-		
+			<groupId>nz.ac.waikato.cms.weka.thirdparty</groupId>
+			<artifactId>java-cup-11b-runtime</artifactId>
+			<version>2015.03.26</version>
+		</dependency>
+		<!-- Thanks for using https://jar-download.com -->
+		<!-- https://mvnrepository.com/artifact/nz.ac.waikato.cms.weka.thirdparty/java-cup-11b -->
+		<dependency>
+			<groupId>nz.ac.waikato.cms.weka.thirdparty</groupId>
+			<artifactId>java-cup-11b</artifactId>
+			<version>2015.03.26</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>mysql</groupId>
@@ -49,44 +56,44 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		  <dependency>
-             <groupId>org.springframework.boot</groupId>
-             <artifactId>spring-boot-devtools</artifactId>
-             <scope>runtime</scope>
-        </dependency>
-        
-           <!-- JSTL for JSP -->
-       <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
-       </dependency>
- 
-       <!-- Need this to compile JSP -->
-       <dependency>
-          <groupId>org.apache.tomcat.embed</groupId>
-          <artifactId>tomcat-embed-jasper</artifactId>
-          <scope>provided</scope>
-       </dependency>
- 
-       <!-- Optional, test for static content, bootstrap CSS -->
-      <dependency>
-          <groupId>org.webjars</groupId>
-          <artifactId>bootstrap</artifactId>
-          <version>3.3.7</version>
-      </dependency>
-       <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-tomcat</artifactId>
-        <scope>provided</scope>
-    </dependency>
-    
-    <!-- https://mvnrepository.com/artifact/nz.ac.waikato.cms.weka/weka-stable -->
-<dependency>
-    <groupId>nz.ac.waikato.cms.weka</groupId>
-    <artifactId>weka-stable</artifactId>
-    <version>3.8.3</version>
-</dependency>
-    
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- JSTL for JSP -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
+
+		<!-- Need this to compile JSP -->
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Optional, test for static content, bootstrap CSS -->
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>3.3.7</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/nz.ac.waikato.cms.weka/weka-stable -->
+		<dependency>
+			<groupId>nz.ac.waikato.cms.weka</groupId>
+			<artifactId>weka-stable</artifactId>
+			<version>3.8.3</version>
+		</dependency>
+
 
 	</dependencies>
 

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.system.ApplicationHome;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -41,7 +42,6 @@ public class fileController {
 	private FicherosService ficherosService;
 	
 	//Folder to upload File
-    private static String UPLOADED_FOLDER = "C:\\Users\\Jose\\Documents\\NAS\\datasets\\";
 
 	
 	
@@ -50,6 +50,13 @@ public class fileController {
 			, RedirectAttributes redirectAttributes) throws NumberFormatException, Exception {
 		
 		Ficheros f;
+		ApplicationHome app = new ApplicationHome();
+		File home = app.getDir();
+		File datasets = new File(home, "datasets");
+		if(!datasets.exists()) {
+			datasets.mkdir();
+			}
+		
 		try {
 			
 			byte[] bytes = null;
@@ -58,8 +65,8 @@ public class fileController {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
-            Path path = Paths.get(UPLOADED_FOLDER+file.getOriginalFilename());
+			}	
+			Path path = Paths.get(datasets.getAbsolutePath(),file.getOriginalFilename());
             try {
 				Files.write(path, bytes);
 				f = ficherosService.guardarFichero(file, Integer.parseInt(userId),comentario);

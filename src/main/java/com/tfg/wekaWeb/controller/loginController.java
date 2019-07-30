@@ -53,12 +53,12 @@ public class loginController implements ErrorController{
 			}
 			
 			model.addAttribute("index",true);
-			System.out.println(model.toString());
 			return "index";
 		}
 		
 		@RequestMapping(value="/nuevoUsuario",method = RequestMethod.GET)
 		public String nuevoUsuario(Model model) {		
+			model.addAttribute("index",true);
 			return "nuevoUsuario";
 		}
 		
@@ -78,7 +78,6 @@ public class loginController implements ErrorController{
 				return "home";
 			}
 			else {		
-			
 				modelflash.addFlashAttribute("error",true);
 				return "redirect:/";
 			}
@@ -86,7 +85,7 @@ public class loginController implements ErrorController{
 		
 		@RequestMapping(value="/createUsuario", method = RequestMethod.POST)
 		public String createUsuario(String nombre,String apellido1,String apellido2,
-			String username,String pass,ModelMap model,HttpServletResponse response) throws Exception  {
+			String username,String pass,ModelMap model,HttpServletResponse response,HttpServletRequest request) throws Exception  {
 				User e = new User(apellido1, apellido2, nombre, username, pass, 1, new Date(), new Date(), new Date());
 				e = userService.saveUser(e);
 				if(e!= null) {
@@ -94,6 +93,10 @@ public class loginController implements ErrorController{
 					response.addCookie(cookie);
 					Cookie cookieid= new Cookie("userId",e.getId().toString());
 					response.addCookie(cookieid);
+					session = request.getSession(true);
+					session.setAttribute("username", e.getUsername());
+					session.setAttribute("idUser", e.getId());
+					session.setAttribute("trabajo", (List<SesionTrabajo>) trabajosService.buscarSesiones(e.getId()));
 					return "home";
 				}else {
 					return "index";

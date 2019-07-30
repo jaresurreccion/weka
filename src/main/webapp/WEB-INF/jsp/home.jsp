@@ -66,10 +66,10 @@
                                                 <fmt:formatDate value="${element.fechaActualizacion}" pattern="dd-MMM-yyyy" />
                                             </td>
                                             <td>
-                                                <a class="btn btn-default" href="path/to/settings" aria-label="Settings">
-                                                    <i class="fa fa-plus-square-o fa-2x" aria-hidden="true"></i>
+                                                <a class="btn btn-default" href="/activateSession/${element.idSesion}" aria-label="Settings">
+                                                    <i class="fa fa fa-chevron-right " aria-hidden="true"></i>
                                                 </a>
-                                                <a class="btn btn-default" href="path/to/settings" aria-label="Settings">
+                                                <a class="btn btn-default" href="/deleteSession/${element.idSesion}" aria-label="Settings">
                                                     <i class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
                                                 </a>
                                             </td>

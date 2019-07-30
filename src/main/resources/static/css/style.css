@@ -57,3 +57,17 @@
 .col {
     max-width: 50% !important;
 }
+
+#sesionNoActiva{
+	position: relative;
+    top: 100%;
+    height: 100%;
+    text-align: -webkit-center;
+}
+
+#sesionActiva{
+	position: relative;
+    top: 100%;
+    height: 100%;
+    text-align: -webkit-center;
+}

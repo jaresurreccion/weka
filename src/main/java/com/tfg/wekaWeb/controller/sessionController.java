@@ -1,6 +1,7 @@
 package com.tfg.wekaWeb.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -12,9 +13,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.tfg.wekaWeb.dto.Ficheros;
 import com.tfg.wekaWeb.dto.SesionTrabajo;
 import com.tfg.wekaWeb.dto.User;
 import com.tfg.wekaWeb.service.SesionTrabajoService;
@@ -36,7 +40,17 @@ public class sessionController {
 			session.setAttribute("trabajo", trabajosService.buscarSesiones(idUser));
 			
 				return "home";
-			
-
 	}
+	
+	@RequestMapping(value="/activateSession/{idSession}",method = RequestMethod.GET)
+	public String activarSesion(ModelMap model, @CookieValue(value = "userId", defaultValue = "Attat") String userId,HttpServletRequest request,
+			@PathVariable String idSession) {
+		session = request.getSession();
+		SesionTrabajo  actual = trabajosService.buscarXid(Integer.parseInt(idSession));
+		model.addAttribute("sesionActiva", true);
+		model.addAttribute("sesionActivaDesc", actual.getNombre());
+		session.setAttribute("sesionActual", actual);
+		return "home";
+	}
+	
 }
