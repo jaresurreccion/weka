@@ -47,10 +47,12 @@ public class sessionController {
 			@PathVariable String idSession) {
 		session = request.getSession();
 		SesionTrabajo  actual = trabajosService.buscarXid(Integer.parseInt(idSession));
-		model.addAttribute("sesionActiva", true);
-		model.addAttribute("sesionActivaDesc", actual.getNombre());
-		session.setAttribute("sesionActual", actual);
-		return "home";
+		session.setAttribute("sesionActiva", true);
+		session.setAttribute("sesionActivaNombre", actual.getNombre());
+		session.setAttribute("sesionActivaIdSesion",actual.getIdSesion());
+		session.setAttribute("sesionActivaIdFile", actual.getIdFile());
+		session.setAttribute("sesionActivaIdAlgoritmo", actual.getIdAlgoritmo());
+		return "redirect:/home";
 	}
 	
 }

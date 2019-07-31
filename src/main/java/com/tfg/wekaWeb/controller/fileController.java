@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,12 +32,20 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tfg.wekaWeb.dto.Ficheros;
+import com.tfg.wekaWeb.dto.SesionTrabajo;
 import com.tfg.wekaWeb.service.FicherosService;
+import com.tfg.wekaWeb.service.SesionTrabajoService;
+
+
 
 @Controller
 public class fileController {
 
+	HttpSession sesion;
     private static final Logger logger = LoggerFactory.getLogger(fileController.class);
+
+	@Autowired
+	   SesionTrabajoService SesionTrabajo;
 
 	@Autowired
 	private FicherosService ficherosService;
@@ -47,9 +56,12 @@ public class fileController {
 	
 	@PostMapping("/uploadFile")
 	public String uploadFile(@RequestParam("file") MultipartFile file, @CookieValue(value = "userId", defaultValue = "Attat") String userId,String comentario
-			, RedirectAttributes redirectAttributes) throws NumberFormatException, Exception {
+			, RedirectAttributes redirectAttributes,HttpServletRequest request) throws NumberFormatException, Exception {
 		
 		Ficheros f;
+		sesion = request.getSession(false);
+		Integer idSessionActual = Integer.parseInt(sesion.getAttribute("sesionActivaIdSesion").toString());
+		
 		ApplicationHome app = new ApplicationHome();
 		File home = app.getDir();
 		File datasets = new File(home, "datasets");
@@ -70,6 +82,7 @@ public class fileController {
             try {
 				Files.write(path, bytes);
 				f = ficherosService.guardarFichero(file, Integer.parseInt(userId),comentario);
+				SesionTrabajo.actualizarFileSesion(idSessionActual, f.getIdFichero());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
