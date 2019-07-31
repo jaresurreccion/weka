@@ -30,58 +30,53 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.tfg.wekaWeb.dto.Ficheros;
-import com.tfg.wekaWeb.dto.SesionTrabajo;
 import com.tfg.wekaWeb.service.FicherosService;
 import com.tfg.wekaWeb.service.SesionTrabajoService;
-
-
 
 @Controller
 public class fileController {
 
 	HttpSession sesion;
-    private static final Logger logger = LoggerFactory.getLogger(fileController.class);
+	private static final Logger logger = LoggerFactory.getLogger(fileController.class);
 
 	@Autowired
-	   SesionTrabajoService SesionTrabajo;
+	SesionTrabajoService SesionTrabajo;
 
 	@Autowired
 	private FicherosService ficherosService;
-	
-	//Folder to upload File
 
-	
-	
+	// Folder to upload File
+
 	@PostMapping("/uploadFile")
-	public String uploadFile(@RequestParam("file") MultipartFile file, @CookieValue(value = "userId", defaultValue = "Attat") String userId,String comentario
-			, RedirectAttributes redirectAttributes,HttpServletRequest request) throws NumberFormatException, Exception {
-		
+	public String uploadFile(@RequestParam("file") MultipartFile file,
+			@CookieValue(value = "userId", defaultValue = "Attat") String userId, String comentario,
+			RedirectAttributes redirectAttributes, HttpServletRequest request) throws NumberFormatException, Exception {
+
 		Ficheros f;
 		sesion = request.getSession(false);
 		Integer idSessionActual = Integer.parseInt(sesion.getAttribute("sesionActivaIdSesion").toString());
-		
+
 		ApplicationHome app = new ApplicationHome();
 		File home = app.getDir();
 		File datasets = new File(home, "datasets");
-		if(!datasets.exists()) {
+		if (!datasets.exists()) {
 			datasets.mkdir();
-			}
-		
+		}
+
 		try {
-			
+
 			byte[] bytes = null;
 			try {
 				bytes = file.getBytes();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}	
-			Path path = Paths.get(datasets.getAbsolutePath(),file.getOriginalFilename());
-            try {
+			}
+			Path path = Paths.get(datasets.getAbsolutePath(), file.getOriginalFilename());
+			try {
 				Files.write(path, bytes);
-				f = ficherosService.guardarFichero(file, Integer.parseInt(userId),comentario);
+				f = ficherosService.guardarFichero(file, Integer.parseInt(userId), comentario);
 				SesionTrabajo.actualizarFileSesion(idSessionActual, f.getIdFichero());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -89,53 +84,51 @@ public class fileController {
 			}
 			return "redirect:/ficheros";
 		} catch (FileSystemException e) {
-			
+
 			e.printStackTrace();
 			return "error";
 		}
-		
-		
-		
+
 	}
-	
-	
+
 	@GetMapping("/deleteFile/{fileId}")
-    public String deleteFile(@PathVariable String fileId) {
-      ficherosService.deleteFicherosById(Integer.parseInt(fileId));
-      
-        return "redirect:/ficheros";
-    }
-	
-	 @GetMapping("/downloadFile/{idFile}")
-	    public ResponseEntity<Resource> downloadFile(@PathVariable String idFile, HttpServletRequest request) {
-	        // Load file as Resource
-		 Optional <Ficheros> f = ficherosService.getFichero(Integer.parseInt(idFile));
-		 
-	        InputStreamResource resource = null;
-			try {
-				resource = new InputStreamResource(new FileInputStream(f.get().getRuta()));
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+	public String deleteFile(@PathVariable String fileId,HttpServletRequest request) {
+		sesion = request.getSession(false);
+		Integer idSessionActual = Integer.parseInt(sesion.getAttribute("sesionActivaIdSesion").toString());
+		ficherosService.deleteFicherosById(Integer.parseInt(fileId));
+		SesionTrabajo.actualizarFileSesion(idSessionActual, null);
+		return "redirect:/ficheros";
+	}
 
-	        // Try to determine file's content type
-	        String contentType = null;
-	        try {
-	            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-	        } catch (IOException ex) {
-	            logger.info("Could not determine file type.");
-	        }
+	@GetMapping("/downloadFile/{idFile}")
+	public ResponseEntity<Resource> downloadFile(@PathVariable String idFile, HttpServletRequest request) {
+		// Load file as Resource
+		Optional<Ficheros> f = ficherosService.getFichero(Integer.parseInt(idFile));
 
-	        // Fallback to the default content type if type could not be determined
-	        if(contentType == null) {
-	            contentType = "application/octet-stream";
-	        }
+		InputStreamResource resource = null;
+		try {
+			resource = new InputStreamResource(new FileInputStream(f.get().getRuta()));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-	        return ResponseEntity.ok()
-	                .contentType(MediaType.parseMediaType(contentType))
-	                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-	                .body(resource);
-	    }
-	
+		// Try to determine file's content type
+		String contentType = null;
+		try {
+			contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+		} catch (IOException ex) {
+			logger.info("Could not determine file type.");
+		}
+
+		// Fallback to the default content type if type could not be determined
+		if (contentType == null) {
+			contentType = "application/octet-stream";
+		}
+
+		return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType))
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+				.body(resource);
+	}
+
 }

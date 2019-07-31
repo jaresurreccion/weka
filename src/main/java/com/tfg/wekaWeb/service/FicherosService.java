@@ -1,22 +1,28 @@
 package com.tfg.wekaWeb.service;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.FileSystemException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
+
+import com.tfg.wekaWeb.dao.FicherosRepository;
+import com.tfg.wekaWeb.dto.Ficheros;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.system.ApplicationHome;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import com.tfg.wekaWeb.dao.FicherosRepository;
-import com.tfg.wekaWeb.dto.Ficheros;
 
+import weka.core.Attribute;
 import weka.core.Instances;
 import weka.core.converters.CSVLoader;
 
@@ -38,8 +44,9 @@ public class FicherosService {
 		
 		if(filename.contains(".arff")) {
 			//String path = UPLOADED_FOLDER + file.getOriginalFilename();
+			String [] datosDataset = datosDataset(path.getAbsolutePath());
 			Ficheros fichero = new Ficheros(file.getContentType(), filename, path.getAbsolutePath(), userId, new Date(),
-					new Date(),comentario);
+					new Date(),comentario,datosDataset[1],datosDataset[1]);
 			return ficherosRepository.save(fichero);
 		}
 		else {
@@ -51,8 +58,9 @@ public class FicherosService {
 				throw new FileSystemException("El fichero contiene carácterés inválidos");
 			}
 			String pathCSV = convertirCSVtoARFF(path.getAbsolutePath());
+			String [] datosDataset = datosDataset(pathCSV);
 			Ficheros fichero = new Ficheros(file.getContentType(), filename, pathCSV, userId, new Date(),
-					new Date(),comentario);
+					new Date(),comentario,datosDataset[1],datosDataset[0]);
 			return ficherosRepository.save(fichero);
 		
 		} catch (IOException ex) {
@@ -91,6 +99,28 @@ public class FicherosService {
         writer.flush();
         writer.close(); 
         return sourceDest;
-    }
+	}
+	
+	public String[] datosDataset(String path) throws IOException{
+		/* Cargamos el fichero con los datos */
+		BufferedReader datafile = new BufferedReader(new FileReader(path));
+		Instances data = new Instances(datafile);
+		String[] datos = new String[2];
+		/* Seleccionamos la columna de los datos a estimar */
+		data.setClassIndex(data.numAttributes() - 1);
+		List<String> list = new ArrayList<>();
+		Enumeration<Attribute> e = data.enumerateAttributes();
+		while(e.hasMoreElements()){
+			list.add(e.nextElement().toString());
+		}
+		
+		datos[0]= String.valueOf(list.size());
+		String classAtribute = data.classAttribute().toString(); 
+		String[] clase = classAtribute.split(Pattern.quote("{"));
+		clase = clase[1].split(Pattern.quote("}"));
+		 
+		datos[1]= clase[0];
+		return datos;
+	}
 
 }

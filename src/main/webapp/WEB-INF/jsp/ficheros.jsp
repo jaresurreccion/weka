@@ -14,14 +14,13 @@
                     <div class="col">
                         <div id="card">
                             <h2 class="mt-4">Aniadir dataset</h2>
-
                             <form method="POST" action="/uploadFile" enctype="multipart/form-data">
                                 <div class="custom-file mb-3">
                                     <input type="file" class="custom-file-input" id="file" name="file"> <label class="custom-file-label" for="customFile">Elegir dataset</label>
                                 </div>
                                 <div class="form-group">
                                     <label for="comment">Comentario:</label>
-                                    <textarea class="form-control" rows="5" id="comment" name="comentario"></textarea>
+                                    <textarea class="form-control" rows="1" col="5" id="comment" name="comentario"></textarea>
                                 </div>
                                 <div class="mt-3">
                                     <button type="submit" class="btn btn-primary">Aniadir</button>
@@ -29,12 +28,12 @@
                             </form>
 
                         </div>
-
-
                     </div>
-                    <div class="row">
+                </div>
+                <div class="row">
+                    <dic class="col-8">
                         <div id="card">
-                            <h2>Lista de dataset</h2>
+                            <h2>Dataset seleccionado</h2>
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
@@ -42,6 +41,8 @@
                                         <th scope="col">Nombre</th>
                                         <th scope="col">Creado</th>
                                         <th scope="col">Comentario</th>
+                                        <th scope="col">Clase</th>
+                                        <th scope="col">Numero de atributos</th>
                                         <th scope="col">Accion</th>
                                     </tr>
                                 </thead>
@@ -60,6 +61,12 @@
                                                 <c:out value="${element.comentario}" />
                                             </td>
                                             <td>
+                                                <c:out value="${element.clase}" />
+                                            </td>
+                                            <td>
+                                                <c:out value="${element.nAtributos}" />
+                                            </td>
+                                            <td>
                                                 <a class="btn btn-primary" href="/downloadFile/${element.idFichero}" aria-label="Delete">
                                                     <i class="fa fa-download" aria-hidden="true"></i>
                                                 </a>
@@ -71,13 +78,12 @@
                                     </c:forEach>
                                 </tbody>
                             </table>
-
                         </div>
-                    </div>
-
+                    </dic>
                 </div>
+
             </div>
-            </div>
+
             <script src="vendor/jquery/jquery.min.js"></script>
             <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
