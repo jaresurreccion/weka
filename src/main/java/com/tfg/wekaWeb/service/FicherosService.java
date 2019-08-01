@@ -46,7 +46,7 @@ public class FicherosService {
 			//String path = UPLOADED_FOLDER + file.getOriginalFilename();
 			String [] datosDataset = datosDataset(path.getAbsolutePath());
 			Ficheros fichero = new Ficheros(file.getContentType(), filename, path.getAbsolutePath(), userId, new Date(),
-					new Date(),comentario,datosDataset[1],datosDataset[1]);
+					new Date(),comentario,datosDataset[1],datosDataset[0],datosDataset[2]);
 			return ficherosRepository.save(fichero);
 		}
 		else {
@@ -60,7 +60,7 @@ public class FicherosService {
 			String pathCSV = convertirCSVtoARFF(path.getAbsolutePath());
 			String [] datosDataset = datosDataset(pathCSV);
 			Ficheros fichero = new Ficheros(file.getContentType(), filename, pathCSV, userId, new Date(),
-					new Date(),comentario,datosDataset[1],datosDataset[0]);
+					new Date(),comentario,datosDataset[1],datosDataset[0],datosDataset[2]);
 			return ficherosRepository.save(fichero);
 		
 		} catch (IOException ex) {
@@ -105,7 +105,7 @@ public class FicherosService {
 		/* Cargamos el fichero con los datos */
 		BufferedReader datafile = new BufferedReader(new FileReader(path));
 		Instances data = new Instances(datafile);
-		String[] datos = new String[2];
+		String[] datos = new String[3];
 		/* Seleccionamos la columna de los datos a estimar */
 		data.setClassIndex(data.numAttributes() - 1);
 		List<String> list = new ArrayList<>();
@@ -118,8 +118,8 @@ public class FicherosService {
 		String classAtribute = data.classAttribute().toString(); 
 		String[] clase = classAtribute.split(Pattern.quote("{"));
 		clase = clase[1].split(Pattern.quote("}"));
-		 
-		datos[1]= clase[0];
+		datos[1]=clase[0];
+		datos[2]= String.valueOf(data.numInstances());
 		return datos;
 	}
 

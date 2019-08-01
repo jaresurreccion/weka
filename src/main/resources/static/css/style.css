@@ -73,3 +73,9 @@
     text-align: -webkit-center;
     line-height: 0.5;
 }
+
+#botonSeleccionarAlgoritmo{
+	position: relative;
+    width: 20%;
+    left: 2%;
+}

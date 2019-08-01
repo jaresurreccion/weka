@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <dic class="col-8">
+                    <dic class="col-10">
                         <div id="card">
                             <h2>Dataset seleccionado</h2>
                             <table class="table table-striped">
@@ -43,6 +43,7 @@
                                         <th scope="col">Comentario</th>
                                         <th scope="col">Clase</th>
                                         <th scope="col">Numero de atributos</th>
+                                        <th scope="col">Numero de instancias</th>
                                         <th scope="col">Accion</th>
                                     </tr>
                                 </thead>
@@ -65,6 +66,9 @@
                                             </td>
                                             <td>
                                                 <c:out value="${element.nAtributos}" />
+                                            </td>
+                                             <td>
+                                                <c:out value="${element.numInstancias}" />
                                             </td>
                                             <td>
                                                 <a class="btn btn-primary" href="/downloadFile/${element.idFichero}" aria-label="Delete">

@@ -7,17 +7,28 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.tfg.wekaWeb.dao.AlgoritmosRepository;
+import com.tfg.wekaWeb.dao.SesionTrabajoRepository;
+import com.tfg.wekaWeb.dto.Algoritmos;
 import com.tfg.wekaWeb.dto.Ficheros;
 import com.tfg.wekaWeb.service.FicherosService;
+import com.tfg.wekaWeb.service.SesionTrabajoService;
 
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
@@ -36,6 +47,14 @@ public class wekaController {
 
 	@Autowired
 	private FicherosService ficherosService;
+	
+	@Autowired
+	private AlgoritmosRepository algoritmoRepository;
+	
+	@Autowired
+	private SesionTrabajoService sessionService;
+	
+	HttpSession session;
 	
 	
 	@GetMapping("/weka/{idFile}")
@@ -109,5 +128,18 @@ public class wekaController {
             }
   
         return 100 * correct / predictions.size();
-        }  
+        } 
+    
+    
+    @RequestMapping(value="/saveAlgoritmo", method = RequestMethod.POST)
+	public String saveAlgoritmo(String optradio,ModelMap model,HttpServletRequest request) throws Exception  {
+			session = request.getSession(true);
+			Integer idSession = Integer.parseInt(session.getAttribute("sesionActivaIdSesion").toString());
+			Integer idAlgoritmo = Integer.parseInt(optradio);
+			sessionService.actualizarAlgoritmoSesion(idSession, idAlgoritmo);
+			return "/algoritmo";
+	}
+    
 }
+
+

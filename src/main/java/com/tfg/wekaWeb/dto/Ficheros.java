@@ -27,14 +27,14 @@ public class Ficheros {
 	Date creado;
 	Date modificado;
 	String comentario;
-	
+	String numInstancias;
 	String ruta;
 	
 	public Ficheros() {
 		
 	}
 	public Ficheros( String contentType, String nombreFichero, String ruta, Integer idUsuario,
-			Date creado, Date modificado,String comentario,String clase,String nAtributos) {
+			Date creado, Date modificado,String comentario,String clase,String nAtributos,String numInstancias) {
 		super();
 		
 		this.contentType = contentType;
@@ -46,6 +46,7 @@ public class Ficheros {
 		this.ruta = ruta;
 		this.clase= clase;
 		this.nAtributos = nAtributos;
+		this.numInstancias = numInstancias;
 	}
 	public Integer getIdFichero() {
 		return idFichero;
@@ -112,6 +113,19 @@ public class Ficheros {
 	public void setClase(String clase) {
 		this.clase = clase;
 	}
+	public String getContentType() {
+		return contentType;
+	}
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
+	}
+	public String getNumInstancias() {
+		return numInstancias;
+	}
+	public void setNumInstancias(String numInstancias) {
+		this.numInstancias = numInstancias;
+	}
+	
 
 	
 	
