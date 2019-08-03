@@ -20,7 +20,6 @@ public class Ficheros {
 	
 	String contentType;
 	String nombreFichero;
-	
 	String nAtributos;
 	String clase;
 	Integer idUsuario;

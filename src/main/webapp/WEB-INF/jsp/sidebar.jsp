@@ -7,7 +7,8 @@
         <li><a href="/perfil">Mi Perfil</a></li>
         <li><a href="">Aprendizaje automatico</a>
             <ul class="submenu">
-                <li><a href="/ficheros">Datasets</a></li>
+                <li><a href="/ficheros">Dataset</a></li>
+                <li><a href="/filtro">Filtro</a></li>
                 <li><a href="/algoritmos">Algoritmos</a></li>
                 <li><a href="">Propiedades</a></li>
                 <li><a href="">Resultados</a></li>

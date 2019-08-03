@@ -1,5 +1,6 @@
 package com.tfg.wekaWeb.controller;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
@@ -27,6 +28,7 @@ import com.tfg.wekaWeb.dto.SesionTrabajo;
 import com.tfg.wekaWeb.service.FicherosService;
 import com.tfg.wekaWeb.service.SesionTrabajoService;
 import com.tfg.wekaWeb.service.UserService;
+import com.tfg.wekaWeb.service.wekaService;
 
 //@RestController
 @Controller
@@ -43,6 +45,9 @@ public class loginController implements ErrorController{
 		
 		@Autowired
 		private SesionTrabajoService trabajosService;
+		
+		@Autowired
+		private wekaService wekaService;
 
 		
 		@RequestMapping(value="/",method = RequestMethod.GET)
@@ -159,6 +164,13 @@ public class loginController implements ErrorController{
 			List<Ficheros> ficherosXusuario = ficherosService.getFicherosByIdUser(Integer.parseInt(userId));
 			model.addAttribute("ListaFicheros",ficherosXusuario);
 			return "ficheros";
+		}
+
+		@RequestMapping(value="/filtro",method = RequestMethod.GET)
+		public String Filtro(ModelMap model,HttpServletRequest request) throws NumberFormatException, IOException {
+			session = request.getSession();
+			session.setAttribute("atributos", (List<String>) wekaService.getAtributos(Integer.parseInt(session.getAttribute("sesionActivaIdFile").toString())));
+			return "filtros";
 		}
 		
 		@RequestMapping(value = "/error")

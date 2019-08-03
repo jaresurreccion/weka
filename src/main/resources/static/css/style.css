@@ -27,6 +27,7 @@
     width: 100%;
     height: 100%;
     position: absolute;
+    
 }
 
 #card {
@@ -37,6 +38,19 @@
     margin: 30px 0px 5px 5px;
     height: auto;
     width: unset;
+    max-height: 70%;
+}
+
+#card-large {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    position: relative;
+    padding: 10px 10px 10px 10px;
+    margin: 30px 0px 5px 5px;
+    height: auto;
+    width: unset;
+    max-height: 70%;
+    overflow: auto;
 }
 
 #crearSesion {
@@ -52,10 +66,14 @@
 .row {
     margin-right: 0 !important;
     margin-left: 0 !important;
+    max-height: 80% !important;
+    
 }
 
 .col {
     max-width: 50% !important;
+    max-height: 80% !important;
+    position: fixed;
 }
 
 #sesionNoActiva {
