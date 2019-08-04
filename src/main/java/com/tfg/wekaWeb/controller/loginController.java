@@ -169,7 +169,7 @@ public class loginController implements ErrorController{
 		@RequestMapping(value="/filtro",method = RequestMethod.GET)
 		public String Filtro(ModelMap model,HttpServletRequest request) throws NumberFormatException, IOException {
 			session = request.getSession();
-			session.setAttribute("atributos", (List<String>) wekaService.getAtributos(Integer.parseInt(session.getAttribute("sesionActivaIdFile").toString())));
+			session.setAttribute("atributos", (List<String []>) wekaService.getAtributos(Integer.parseInt(session.getAttribute("sesionActivaIdFile").toString())));
 			return "filtros";
 		}
 		

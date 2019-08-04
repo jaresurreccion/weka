@@ -30,17 +30,23 @@ public class wekaService {
 		return fichero;
 	}
 	
-	public List<String> getAtributos(Integer idFichero) throws IOException {
+	public List<String []> getAtributos(Integer idFichero) throws IOException {
 		
 		 BufferedReader datafile = new BufferedReader(new FileReader(getFichero(idFichero).getRuta()));
          Instances data = new Instances(datafile);
-          
-         /* Seleccionamos la columna de los datos a estimar */
-         List<String> list = new ArrayList<>();
+         
+         /* Seleccionamos la columna de los datsos a estimar */
+         List<String []> list = new ArrayList<>();
          Enumeration<Attribute> e = data.enumerateAttributes();
          while(e.hasMoreElements()){
-       	  list.add(e.nextElement().toString());
+        	 String[] s = new String[2]; 
+         String[] p = (e.nextElement().toString()).split("\\s+");
+        
+         s[0]=p[1];
+         s[1] = p[2];
+       	 list.add(s);
          }
+         
 		return list;
 	}
 	

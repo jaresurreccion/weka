@@ -1,11 +1,13 @@
 #page-content-wrapper {
-    position: absolute;
+    
+    display:flex;
+   position:absolute;
     left: 12%;
     top: 12%;
     background-color: white;
     height: 88%;
     width: 88%;
-        max-height: 88%;
+    max-height: 88%;
     max-width: 88%;
 }
 
