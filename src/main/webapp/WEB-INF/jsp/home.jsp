@@ -31,7 +31,7 @@
                             </form>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="col">
                         <div id="card">
                             <h5>Areas de trabajo disponibles</h5><br>
                             <table class="table table-striped" id="tableSesiones">
@@ -81,7 +81,6 @@
                     </div>
 
                 </div>
-            </div>
             </div>
             <script src="vendor/jquery/jquery.min.js"></script>
             <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
