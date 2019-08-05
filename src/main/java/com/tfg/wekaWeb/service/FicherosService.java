@@ -116,9 +116,14 @@ public class FicherosService {
 		
 		datos[0]= String.valueOf(list.size());
 		String classAtribute = data.classAttribute().toString(); 
-		String[] clase = classAtribute.split(Pattern.quote("{"));
-		clase = clase[1].split(Pattern.quote("}"));
-		datos[1]=clase[0];
+		if(classAtribute.contains(Pattern.quote("{"))){
+			String[] clase = classAtribute.split(Pattern.quote("{"));
+			clase = clase[1].split(Pattern.quote("}"));
+			datos[1]=clase[0];
+		}else{
+			datos[1]="No tiene";
+		}
+		
 		datos[2]= String.valueOf(data.numInstances());
 		return datos;
 	}

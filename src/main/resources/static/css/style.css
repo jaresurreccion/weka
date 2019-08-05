@@ -36,7 +36,18 @@
 	padding: 10px 10px 10px 10px;
 	margin: 30px 0px 5px 5px;
 	height: auto;
-	width: max-content;
+	width: 100%;
+}
+#card-right{
+	box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    position: fixed;
+    padding: 10px 10px 10px 10px;
+    margin: 30px 0px 5px 5px;
+    height: auto;
+    width: 16%;
+    left: 34%;
+    top: 11%;
 }
 
 #card-large {
@@ -96,4 +107,11 @@
 	position: relative;
 	width: 20%;
 	left: 2%;
+}
+#filtroActivo{
+	position: relative;
+    top: 88%;
+    left: 5%;
+    width: fit-content;
+    height: fit-content;
 }

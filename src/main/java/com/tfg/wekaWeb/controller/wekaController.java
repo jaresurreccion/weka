@@ -138,6 +138,17 @@ public class wekaController {
 			Integer idAlgoritmo = Integer.parseInt(optradio);
 			sessionService.actualizarAlgoritmoSesion(idSession, idAlgoritmo);
 			return "/algoritmo";
+    }
+    
+    @RequestMapping(value="/saveFilters", method = RequestMethod.POST)
+	public String saveFiltro(String atributes,String filtro,ModelMap model,HttpServletRequest request){
+            System.out.println(atributes+"-"+filtro);
+            int filtroSelecionado = Integer.parseInt(filtro);
+            session = request.getSession(false);
+            session.setAttribute("filtroActivo", true);
+            session.setAttribute("filtroActivoRemove", atributes);
+            session.setAttribute("filtroActivoTipo", filtroSelecionado == 1 ? "Supervisado" : "No supervisado");
+			return "redirect:/filtro";
 	}
     
 }

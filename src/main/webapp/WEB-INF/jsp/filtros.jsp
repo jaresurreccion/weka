@@ -26,7 +26,7 @@
 							<c:forEach items="${sessionScope.atributos}" var="element"
 								varStatus="loop">
 								<tr>
-									<th scope="row"><input type="checkbox"
+									<th scope="row"><input type="checkbox" name="atributes"
 										value="${loop.count}"></th>
 									<td><c:out value="${element[0]}"></c:out></td>
 									<td><c:out value="${element[1]}"></c:out></td>
@@ -35,10 +35,7 @@
 						</tbody>
 					</table>
 				</div>
-			
-			
-
-				<div id="card">
+				<div id="card-right">
 					<h4>Seleccion de filtro</h4>
 					<div class="radio">
 						<label><input type="radio" name="filtro" value="1">Supervisado</label>
@@ -48,11 +45,13 @@
 							supervisado</label>
 					</div>
 					<button type="submit" class="btn btn-md btn-outline-secondary m-0 px-3 py-2 z-depth-0 waves-effect">Guardar filtros</button>
-				</div>
-			
-		
-		
+				</div>	
 		</form>
+		<c:if test="${filtroActivo}">
+                <div id="filtroActivo" class="alert alert-success" role="alert">
+						Filtros seleccionados: Remove: ${filtroActivoRemove} Tipo: ${filtroActivoTipo} 
+				</div>
+            </c:if>
 	</div>
 	<script src="vendor/jquery/jquery.min.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
