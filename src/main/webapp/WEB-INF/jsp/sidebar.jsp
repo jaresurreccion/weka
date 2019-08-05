@@ -10,8 +10,7 @@
                 <li><a href="/ficheros">Dataset</a></li>
                 <li><a href="/filtro">Filtro</a></li>
                 <li><a href="/algoritmos">Algoritmos</a></li>
-                <li><a href="">Propiedades</a></li>
-                <li><a href="">Resultados</a></li>
+                <li><a href="/resultados">Resultados</a></li>
             </ul>
         </li>
         <li><a href="/perfil">About</a></li>

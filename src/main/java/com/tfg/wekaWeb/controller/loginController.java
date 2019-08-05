@@ -182,6 +182,12 @@ public class loginController implements ErrorController{
 	    public String getErrorPath() {
 	        return "/error";
 	    }
+	    
+	    @RequestMapping(value="/resultados",method = RequestMethod.GET)
+		public String Resultados(ModelMap model,HttpServletRequest request) throws NumberFormatException, IOException {
+			session = request.getSession(false);
+			return "resultados";
+		}
 		
 		
 		

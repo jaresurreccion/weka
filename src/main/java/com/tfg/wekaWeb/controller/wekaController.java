@@ -3,6 +3,7 @@ package com.tfg.wekaWeb.controller;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +29,7 @@ import com.tfg.wekaWeb.dao.SesionTrabajoRepository;
 import com.tfg.wekaWeb.dto.Algoritmos;
 import com.tfg.wekaWeb.dto.Ficheros;
 import com.tfg.wekaWeb.service.FicherosService;
+import com.tfg.wekaWeb.service.FiltrosService;
 import com.tfg.wekaWeb.service.SesionTrabajoService;
 
 import weka.classifiers.Classifier;
@@ -53,6 +55,9 @@ public class wekaController {
 	
 	@Autowired
 	private SesionTrabajoService sessionService;
+	
+	@Autowired
+	private FiltrosService FiltrosService;
 	
 	HttpSession session;
 	
@@ -133,16 +138,24 @@ public class wekaController {
     
     @RequestMapping(value="/saveAlgoritmo", method = RequestMethod.POST)
 	public String saveAlgoritmo(String optradio,ModelMap model,HttpServletRequest request) throws Exception  {
-			session = request.getSession(true);
+			session = request.getSession(false);
 			Integer idSession = Integer.parseInt(session.getAttribute("sesionActivaIdSesion").toString());
 			Integer idAlgoritmo = Integer.parseInt(optradio);
 			sessionService.actualizarAlgoritmoSesion(idSession, idAlgoritmo);
-			return "/algoritmo";
+			Optional<Algoritmos> alg = algoritmoRepository.findById(idAlgoritmo);
+			session.setAttribute("algoritmoActivo", true);
+			session.setAttribute("algoritmoActivoId", idAlgoritmo);
+			session.setAttribute("algoritmoActivoNombre", alg.get().getNombreAlg());
+			return "redirect:/algoritmos";
     }
     
     @RequestMapping(value="/saveFilters", method = RequestMethod.POST)
 	public String saveFiltro(String atributes,String filtro,ModelMap model,HttpServletRequest request){
-            System.out.println(atributes+"-"+filtro);
+            
+    	session = request.getSession(false);
+    	FiltrosService.guardarFiltro(filtro, atributes,
+    			Integer.parseInt(session.getAttribute("sesionActivaIdSesion").toString()),
+    			Integer.parseInt(session.getAttribute("sesionActivaIdFile").toString()));
             int filtroSelecionado = Integer.parseInt(filtro);
             session = request.getSession(false);
             session.setAttribute("filtroActivo", true);

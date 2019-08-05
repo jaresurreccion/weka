@@ -8,7 +8,6 @@
 	<jsp:include page="headerPage.jsp"></jsp:include>
 	<jsp:include page="sidebar.jsp"></jsp:include>
 	<div id="page-content-wrapper">
-
 		<form method="POST" action="/saveAlgoritmo">
 			<div class="row">
 				<div class="col">
@@ -62,6 +61,12 @@
 				<button type="submit" class="btn btn-primary"  id="botonSeleccionarAlgoritmo">Seleccionar algoritmo</button>
 			</div>
 		</form>
+		
+		<c:if test="${algoritmoActivo}">
+                <div id="filtroActivo" class="alert alert-success" role="alert">
+						Algoritmo seleccionado: ${algoritmoActivoNombre}
+				</div>
+        </c:if>
 	</div>
 	<script src="vendor/jquery/jquery.min.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

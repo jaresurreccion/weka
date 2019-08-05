@@ -14,16 +14,16 @@
 			</c:if>
 				<form class="form-container" action="/home" method="POST">
 					<div class="form-group">
-						<label for="exampleInputEmail1">Email address</label> <input
+						<label for="exampleInputEmail1">Usuario</label> <input
 							class="form-control" name="user" aria-describedby="emailHelp"
 							placeholder="Enter user">
 					</div>
 					<div class="form-group">
-						<label for="exampleInputPassword1">Password</label> <input
+						<label for="exampleInputPassword1">Contraseña</label> <input
 							type="password" class="form-control" name="pass"
 							placeholder="Password">
 					</div>
-					<button type="submit" class="btn btn-primary btn-block">Submit</button>
+					<button type="submit" class="btn btn-primary btn-block">Acceder</button>
 					<a href="/nuevoUsuario">¿No tienes usuario? Pincha aquí</a>
 				</form>
 			</section>

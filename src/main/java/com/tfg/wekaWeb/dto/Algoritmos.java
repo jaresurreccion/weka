@@ -16,6 +16,12 @@ public class Algoritmos {
 	String params;
 	Date creado;
 	Date modificado;
+	
+	
+	
+	public Algoritmos() {
+		super();
+	}
 	public Algoritmos(Integer idAlgoritmo, String nombreAlg, String params, Date creado, Date modificado) {
 		super();
 		this.idAlgoritmo = idAlgoritmo;

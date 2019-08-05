@@ -1,0 +1,8 @@
+Conjunto test/train 2 opt random y manual -> seleccionar primeros mil y ultimso mil.
+
+Seleccion de atributos algoritmo a filtros.
+
+Supervisado -> Agrupamiento
+No supervisado -> Clasificación.
+
+area de trabajo por encima de gráfica.
