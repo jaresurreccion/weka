@@ -22,7 +22,7 @@ public class Ficheros {
 	String nombreFichero;
 	String nAtributos;
 	String clase;
-	Integer idUsuario;
+	Integer idSession;
 	Date creado;
 	Date modificado;
 	String comentario;
@@ -32,13 +32,13 @@ public class Ficheros {
 	public Ficheros() {
 		
 	}
-	public Ficheros( String contentType, String nombreFichero, String ruta, Integer idUsuario,
+	public Ficheros( String contentType, String nombreFichero, String ruta, Integer idSession,
 			Date creado, Date modificado,String comentario,String clase,String nAtributos,String numInstancias) {
 		super();
 		
 		this.contentType = contentType;
 		this.nombreFichero = nombreFichero;
-		this.idUsuario = idUsuario;
+		this.idSession = idSession;
 		this.creado = creado;
 		this.modificado = modificado;
 		this.comentario = comentario;
@@ -65,11 +65,11 @@ public class Ficheros {
 	public void setNombreFichero(String nombreFichero) {
 		this.nombreFichero = nombreFichero;
 	}
-	public Integer getidUsuario() {
-		return idUsuario;
+	public Integer getidSession() {
+		return idSession;
 	}
-	public void setidUsuario(Integer idUsuario) {
-		this.idUsuario = idUsuario;
+	public void setidSession(Integer idSession) {
+		this.idSession = idSession;
 	}
 	
 	public Date getCreado() {

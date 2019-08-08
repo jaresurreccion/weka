@@ -69,16 +69,13 @@ public class FicherosService {
 		}
 	}
 
-	public Ficheros getFicheroByIduser(int id) {
-		return ficherosRepository.findByidUsuario(id);
-	}
 
 	public Optional<Ficheros> getFichero(int idFichero) {
 		return ficherosRepository.findById(idFichero);
 	}
 	
-	public List<Ficheros> getFicherosByIdUser(int idUser){
-		return ficherosRepository.findAllByIdUser(idUser);
+	public List<Ficheros> getFicherosByIdSession(int idSession){
+		return ficherosRepository.findAllByIdSession(idSession);
 	} 
 	
 	public void deleteFicherosById(int idFichero) {

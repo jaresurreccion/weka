@@ -111,7 +111,7 @@ public class loginController implements ErrorController{
 		
 		@RequestMapping(value="/algoritmos",method = RequestMethod.GET)
 		public String Algoritmos(ModelMap model, @CookieValue(value = "userId", defaultValue = "Attat") String userId) {
-			List<Ficheros> ficherosXusuario = ficherosService.getFicherosByIdUser(Integer.parseInt(userId));
+			List<Ficheros> ficherosXusuario = ficherosService.getFicherosByIdSession(Integer.parseInt(session.getAttribute("sesionActivaIdFile").toString()));
 			model.addAttribute("ListaFicheros",ficherosXusuario);
 			return "algoritmos";
 		}
@@ -161,8 +161,15 @@ public class loginController implements ErrorController{
 		
 		@RequestMapping(value="/ficheros",method = RequestMethod.GET)
 		public String Ficheros(ModelMap model, @CookieValue(value = "userId", defaultValue = "Attat") String userId) {
-			List<Ficheros> ficherosXusuario = ficherosService.getFicherosByIdUser(Integer.parseInt(userId));
-			model.addAttribute("ListaFicheros",ficherosXusuario);
+			List<Ficheros> ficherosXusuario = ficherosService.getFicherosByIdSession(Integer.parseInt(session.getAttribute("sesionActivaIdSesion").toString()));
+			if(ficherosXusuario.size() <= 0 || ficherosXusuario == null) {
+				return "ficheros";
+			}
+			else {
+				model.addAttribute("ListaFicheros",ficherosXusuario);	
+			}
+			
+			
 			return "ficheros";
 		}
 

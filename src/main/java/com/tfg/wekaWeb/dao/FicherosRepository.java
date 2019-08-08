@@ -13,9 +13,9 @@ import com.tfg.wekaWeb.dto.Ficheros;
 @Transactional
 public interface FicherosRepository extends CrudRepository<Ficheros, Integer> {
 
-	public Ficheros findByidUsuario (int idUsuario);
+	public Ficheros findByidSession (int idSession);
 	
-	@Query("SELECT p FROM Ficheros p WHERE p.idUsuario = :idUsuario")
-	public List<Ficheros> findAllByIdUser(@Param("idUsuario") int idUsuario);
+	@Query("SELECT p FROM Ficheros p WHERE p.idSession = :idSession")
+	public List<Ficheros> findAllByIdSession(@Param("idSession") int idSession);
 
 }
