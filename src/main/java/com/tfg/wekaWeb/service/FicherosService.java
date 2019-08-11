@@ -37,17 +37,18 @@ public class FicherosService {
 	static File datasets = new File(home, "datasets");
 	private static String UPLOADED_FOLDER = datasets.getAbsolutePath();
 	
-	public Ficheros guardarFichero(MultipartFile file, int userId,String comentario) throws Exception {
+	public Ficheros guardarFichero(String ContentType, String OriginalName, Integer idSessionActual,String comentario) throws Exception {
 		
-		File path = new File(UPLOADED_FOLDER, file.getOriginalFilename());
-		String filename = file.getOriginalFilename();
+		File path = new File(UPLOADED_FOLDER, OriginalName);
+		String filename = OriginalName;
+		Ficheros fichero = null;
 		
 		if(filename.contains(".arff")) {
 			//String path = UPLOADED_FOLDER + file.getOriginalFilename();
 			String [] datosDataset = datosDataset(path.getAbsolutePath());
-			Ficheros fichero = new Ficheros(file.getContentType(), filename, path.getAbsolutePath(), userId, new Date(),
-					new Date(),comentario,datosDataset[1],datosDataset[0],datosDataset[2]);
-			return ficherosRepository.save(fichero);
+			 fichero = new Ficheros(ContentType, filename, path.getAbsolutePath(), idSessionActual, new Date(),
+					new Date(),comentario,null,null,null);
+			 ficherosRepository.save(fichero);
 		}
 		else {
 			
@@ -58,15 +59,25 @@ public class FicherosService {
 				throw new FileSystemException("El fichero contiene carácterés inválidos");
 			}
 			String pathCSV = convertirCSVtoARFF(path.getAbsolutePath());
-			String [] datosDataset = datosDataset(pathCSV);
-			Ficheros fichero = new Ficheros(file.getContentType(), filename, pathCSV, userId, new Date(),
-					new Date(),comentario,datosDataset[1],datosDataset[0],datosDataset[2]);
-			return ficherosRepository.save(fichero);
+			
+			 fichero = new Ficheros(ContentType, filename, pathCSV, idSessionActual, new Date(),
+					new Date(),comentario,null,null,null);
+			 ficherosRepository.save(fichero);
 		
 		} catch (IOException ex) {
 			throw new FileSystemException("No se pudo guardar");
 		}
 		}
+		
+		String [] datosDataset = datosDataset(fichero.getRuta());
+		String clase = datosDataset[1];
+		String nAtributos = datosDataset[2];
+		String nInstancias = datosDataset[0];
+		fichero.setClase(clase);
+		fichero.setnAtributos(nAtributos);
+		fichero.setNumInstancias(nInstancias);
+		fichero =  ficherosRepository.save(fichero);
+		return fichero;
 	}
 
 

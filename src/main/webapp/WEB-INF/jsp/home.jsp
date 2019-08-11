@@ -32,34 +32,8 @@
 
 	<div id="page-content-wrapper">
 		<div class="row">
-			<div class="col">
-				<div id="card">
-					<h5>Conexiones ultima semana</h5>
-					<br>
-					<canvas id="chLine"></canvas>
-				</div>
-
-				<div id="card">
-					<h5>Crear nueva area de trabajo</h5>
-					<form class="form-container" action="/crearSesion" method="POST"
-						id="crearSesion">
-						<div class="input-group mb-3">
-							<div class="input-group-prepend" id="button-addon3">
-								<button
-									class="btn btn-md btn-outline-secondary m-0 px-3 py-2 z-depth-0 waves-effect"
-									type="submit">
-									<i class="fa fa-plus" aria-hidden="true"></i>
-								</button>
-							</div>
-							<input type="text" name="nombre" class="form-control"
-								placeholder="Introduzca el nombre"
-								aria-label="Example text with two button addons"
-								aria-describedby="button-addon3">
-						</div>
-					</form>
-				</div>
-			</div>
-			<div class="col">
+		
+		<div class="col">
 				<div id="card">
 					<h5>Areas de trabajo disponibles</h5>
 					<br>
@@ -89,11 +63,11 @@
 											pattern="dd-MMM-yyyy" /></td>
 									<td><a class="btn btn-default"
 										href="/activateSession/${element.idSesion}"
-										aria-label="Settings"> <i class="fa fa fa-chevron-right "
+										aria-label="Settings"> <i class="fa fa-chevron-right "
 											aria-hidden="true"></i>
 									</a> <a class="btn btn-default"
 										href="/deleteSession/${element.idSesion}"
-										aria-label="Settings"> <i class="fa fa-trash-o fa-2x"
+										aria-label="Settings"> <i class="fa fa-trash-o "
 											aria-hidden="true"></i>
 									</a></td>
 								</tr>
@@ -101,8 +75,38 @@
 						</tbody>
 					</table>
 				</div>
+				
+				<div id="card">
+					<h5>Crear nueva area de trabajo</h5>
+					<form class="form-container" action="/crearSesion" method="POST"
+						id="crearSesion">
+						<div class="input-group mb-3">
+							<div class="input-group-prepend" id="button-addon3">
+								<button
+									class="btn btn-md btn-outline-secondary m-0 px-3 py-2 z-depth-0 waves-effect"
+									type="submit">
+									<i class="fa fa-plus" aria-hidden="true"></i>
+								</button>
+							</div>
+							<input type="text" name="nombre" class="form-control"
+								placeholder="Introduzca el nombre"
+								aria-label="Example text with two button addons"
+								aria-describedby="button-addon3">
+						</div>
+					</form>
+				</div>
 			</div>
+		
+			<div class="col">
+				<div id="card">
+					<h5>Conexiones ultima semana</h5>
+					<br>
+					<canvas id="chLine"></canvas>
+				</div>
 
+				
+			</div>
+			
 		</div>
 	</div>
 	<script src="vendor/jquery/jquery.min.js"></script>

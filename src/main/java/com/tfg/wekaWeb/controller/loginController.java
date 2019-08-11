@@ -31,8 +31,9 @@ import com.tfg.wekaWeb.service.UserService;
 import com.tfg.wekaWeb.service.wekaService;
 
 //@RestController
+//implements ErrorController
 @Controller
-public class loginController implements ErrorController{
+public class loginController {
 	   private static final Logger logger = LoggerFactory.getLogger(loginController.class);
 
 	   HttpSession session;
@@ -160,7 +161,8 @@ public class loginController implements ErrorController{
 		}
 		
 		@RequestMapping(value="/ficheros",method = RequestMethod.GET)
-		public String Ficheros(ModelMap model, @CookieValue(value = "userId", defaultValue = "Attat") String userId) {
+		public String Ficheros(Model model,HttpServletRequest request) {
+			session = request.getSession(false);
 			List<Ficheros> ficherosXusuario = ficherosService.getFicherosByIdSession(Integer.parseInt(session.getAttribute("sesionActivaIdSesion").toString()));
 			if(ficherosXusuario.size() <= 0 || ficherosXusuario == null) {
 				return "ficheros";
@@ -176,20 +178,22 @@ public class loginController implements ErrorController{
 		@RequestMapping(value="/filtro",method = RequestMethod.GET)
 		public String Filtro(ModelMap model,HttpServletRequest request) throws NumberFormatException, IOException {
 			session = request.getSession();
+			System.out.println(session.toString());
 			session.setAttribute("atributos", (List<String []>) wekaService.getAtributos(Integer.parseInt(session.getAttribute("sesionActivaIdFile").toString())));
 			return "filtros";
 		}
 		
-		@RequestMapping(value = "/error")
+	/*	@RequestMapping(value = "/error")
 	    public String error() {
-	        return "redirect:/";
+	        return "/error";
 	    }
 
 	    @Override
 	    public String getErrorPath() {
 	        return "/error";
 	    }
-	    
+	  */
+		
 	    @RequestMapping(value="/resultados",method = RequestMethod.GET)
 		public String Resultados(ModelMap model,HttpServletRequest request) throws NumberFormatException, IOException {
 			session = request.getSession(false);

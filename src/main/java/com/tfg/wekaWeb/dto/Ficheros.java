@@ -32,6 +32,7 @@ public class Ficheros {
 	public Ficheros() {
 		
 	}
+	
 	public Ficheros( String contentType, String nombreFichero, String ruta, Integer idSession,
 			Date creado, Date modificado,String comentario,String clase,String nAtributos,String numInstancias) {
 		super();

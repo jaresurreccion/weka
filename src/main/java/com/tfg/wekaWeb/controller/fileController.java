@@ -49,11 +49,10 @@ public class fileController {
 	// Folder to upload File
 
 	@PostMapping("/uploadFile")
-	public String uploadFile(@RequestParam("file") MultipartFile file,
-			@CookieValue(value = "userId", defaultValue = "Attat") String userId, String comentario,
-			RedirectAttributes redirectAttributes, HttpServletRequest request) throws NumberFormatException, Exception {
+	public String uploadFile(@RequestParam("file") MultipartFile file, String comentario, HttpServletRequest request)
+			throws NumberFormatException, Exception {
 
-		Ficheros f;
+		 
 		sesion = request.getSession(false);
 		Integer idSessionActual = Integer.parseInt(sesion.getAttribute("sesionActivaIdSesion").toString());
 
@@ -63,36 +62,22 @@ public class fileController {
 		if (!datasets.exists()) {
 			datasets.mkdir();
 		}
+		byte[] bytes = null;
+		bytes = file.getBytes();
+		String ContentType = file.getContentType();
+		String OriginalName= file.getOriginalFilename();
+		Path path = Paths.get(datasets.getAbsolutePath(), file.getOriginalFilename());
+		Files.write(path, bytes);
+		Ficheros f = ficherosService.guardarFichero(ContentType,OriginalName, idSessionActual, comentario);
+		System.out.println(f.toString());
+		SesionTrabajo.actualizarFileSesion(idSessionActual, f.getIdFichero());
 
-		try {
-
-			byte[] bytes = null;
-			try {
-				bytes = file.getBytes();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			Path path = Paths.get(datasets.getAbsolutePath(), file.getOriginalFilename());
-			try {
-				Files.write(path, bytes);
-				f = ficherosService.guardarFichero(file, Integer.parseInt(userId), comentario);
-				SesionTrabajo.actualizarFileSesion(idSessionActual, f.getIdFichero());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return "redirect:/ficheros";
-		} catch (FileSystemException e) {
-
-			e.printStackTrace();
-			return "error";
-		}
+		return "redirect:/ficheros";
 
 	}
 
 	@GetMapping("/deleteFile/{fileId}")
-	public String deleteFile(@PathVariable String fileId,HttpServletRequest request) {
+	public String deleteFile(@PathVariable String fileId, HttpServletRequest request) {
 		sesion = request.getSession(false);
 		Integer idSessionActual = Integer.parseInt(sesion.getAttribute("sesionActivaIdSesion").toString());
 		ficherosService.deleteFicherosById(Integer.parseInt(fileId));
