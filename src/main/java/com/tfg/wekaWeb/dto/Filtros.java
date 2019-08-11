@@ -22,6 +22,10 @@ public class Filtros {
 	
 	
 	
+	public Filtros() {
+		super();
+	}
+	
 	public Filtros(String tipo, String atributosRemove, Integer idSession, Integer idFichero,Date fechaCreacion) {
 		this.tipo = tipo;
 		this.atributosRemove = atributosRemove;

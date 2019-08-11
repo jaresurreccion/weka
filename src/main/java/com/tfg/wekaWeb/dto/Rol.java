@@ -17,6 +17,10 @@ public class Rol {
 	
 	
 	
+	public Rol() {
+		super();
+	}
+
 	public Rol(Integer idRol, String tipoRol, Integer idPermiso, Integer idUser) {
 		super();
 		this.idRol = idRol;

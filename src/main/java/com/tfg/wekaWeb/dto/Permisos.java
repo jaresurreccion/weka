@@ -11,6 +11,12 @@ public class Permisos {
 	@Id
 	Integer idPermiso;
 	String tipoPermiso;
+	
+	
+	public Permisos() {
+		super();
+	}
+
 	public Permisos(Integer idPermiso, String tipoPermiso) {
 		super();
 		this.idPermiso = idPermiso;
