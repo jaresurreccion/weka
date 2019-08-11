@@ -57,8 +57,9 @@ public class fileController {
 		Integer idSessionActual = Integer.parseInt(sesion.getAttribute("sesionActivaIdSesion").toString());
 
 		ApplicationHome app = new ApplicationHome();
+		
 		File home = app.getDir();
-		File datasets = new File(home, "datasets");
+		File datasets = new File("C:\\tmpFiles","datasets");
 		if (!datasets.exists()) {
 			datasets.mkdir();
 		}
@@ -71,6 +72,7 @@ public class fileController {
 		Ficheros f = ficherosService.guardarFichero(ContentType,OriginalName, idSessionActual, comentario);
 		System.out.println(f.toString());
 		SesionTrabajo.actualizarFileSesion(idSessionActual, f.getIdFichero());
+		sesion.setAttribute("sesionActivaIdFile", f.getIdFichero());
 
 		return "redirect:/ficheros";
 

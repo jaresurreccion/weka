@@ -62,7 +62,7 @@
 	margin: 30px 0px 5px 5px;
 	height: auto;
 	width: max-content;
-	max-height: 80%;
+	max-height: 70%;
 	overflow: auto;
 	flex-flow: column wrap;
 }
@@ -76,6 +76,12 @@
 #chLine {
 	width: 100% !important;
 	height: auto !important;
+}
+
+.lineVertical {
+      border-left: 2px solid lightgrey;
+    margin: 0% 5% 0% 5%;
+    height: 98%;
 }
 
 .row {

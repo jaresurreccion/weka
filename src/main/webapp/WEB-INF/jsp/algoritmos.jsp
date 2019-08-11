@@ -12,20 +12,6 @@
 			<div class="row">
 				<div class="col">
 					<div id="card">
-						<h4>Seleccion de atributos</h4>
-						<div class="radio">
-							<label><input type="radio" name="optradio" value="1">BestFirst</label>
-						</div>
-						<div class="radio">
-							<label><input type="radio" name="optradio" value="2">ScatterSearch</label>
-						</div>
-						<div class="radio">
-							<label><input type="radio" name="optradio" value="3">RankSearch</label>
-						</div>
-					</div>
-				</div>
-				<div class="col">
-					<div id="card">
 						<h4>Agrupamiento</h4>
 						<div class="radio">
 							<label><input type="radio" name="optradio" value="4">simpleKmeans</label>

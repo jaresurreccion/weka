@@ -1,7 +1,9 @@
 package com.tfg.wekaWeb.controller;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
@@ -32,6 +34,7 @@ import com.tfg.wekaWeb.service.FicherosService;
 import com.tfg.wekaWeb.service.FiltrosService;
 import com.tfg.wekaWeb.service.SesionTrabajoService;
 
+import weka.attributeSelection.*;
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
 import weka.classifiers.evaluation.Prediction;
@@ -41,6 +44,7 @@ import weka.classifiers.trees.DecisionStump;
 import weka.classifiers.trees.J48;
 import weka.core.Attribute;
 import weka.core.Instances;
+import weka.core.Utils;
 
 @Controller
 public class wekaController {
@@ -74,13 +78,6 @@ public class wekaController {
            
           /* Seleccionamos la columna de los datos a estimar */
           data.setClassIndex(data.numAttributes() - 1);
-          List<String> list = new ArrayList<>();
-          Enumeration<Attribute> e = data.enumerateAttributes();
-          while(e.hasMoreElements()){
-        	  list.add(e.nextElement().toString());
-          }
-          model.addFlashAttribute("lista",list);
-          model.addFlashAttribute("clase",data.classAttribute().toString());
           /* Creamos dos grupos uno de entreno y otro de test */
           int numFolds=14;
           Instances[] trainingSplits=new Instances[numFolds];
@@ -163,6 +160,47 @@ public class wekaController {
             session.setAttribute("filtroActivoTipo", filtroSelecionado == 1 ? "Supervisado" : "No supervisado");
 			return "redirect:/filtro";
 	}
+    
+    @RequestMapping(value="/seleccionAtributos", method = RequestMethod.GET)
+    public String selectAtributos(String optradio,HttpServletRequest request) throws IOException {
+    	session = request.getSession();
+    	
+    	File file = ficherosService.getFileByFichero(Integer.parseInt(session.getAttribute("sesionActivaIdFile").toString()));
+    	BufferedReader datafile = new BufferedReader(new FileReader(file));
+        Instances data = new Instances(datafile);
+    	AttributeSelection attSelection = new AttributeSelection();
+        CfsSubsetEval eval = new CfsSubsetEval();
+
+    	if(optradio.equals("1")) {
+    		BestFirst search = new BestFirst();
+    		attSelection.setSearch(search);
+    	}else if (optradio.equals("2")) {
+    		weka.attributeSelection.ASSearch search = new ScatterSearchV1();
+    		// ScatterSearch search = new ScatterSearch();
+    		//attSelection.setSearch(search);
+    	}else if (optradio.equals("3")) {
+    		//RankSearch search = new RankSearch();
+    		//attSelection.setSearch(search);
+    	}
+    	
+    	attSelection.setEvaluator(eval);
+    	try {
+    		attSelection.SelectAttributes(data);
+    		int[] attIndex = attSelection.selectedAttributes();
+    		List <String> listaAtributos = new ArrayList<String>();
+    		
+    		for (int i = 0; i < attIndex.length; i++) {
+    			data.get(attIndex[i]);
+				listaAtributos.add(data.attribute(attIndex[i]).name());
+			}
+    		session.setAttribute("listaAtributosFiltrosBol", true);
+    		session.setAttribute("listaAtributosFiltros", listaAtributos);
+    	} catch (Exception e) {
+    	}
+
+    	return "redirect:/filtro";
+    }
+    
     
 }
 

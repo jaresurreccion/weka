@@ -34,7 +34,7 @@ public class FicherosService {
 
 	static ApplicationHome app = new ApplicationHome();
 	static File home = app.getDir();
-	static File datasets = new File(home, "datasets");
+	static File datasets = new File("C:\\tmpFiles", "datasets");
 	private static String UPLOADED_FOLDER = datasets.getAbsolutePath();
 	
 	public Ficheros guardarFichero(String ContentType, String OriginalName, Integer idSessionActual,String comentario) throws Exception {
@@ -88,6 +88,12 @@ public class FicherosService {
 	public List<Ficheros> getFicherosByIdSession(int idSession){
 		return ficherosRepository.findAllByIdSession(idSession);
 	} 
+	
+	public File getFileByFichero(Integer idFichero) {
+		Optional<Ficheros> fichero = ficherosRepository.findById(idFichero);
+		File file = new File(fichero.get().getRuta());
+		return file;
+	}
 	
 	public void deleteFicherosById(int idFichero) {
 		 ficherosRepository.deleteById(idFichero);
