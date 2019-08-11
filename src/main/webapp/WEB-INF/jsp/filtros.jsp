@@ -70,7 +70,7 @@
 						<label><input type="radio" name="optradio" value="1">BestFirst</label>
 					</div>
 					<div class="radio">
-						<label><input type="radio" name="optradio" value="2">ScatterSearch</label>
+						<label><input type="radio" name="optradio" value="2">ScatterSearch/GreedyStepwise</label>
 					</div>
 					<div class="radio">
 						<label><input type="radio" name="optradio" value="3">RankSearch</label>

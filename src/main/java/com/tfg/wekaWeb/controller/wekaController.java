@@ -175,12 +175,12 @@ public class wekaController {
     		BestFirst search = new BestFirst();
     		attSelection.setSearch(search);
     	}else if (optradio.equals("2")) {
-    		weka.attributeSelection.ASSearch search = new ScatterSearchV1();
+    		GreedyStepwise search = new GreedyStepwise();
     		// ScatterSearch search = new ScatterSearch();
-    		//attSelection.setSearch(search);
+    		attSelection.setSearch(search);
     	}else if (optradio.equals("3")) {
-    		//RankSearch search = new RankSearch();
-    		//attSelection.setSearch(search);
+    		Ranker search = new Ranker();
+    		attSelection.setSearch(search);
     	}
     	
     	attSelection.setEvaluator(eval);
