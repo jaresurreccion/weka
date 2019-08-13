@@ -18,6 +18,12 @@
     background-color: darkslategrey;
 }
 
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+
 
 /* define a fixed width for the entire menu */
 
