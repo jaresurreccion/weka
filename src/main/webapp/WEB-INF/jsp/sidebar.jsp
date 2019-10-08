@@ -26,19 +26,19 @@ window.onload = function load(){
         ficheros.classList.remove('disabled');
         
         var idFile = '<c:out value="${sesionActivaIdFile}"/>';
-        if(idFile != 0 || idFile != null || idFile != ""){
+        if(idFile != 0 && idFile != null && idFile != ""){
 	       	var filtro = document.getElementById('filtro');
 	       	filtro.classList.remove('disabled');
             }
         
         var idfiltros = '<c:out value="${listaAtributosFiltrosBol}"/>';
-        if(idfiltros != 0 || idfiltros != null || idfiltros == true || idfiltros == "" ){
+        if(idfiltros != 0 && idfiltros != null && idfiltros != "" ){
             var algoritmos = document.getElementById('algoritmos');
             algoritmos.classList.remove('disabled');
             }
         
         var idAlgoritmo = '<c:out value="${sesionActivaIdAlgoritmo}"/>';
-        if(idAlgoritmo != 0 || idAlgoritmo != null || idAlgoritmo != ""){
+        if(idAlgoritmo != 0 && idAlgoritmo != null && idAlgoritmo != ""){
             var resultados = document.getElementById('resultados');
             resultados.classList.remove('disabled');
             }
