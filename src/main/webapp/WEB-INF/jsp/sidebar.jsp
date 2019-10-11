@@ -14,7 +14,7 @@
                 <li><a href="/resultados" id="resultados" class="disabled">Resultados</a></li>
             </ul>
         </li>
-        <li><a href="/perfil">About</a></li>
+        <li><a href="/informacion">Informacion</a></li>
     </ul>
 </aside>
 

@@ -33,6 +33,7 @@ import com.tfg.wekaWeb.dto.Ficheros;
 import com.tfg.wekaWeb.service.FicherosService;
 import com.tfg.wekaWeb.service.FiltrosService;
 import com.tfg.wekaWeb.service.SesionTrabajoService;
+import com.tfg.wekaWeb.service.UtilsService;
 
 import weka.attributeSelection.*;
 import weka.classifiers.Classifier;
@@ -64,6 +65,7 @@ public class wekaController {
 	private FiltrosService FiltrosService;
 	
 	HttpSession session;
+	private UtilsService utils = new UtilsService();
 	
 	
 	@GetMapping("/weka/{idFile}")
@@ -135,7 +137,8 @@ public class wekaController {
     
     @RequestMapping(value="/saveAlgoritmo", method = RequestMethod.POST)
 	public String saveAlgoritmo(String optradio,ModelMap model,HttpServletRequest request) throws Exception  {
-			session = request.getSession(false);
+			session = utils.isValidSession(request);
+			if(session == null) return "redirect:/sessionCaducada";
 			Integer idSession = Integer.parseInt(session.getAttribute("sesionActivaIdSesion").toString());
 			Integer idAlgoritmo = Integer.parseInt(optradio);
 			sessionService.actualizarAlgoritmoSesion(idSession, idAlgoritmo);
@@ -149,7 +152,8 @@ public class wekaController {
     @RequestMapping(value="/saveFilters", method = RequestMethod.POST)
 	public String saveFiltro(String atributes,String filtro,ModelMap model,HttpServletRequest request){
             
-    	session = request.getSession(false);
+    	session = utils.isValidSession(request);
+    	if(session == null) return "redirect:/sessionCaducada";
     	FiltrosService.guardarFiltro(filtro, atributes,
     			Integer.parseInt(session.getAttribute("sesionActivaIdSesion").toString()),
     			Integer.parseInt(session.getAttribute("sesionActivaIdFile").toString()));
@@ -163,8 +167,8 @@ public class wekaController {
     
     @RequestMapping(value="/seleccionAtributos", method = RequestMethod.GET)
     public String selectAtributos(String optradio,HttpServletRequest request) throws IOException {
-    	session = request.getSession();
-    	
+    	session = utils.isValidSession(request);
+    	if(session == null) return "redirect:/sessionCaducada";
     	File file = ficherosService.getFileByFichero(Integer.parseInt(session.getAttribute("sesionActivaIdFile").toString()));
     	BufferedReader datafile = new BufferedReader(new FileReader(file));
         Instances data = new Instances(datafile);

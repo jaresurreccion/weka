@@ -33,6 +33,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.tfg.wekaWeb.dto.Ficheros;
 import com.tfg.wekaWeb.service.FicherosService;
 import com.tfg.wekaWeb.service.SesionTrabajoService;
+import com.tfg.wekaWeb.service.UtilsService;
 
 @Controller
 public class fileController {
@@ -46,6 +47,7 @@ public class fileController {
 	@Autowired
 	private FicherosService ficherosService;
 
+	private UtilsService utils = new UtilsService();
 	// Folder to upload File
 
 	@PostMapping("/uploadFile")
@@ -53,11 +55,10 @@ public class fileController {
 			throws NumberFormatException, Exception {
 
 		 
-		sesion = request.getSession(false);
+		sesion = utils.isValidSession(request);
+		if(sesion == null) return "redirect:/sessionCaducada";
 		Integer idSessionActual = Integer.parseInt(sesion.getAttribute("sesionActivaIdSesion").toString());
-
 		ApplicationHome app = new ApplicationHome();
-		
 		File home = app.getDir();
 		File datasets = new File("C:\\tmpFiles","datasets");
 		if (!datasets.exists()) {
@@ -80,7 +81,8 @@ public class fileController {
 
 	@GetMapping("/deleteFile/{fileId}")
 	public String deleteFile(@PathVariable String fileId, HttpServletRequest request) {
-		sesion = request.getSession(false);
+		sesion = utils.isValidSession(request);
+		if(sesion == null) return "redirect:/sessionCaducada";
 		Integer idSessionActual = Integer.parseInt(sesion.getAttribute("sesionActivaIdSesion").toString());
 		ficherosService.deleteFicherosById(Integer.parseInt(fileId));
 		SesionTrabajo.actualizarFileSesion(idSessionActual, null);

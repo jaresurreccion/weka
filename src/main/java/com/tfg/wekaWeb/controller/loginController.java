@@ -25,6 +25,7 @@ import com.tfg.wekaWeb.service.FicherosService;
 import com.tfg.wekaWeb.service.SesionTrabajoService;
 import com.tfg.wekaWeb.service.UserService;
 import com.tfg.wekaWeb.service.wekaService;
+import com.tfg.wekaWeb.service.UtilsService;
 
 //@RestController
 //implements ErrorController
@@ -45,15 +46,18 @@ public class loginController {
 		
 		@Autowired
 		private wekaService wekaService;
+		
+		private UtilsService utils = new UtilsService();
 
 		
 		@RequestMapping(value="/",method = RequestMethod.GET)
 		public String login(Model model,HttpServletRequest request) {
-			session = request.getSession(false);
+		/*	session = request.getSession(false);
 			if(session != null){
 				request.getSession().invalidate();
 			}
-			
+		*/
+			utils.deleteSession(request);	
 			model.addAttribute("index",true);
 			return "index";
 		}
@@ -73,7 +77,8 @@ public class loginController {
 				response.addCookie(cookie);
 				Cookie cookieid= new Cookie("userId",e.getId().toString());
 				response.addCookie(cookieid);
-				session = request.getSession(true);
+				session = utils.isValidSession(request);
+				if(session == null) return "redirect:/sessionCaducada";
 				session.setAttribute("username", e.getUsername());
 				session.setAttribute("idUser", e.getId());
 				session.setAttribute("trabajo", (List<SesionTrabajo>) trabajosService.buscarSesiones(e.getId()));
@@ -95,7 +100,8 @@ public class loginController {
 					response.addCookie(cookie);
 					Cookie cookieid= new Cookie("userId",e.getId().toString());
 					response.addCookie(cookieid);
-					session = request.getSession(true);
+					session = utils.isValidSession(request);
+					if(session == null) return "redirect:/sessionCaducada";
 					session.setAttribute("username", e.getUsername());
 					session.setAttribute("idUser", e.getId());
 					session.setAttribute("trabajo", (List<SesionTrabajo>) trabajosService.buscarSesiones(e.getId()));
@@ -129,10 +135,8 @@ public class loginController {
 		
 		@RequestMapping(value="/home",method = RequestMethod.GET)
 		public String miHome(ModelMap model,HttpServletRequest request) {
-			session = request.getSession(false);
-			if(session==null) {
-				return "redirect:/error";
-			}
+			session = utils.isValidSession(request);
+			if(session == null) return "redirect:/sessionCaducada";
 			Enumeration<String> e = session.getAttributeNames();
 			session.setAttribute("trabajo", (List<SesionTrabajo>) trabajosService.buscarSesiones(Integer.parseInt(session.getAttribute("idUser").toString())));
 			while(e.hasMoreElements()){
@@ -158,7 +162,8 @@ public class loginController {
 		
 		@RequestMapping(value="/ficheros",method = RequestMethod.GET)
 		public String Ficheros(Model model,HttpServletRequest request) {
-			session = request.getSession(false);
+			session = utils.isValidSession(request);
+			if(session == null) return "redirect:/sessionCaducada";
 			List<Ficheros> ficherosXusuario = ficherosService.getFicherosByIdSession(Integer.parseInt(session.getAttribute("sesionActivaIdSesion").toString()));
 			if(ficherosXusuario.size() <= 0 || ficherosXusuario == null) {
 				return "ficheros";
@@ -173,7 +178,8 @@ public class loginController {
 
 		@RequestMapping(value="/filtro",method = RequestMethod.GET)
 		public String Filtro(ModelMap model,HttpServletRequest request) throws NumberFormatException, IOException {
-			session = request.getSession();
+			session = utils.isValidSession(request);
+			if(session == null) return "redirect:/sessionCaducada";
 			System.out.println(session.toString());
 			session.setAttribute("atributos", (List<String []>) wekaService.getAtributos(Integer.parseInt(session.getAttribute("sesionActivaIdFile").toString())));
 			return "filtros";
@@ -192,11 +198,22 @@ public class loginController {
 		
 	    @RequestMapping(value="/resultados",method = RequestMethod.GET)
 		public String Resultados(ModelMap model,HttpServletRequest request) throws NumberFormatException, IOException {
-			session = request.getSession(false);
+			session = utils.isValidSession(request);
+			if(session == null) return "redirect:/sessionCaducada";
 			return "resultados";
 		}
 		
+	    @RequestMapping(value="/sessionCaducada",method = RequestMethod.GET)
+		public String SessionCaducada(HttpServletRequest request) {
+			utils.deleteSession(request);
+			return "sessionCaducada";
+		}
 		
-		
+	    @RequestMapping(value="/informacion",method = RequestMethod.GET)
+		public String Informacion(HttpServletRequest request) {
+			session = utils.isValidSession(request);
+			if (session == null ) return "redirect:/sessionCaducada";
+			return "informacion";
+		}
 		
 }
