@@ -2,7 +2,7 @@
 <aside id="aside" class="navigation" onload="load()">
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-	<div id="desktop">
+	
 		<img src="../images/weka-icon.png" id="image-weka">
 		<ul class="mainmenu">
 			<li><a href="/home">Dashboard</a></li>
@@ -16,8 +16,8 @@
 				</ul></li>
 			<li><a href="/informacion">Informacion</a></li>
 		</ul>
-	</div>
-	<div id="responsiveMobile">
+	
+	<div id="responsiveMobile" style="display: none;">
 		<img src="../images/weka-icon.png" id="image-weka">
 		<ul class="mainmenu">
 			<li><a href="/home"><i class="fa fa-tachometer"
@@ -69,20 +69,4 @@
 		}
 	}
 
-	function design(x) {
-		var resp = document.getElementById('responsiveMobile');
-		var desk = document.getElementById('desktop');
-		  if (x.matches) { // If media query matches
-			  
-			  resp.style.visibility = 'block';
-			  desk.style.visibility = 'hidden';
-		  } else {
-			  resp.style.visibility = 'hidden';
-			  desk.style.visibility = 'block';
-		  }
-		}
-
-		var x = window.matchMedia("(max-width: 700px)")
-		design(x) // Call listener function at run time
-		x.addListener(design) // Attach listener function on state changes
-</script>
+	</script>
