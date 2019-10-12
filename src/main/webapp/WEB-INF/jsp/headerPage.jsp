@@ -1,7 +1,7 @@
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
     
- <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+ <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom" style="margin-bottom: 15px;">
         <button class="btn  btn-default btn-sm" id="menu-toggle"><i class="fa fa-expand" aria-hidden="true"></i></button>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
