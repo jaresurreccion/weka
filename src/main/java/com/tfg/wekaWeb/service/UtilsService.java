@@ -20,7 +20,7 @@ public class UtilsService {
 	   @SuppressWarnings("deprecation")
 	public HttpSession isValidSession(HttpServletRequest request) {
 		   HttpSession validSession = request.getSession(false);
-		  logger.info(request.getContextPath() + "Sesion" + validSession.getValueNames());
+		 if(validSession != null) logger.info(request.getContextPath() + "Sesion" + validSession.getValueNames());
 		   return validSession;
 	   }
 	   
