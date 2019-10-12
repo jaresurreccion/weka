@@ -30,10 +30,10 @@
 
 		</div>
 	</div>
-
+	
+<div class="d-flex" id="wrapper">
 	<div class="container">
 		<div class="row">
-
 			<div class="col-xs-12 col-sm-6 col-md-8">
 				<div id="card">
 					<h5>Areas de trabajo disponibles</h5>
