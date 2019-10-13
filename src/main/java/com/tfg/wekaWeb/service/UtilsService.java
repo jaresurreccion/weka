@@ -17,10 +17,10 @@ public class UtilsService {
 		return request.getSession(true);
 	   }
 	   
-	   @SuppressWarnings("deprecation")
+	   
 	public HttpSession isValidSession(HttpServletRequest request) {
 		   HttpSession validSession = request.getSession(false);
-		 if(validSession != null) logger.info(request.getContextPath() + "Sesion" + validSession.getValueNames());
+		 if(validSession != null) logger.info(request.getContextPath() + "Sesion:" + validSession.toString());
 		   return validSession;
 	   }
 	   

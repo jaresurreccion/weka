@@ -104,11 +104,7 @@ public class fileController {
 
 		// Try to determine file's content type
 		String contentType = null;
-		try {
-			contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-		} catch (IOException ex) {
-			logger.info("Could not determine file type.");
-		}
+		contentType = request.getServletContext().getMimeType(f.get().getContentType());
 
 		// Fallback to the default content type if type could not be determined
 		if (contentType == null) {
@@ -116,7 +112,7 @@ public class fileController {
 		}
 
 		return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType))
-				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + f.get().getNombreFichero() + "\"")
 				.body(resource);
 	}
 
