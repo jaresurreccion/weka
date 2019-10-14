@@ -15,6 +15,27 @@
 		<div id="page-content-wrapper">
 
 			<jsp:include page="headerPage.jsp"></jsp:include>
+			
+			 <div class="modal fade" id="myModalfiltroActivo" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header" style="background-color:rgb(22, 154, 24);">
+                            <h4 class="modal-title">Filtro guardado</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Atributos eliminados: <c:out value='${filtroActivoRemove}'/><br><br>
+                            Tipo de filtro: <c:out value='${filtroActivoTipo}'/>
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
 
 			<div class="container-fluid">
 				<div class="row">
@@ -85,7 +106,9 @@
 													value="${loop.count}"></th>
 												<td><c:out value="${element[0]}"></c:out></td>
 												<td><c:out value="${element[1]}"></c:out></td>
-												<td><i class="fa fa-minus"  style="color: rgb(135, 0, 0)"aria-hidden="true" onclick="eliminar(${loop.count})"></i></td>
+												<td><i class="fa fa-minus"
+													style="color: rgb(135, 0, 0)" aria-hidden="true"
+													onclick="eliminar(${loop.count})"></i></td>
 											</tr>
 										</c:forEach>
 									</tbody>
@@ -98,11 +121,12 @@
 							<div class="card-header">Seleccion de filtros</div>
 							<div class="card-body">
 								<div class="radio">
-									<label><input type="radio" name="filtro" value="1">Supervisado</label>
+									<label><input type="radio" name="filter" value="1"
+										onClick="addFiltro(this.value);">Supervisado</label>
 								</div>
 								<div class="radio">
-									<label><input type="radio" name="filtro" value="2">No
-										supervisado</label>
+									<label><input type="radio" value="2" name="filter"
+										onClick="addFiltro(this.value);">No supervisado</label>
 								</div>
 
 							</div>
@@ -113,9 +137,13 @@
 							<div class="card-body">
 								<form action="/saveFilters" method="POST">
 
-								<textarea disabled class="form-control z-depth-1" id="paramsArea" rows="10">
-								</textarea>
-										<br>
+									<textarea disabled class="form-control z-depth-1"
+										id="paramsArea"  rows="10">
+									</textarea>
+									<input id="params" name="params" type="hidden" value="">
+									<input id="filtro" name="filtro" type="hidden" value="">
+									<input id="optsArea" name="optsArea" type="hidden" value="">
+									<br>
 									<button type="submit"
 										class="btn btn-md btn-outline-secondary m-0 px-3 py-2 z-depth-0 waves-effect">Guardar
 										filtros</button>
@@ -144,11 +172,29 @@
 
 	function eliminar(value){
 		var dom = document.getElementById(value);
-		var name = dom.cells[1].textContent 
+		var inputHidden = document.getElementById("params");
+		var optsArea =  document.getElementById("optsArea");
+		var name = dom.cells[1].textContent;
 		var inputArea = document.getElementById("paramsArea");
-		inputArea.value = inputArea.value.trim() +";"+name;
+		inputArea.value = inputArea.value.trim() +name + ";";
+		optsArea.value = inputArea.value.trim() +name + ";";
+		inputHidden.value = inputHidden.value.trim() +value+";";
 		dom.remove()
 				}	
+
+	function addFiltro(value){
+var dom = document.getElementById("filtro");
+dom.value = value;
+		}
+
+	$(document).ready(function() {
+        var filtroActivo = "<c:out value='${filtroActivo}'/>";
+        if (filtroActivo) {
+            $("#myModalfiltroActivo").modal();
+            var inputArea = document.getElementById("paramsArea");
+            inputArea.value = "<c:out value='${filtroActivoRemove}'/>" + "<c:out value='${filtroActivoTipo}'/>";
+        }
+    });
 	</script>
 </body>
 

@@ -150,17 +150,17 @@ public class wekaController {
     }
     
     @RequestMapping(value="/saveFilters", method = RequestMethod.POST)
-	public String saveFiltro(String atributes,String filtro,ModelMap model,HttpServletRequest request){
+	public String saveFiltro(String params,String filtro,String optsArea,ModelMap model,HttpServletRequest request){
             
     	session = utils.isValidSession(request);
     	if(session == null) return "redirect:/sessionCaducada";
-    	FiltrosService.guardarFiltro(filtro, atributes,
+    	FiltrosService.guardarFiltro(filtro, params,
     			Integer.parseInt(session.getAttribute("sesionActivaIdSesion").toString()),
     			Integer.parseInt(session.getAttribute("sesionActivaIdFile").toString()));
             int filtroSelecionado = Integer.parseInt(filtro);
             session = request.getSession(false);
             session.setAttribute("filtroActivo", true);
-            session.setAttribute("filtroActivoRemove", atributes);
+            session.setAttribute("filtroActivoRemove", optsArea);
             session.setAttribute("filtroActivoTipo", filtroSelecionado == 1 ? "Supervisado" : "No supervisado");
 			return "redirect:/filtro";
 	}
