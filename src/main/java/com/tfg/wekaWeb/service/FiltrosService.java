@@ -18,5 +18,9 @@ public class FiltrosService {
 		Filtros nuevoFiltro = new Filtros(tipo,atributosRemove,idSesion,idFichero,new Date());
 		return FiltrosRepository.save(nuevoFiltro);	
 	}
+	
+	public Filtros findByIdSession(int idSession) {
+		return FiltrosRepository.findByidSession(idSession);
+	}
 
 }

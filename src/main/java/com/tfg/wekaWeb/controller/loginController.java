@@ -180,21 +180,10 @@ public class loginController {
 		public String Filtro(ModelMap model,HttpServletRequest request) throws NumberFormatException, IOException {
 			session = utils.isValidSession(request);
 			if(session == null) return "redirect:/sessionCaducada";
-			System.out.println(session.toString());
 			session.setAttribute("atributos", (List<String []>) wekaService.getAtributos(Integer.parseInt(session.getAttribute("sesionActivaIdFile").toString())));
 			return "filtros";
 		}
 		
-	/*	@RequestMapping(value = "/error")
-	    public String error() {
-	        return "/error";
-	    }
-
-	    @Override
-	    public String getErrorPath() {
-	        return "/error";
-	    }
-	  */
 		
 	    @RequestMapping(value="/resultados",method = RequestMethod.GET)
 		public String Resultados(ModelMap model,HttpServletRequest request) throws NumberFormatException, IOException {

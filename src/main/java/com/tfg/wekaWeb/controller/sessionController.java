@@ -1,5 +1,6 @@
 package com.tfg.wekaWeb.controller;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class sessionController {
 	
 	@RequestMapping(value="/activateSession/{idSession}",method = RequestMethod.GET)
 	public String activarSesion(ModelMap model, @CookieValue(value = "userId", defaultValue = "Attat") String userId,HttpServletRequest request,
-			@PathVariable String idSession) {
+			@PathVariable String idSession) throws NumberFormatException, IOException {
 		session = utils.isValidSession(request);
 		SesionTrabajo  actual = trabajosService.buscarXid(Integer.parseInt(idSession));
 		session.setAttribute("sesionActiva", true);
@@ -54,6 +55,7 @@ public class sessionController {
 		session.setAttribute("sesionActivaIdSesion",actual.getIdSesion());
 		session.setAttribute("sesionActivaIdFile", actual.getIdFile());
 		session.setAttribute("sesionActivaIdAlgoritmo", actual.getIdAlgoritmo());
+	    session = utils.fillSessionAtributes(session, idSession);
 		return "redirect:/home";
 	}
 	
