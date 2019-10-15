@@ -43,8 +43,3 @@
             </c:if>
 
 </head>
-<head>
-
-  
-
-</head>

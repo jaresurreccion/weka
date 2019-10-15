@@ -16,9 +16,11 @@ public class Filtros {
 	Integer idFiltros;
 	String tipo;
 	String atributosRemove;
+	String atributosRemoveName;
 	Integer idSession;
 	Integer idFichero;
 	Date fechaCreacion;
+	
 	
 	
 	
@@ -26,9 +28,10 @@ public class Filtros {
 		super();
 	}
 	
-	public Filtros(String tipo, String atributosRemove, Integer idSession, Integer idFichero,Date fechaCreacion) {
+	public Filtros(String tipo, String atributosRemove,String atributosRemoveName, Integer idSession, Integer idFichero,Date fechaCreacion) {
 		this.tipo = tipo;
 		this.atributosRemove = atributosRemove;
+		this.atributosRemoveName = atributosRemoveName;
 		this.idSession = idSession;
 		this.idFichero = idFichero;
 		this.fechaCreacion=fechaCreacion;
@@ -68,6 +71,14 @@ public class Filtros {
 	}
 	public void setFechaCreacion(Date fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
+	}
+
+	public String getAtributosRemoveName() {
+		return atributosRemoveName;
+	}
+
+	public void setAtributosRemoveName(String atributosRemoveName) {
+		this.atributosRemoveName = atributosRemoveName;
 	}
 	
 	

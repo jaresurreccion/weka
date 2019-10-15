@@ -14,13 +14,18 @@ public class FiltrosService {
 	@Autowired
 	private FiltrosRepository FiltrosRepository;
 	
-	public Filtros guardarFiltro(String tipo,String atributosRemove, int idSesion, int idFichero) {
-		Filtros nuevoFiltro = new Filtros(tipo,atributosRemove,idSesion,idFichero,new Date());
+	public Filtros guardarFiltro(String tipo,String atributosRemove,String atributosRemoveName, int idSesion, int idFichero) {
+		Filtros nuevoFiltro = new Filtros(tipo,atributosRemove,atributosRemoveName,idSesion,idFichero,new Date());
 		return FiltrosRepository.save(nuevoFiltro);	
 	}
 	
 	public Filtros findByIdSession(int idSession) {
 		return FiltrosRepository.findByidSession(idSession);
 	}
+	
+	public Filtros findByIdFiltros(int IdFiltros) {
+		return FiltrosRepository.findByidFiltros(IdFiltros);
+	}
+	
 
 }

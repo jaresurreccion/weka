@@ -30,6 +30,7 @@ import com.tfg.wekaWeb.dao.AlgoritmosRepository;
 import com.tfg.wekaWeb.dao.SesionTrabajoRepository;
 import com.tfg.wekaWeb.dto.Algoritmos;
 import com.tfg.wekaWeb.dto.Ficheros;
+import com.tfg.wekaWeb.dto.Filtros;
 import com.tfg.wekaWeb.service.FicherosService;
 import com.tfg.wekaWeb.service.FiltrosService;
 import com.tfg.wekaWeb.service.SesionTrabajoService;
@@ -154,13 +155,14 @@ public class wekaController {
             
     	session = utils.isValidSession(request);
     	if(session == null) return "redirect:/sessionCaducada";
-    	FiltrosService.guardarFiltro(filtro, params,
+    	Filtros filter = FiltrosService.guardarFiltro(filtro, params,optsArea,
     			Integer.parseInt(session.getAttribute("sesionActivaIdSesion").toString()),
     			Integer.parseInt(session.getAttribute("sesionActivaIdFile").toString()));
+    	sessionService.actualizarFiltroSesion(Integer.parseInt(session.getAttribute("sesionActivaIdSesion").toString()), filter.getIdFiltros());
             int filtroSelecionado = Integer.parseInt(filtro);
             session = request.getSession(false);
             session.setAttribute("filtroActivo", true);
-            session.setAttribute("filtroActivoRemove", optsArea);
+            session.setAttribute("filtroActivoRemoveName", optsArea);
             session.setAttribute("filtroActivoTipo", filtroSelecionado == 1 ? "Supervisado" : "No supervisado");
 			return "redirect:/filtro";
 	}

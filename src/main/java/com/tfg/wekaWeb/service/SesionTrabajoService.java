@@ -25,7 +25,7 @@ public class SesionTrabajoService {
 		}
 	   
 	   public SesionTrabajo nuevaSesionTrabajo(Integer idUsuario,String nombre) {
-		   SesionTrabajo nuevoTrabajo = new SesionTrabajo(idUsuario,nombre,null,null, new Date(), new Date());
+		   SesionTrabajo nuevoTrabajo = new SesionTrabajo(idUsuario,nombre,null,null,null,new Date(), new Date());
 		  return trabajo.save(nuevoTrabajo);
 	   }
 	   
@@ -47,8 +47,21 @@ public class SesionTrabajoService {
 		   }
 	   }
 	   
+	   public void actualizarFiltroSesion(Integer idSesion,Integer idFiltro) {
+		   Optional<SesionTrabajo> updateFile = trabajo.findById(idSesion);
+		   if(updateFile.isPresent()) {
+			   updateFile.get().setIdFiltros(idFiltro);
+			   updateFile.get().setFechaActualizacion(new Date());
+			   trabajo.save(updateFile.get());
+		   }
+	   }
+	   
 	   public SesionTrabajo buscarXid(Integer idSession) {
 		   return trabajo.findById(idSession).get();
+	   }
+	   
+	   public void deleteSession(Integer idSession) {
+		   trabajo.deleteById(idSession);
 	   }
 
 }

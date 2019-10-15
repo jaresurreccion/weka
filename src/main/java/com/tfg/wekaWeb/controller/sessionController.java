@@ -19,44 +19,107 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.tfg.wekaWeb.dto.Algoritmos;
 import com.tfg.wekaWeb.dto.Ficheros;
+import com.tfg.wekaWeb.dto.Filtros;
 import com.tfg.wekaWeb.dto.SesionTrabajo;
 import com.tfg.wekaWeb.dto.User;
+import com.tfg.wekaWeb.service.AlgoritmosService;
+import com.tfg.wekaWeb.service.FiltrosService;
 import com.tfg.wekaWeb.service.SesionTrabajoService;
 import com.tfg.wekaWeb.service.UtilsService;
+import com.tfg.wekaWeb.service.wekaService;
 
 @Controller
 public class sessionController {
-	 private static final Logger logger = LoggerFactory.getLogger(loginController.class);
-	   
+	private static final Logger logger = LoggerFactory.getLogger(loginController.class);
+
 	HttpSession session;
 	private UtilsService utils = new UtilsService();
-	   
+
 	@Autowired
 	private SesionTrabajoService trabajosService;
-	
-	@RequestMapping(value="/crearSesion", method = RequestMethod.POST)
-	public String createUsuario(String nombre,ModelMap model,HttpServletRequest request,HttpServletResponse response) throws Exception  {
-			session = utils.isValidSession(request);
-			Integer idUser = Integer.parseInt(session.getAttribute("idUser").toString());
-			trabajosService.nuevaSesionTrabajo(idUser, nombre);
-			session.setAttribute("trabajo", trabajosService.buscarSesiones(idUser));
-			
-				return "home";
-	}
-	
-	@RequestMapping(value="/activateSession/{idSession}",method = RequestMethod.GET)
-	public String activarSesion(ModelMap model, @CookieValue(value = "userId", defaultValue = "Attat") String userId,HttpServletRequest request,
-			@PathVariable String idSession) throws NumberFormatException, IOException {
+
+	@Autowired
+	private wekaService wekaService;
+
+	@Autowired
+	private AlgoritmosService algoritmoService;
+
+	@Autowired
+	private FiltrosService filtrosService;
+
+	@RequestMapping(value = "/crearSesion", method = RequestMethod.POST)
+	public String createUsuario(String nombre, ModelMap model, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
 		session = utils.isValidSession(request);
-		SesionTrabajo  actual = trabajosService.buscarXid(Integer.parseInt(idSession));
-		session.setAttribute("sesionActiva", true);
-		session.setAttribute("sesionActivaNombre", actual.getNombre());
-		session.setAttribute("sesionActivaIdSesion",actual.getIdSesion());
-		session.setAttribute("sesionActivaIdFile", actual.getIdFile());
-		session.setAttribute("sesionActivaIdAlgoritmo", actual.getIdAlgoritmo());
-	    session = utils.fillSessionAtributes(session, idSession);
+		Integer idUser = Integer.parseInt(session.getAttribute("idUser").toString());
+		trabajosService.nuevaSesionTrabajo(idUser, nombre);
+		session.setAttribute("trabajo", trabajosService.buscarSesiones(idUser));
+
+		return "home";
+	}
+
+	@RequestMapping(value = "/activateSession/{idSession}", method = RequestMethod.GET)
+	public String activarSesion(ModelMap model, @CookieValue(value = "userId", defaultValue = "Attat") String userId,
+			HttpServletRequest request, @PathVariable String idSession) throws NumberFormatException, IOException {
+		session = utils.isValidSession(request);
+
+		SesionTrabajo actual = trabajosService.buscarXid(Integer.parseInt(idSession));
+		if (actual != null) {
+			session.setAttribute("sesionActiva", true);
+			session.setAttribute("sesionActivaNombre", actual.getNombre());
+			session.setAttribute("sesionActivaIdSesion", actual.getIdSesion());
+			session.setAttribute("sesionActivaIdFile", actual.getIdFile());
+			session.setAttribute("sesionActivaIdAlgoritmo", actual.getIdAlgoritmo());
+			session.setAttribute("sesionActivaIdFiltros", actual.getIdFiltros());
+		}
+		if (actual.getIdFile() != null) {
+			session.setAttribute("atributos", (List<String[]>) wekaService.getAtributos(actual.getIdFile()));
+		}
+
+		if (actual.getIdFiltros() != null) {
+			Filtros filtro = filtrosService.findByIdFiltros(actual.getIdFiltros());
+			if (filtro != null) {
+				session.setAttribute("filtroActivo", true);
+				session.setAttribute("filtroActivoRemove", filtro.getAtributosRemove());
+				session.setAttribute("filtroActivoRemoveName", filtro.getAtributosRemoveName());
+				session.setAttribute("filtroActivoTipo", Integer.parseInt(filtro.getTipo()) == 1 ? "Supervisado" : "No supervisado");
+			}
+		}
+
+		if (actual.getIdAlgoritmo() != null) {
+			Algoritmos alg = algoritmoService.findById(actual.getIdAlgoritmo());
+			if (alg != null) {
+				session.setAttribute("algoritmoActivo", true);
+				session.setAttribute("algoritmoActivoId", alg.getIdAlgoritmo());
+				session.setAttribute("algoritmoActivoNombre", alg.getNombreAlg());
+			}
+		}
+
+		utils.printAtributesSession(session);
 		return "redirect:/home";
 	}
 	
+	@RequestMapping(value = "/deleteSession/{idSession}", method = RequestMethod.GET)
+	public String deleteSession(ModelMap model, @CookieValue(value = "userId", defaultValue = "Attat") String userId,
+			HttpServletRequest request, @PathVariable String idSession) {
+		session = utils.isValidSession(request);
+		trabajosService.deleteSession(Integer.parseInt(idSession));
+		session.removeAttribute("sesionActiva");
+		session.removeAttribute("sesionActivaNombre");
+		session.removeAttribute("sesionActivaIdSesion");
+		session.removeAttribute("sesionActivaIdFile");
+		session.removeAttribute("sesionActivaIdAlgoritmo");
+		session.removeAttribute("sesionActivaIdFiltros");
+		session.removeAttribute("atributos");
+		session.removeAttribute("filtroActivoRemove");
+		session.removeAttribute("filtroActivoRemoveName");
+		session.removeAttribute("filtroActivoTipo");
+		session.removeAttribute("algoritmoActivo");
+		session.removeAttribute("algoritmoActivoId");
+		session.removeAttribute("algoritmoActivoNombre");
+		return "redirect:/home";
+	}
+
 }

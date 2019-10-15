@@ -24,8 +24,8 @@
                         <div class="modal-header" style="background-color:rgb(22, 154, 24);">
                             <h4 class="modal-title">Filtro guardado</h4>
                         </div>
-                        <div class="modal-body">
-                            <p>Atributos eliminados: <c:out value='${filtroActivoRemove}'/><br><br>
+                        <div class="modal-body" style="word-wrap: break-word;">
+                            <p>Atributos eliminados: <c:out value='${filtroActivoRemoveName}'/><br><br>
                             Tipo de filtro: <c:out value='${filtroActivoTipo}'/>
                             </p>
                         </div>
@@ -192,7 +192,7 @@ dom.value = value;
         if (filtroActivo) {
             $("#myModalfiltroActivo").modal();
             var inputArea = document.getElementById("paramsArea");
-            inputArea.value = "<c:out value='${filtroActivoRemove}'/>" + "<c:out value='${filtroActivoTipo}'/>";
+            inputArea.value = "<c:out value='${filtroActivoRemoveName}'/>" + "<c:out value='${filtroActivoTipo}'/>";
         }
     });
 	</script>
