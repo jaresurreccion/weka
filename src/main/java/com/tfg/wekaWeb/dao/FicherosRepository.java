@@ -18,4 +18,9 @@ public interface FicherosRepository extends CrudRepository<Ficheros, Integer> {
 	@Query("SELECT p FROM Ficheros p WHERE p.idSession = :idSession")
 	public List<Ficheros> findAllByIdSession(@Param("idSession") int idSession);
 
+	@Query("SELECT p FROM Ficheros p")
+	public List<Ficheros> findAllFicheros();
+
+	
+
 }

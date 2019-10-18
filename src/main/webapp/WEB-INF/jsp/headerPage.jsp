@@ -16,16 +16,12 @@
     </c:if>
           <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
             <li class="nav-item active">
-              <a class="nav-link" href="/home"><i class="fa fa-home" aria-hidden="true"></i>
- <span class="sr-only"></span></a>
+              <a class="nav-link" href="/perfil"><i class="fa fa-user" aria-hidden="true"> Mi perfil</i>
+ 			<span class="sr-only"></span></a>
             </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-               <i class="fa fa-bars" aria-hidden="true"></i>
-              </a>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="/">Cerrar sesion</a>
-              </div>
+            <li class="nav-item active">
+              <a class="nav-link" href="/"><i class="fa fa-sign-out" aria-hidden="true"> Cerrar sesion</i>
+ 			<span class="sr-only"></span></a>
             </li>
           </ul>
         </div>

@@ -8,6 +8,7 @@ import java.nio.file.FileSystemException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -116,4 +118,14 @@ public class fileController {
 				.body(resource);
 	}
 
+	@GetMapping("/opendata")
+	public String openData(HttpServletRequest request, ModelMap model) {
+		sesion = utils.isValidSession(request);
+		if(sesion == null) return "redirect:/sessionCaducada";
+		List<Ficheros> f = ficherosService.getFiles();
+		if(f.size() >= 1) {
+			model.addAttribute("listaFicheros",f);	
+		}
+		return "opendata";
+	}
 }
