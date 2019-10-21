@@ -25,8 +25,10 @@ import com.tfg.wekaWeb.dto.Filtros;
 import com.tfg.wekaWeb.dto.SesionTrabajo;
 import com.tfg.wekaWeb.dto.User;
 import com.tfg.wekaWeb.service.AlgoritmosService;
+import com.tfg.wekaWeb.service.FicherosService;
 import com.tfg.wekaWeb.service.FiltrosService;
 import com.tfg.wekaWeb.service.SesionTrabajoService;
+import com.tfg.wekaWeb.service.UserService;
 import com.tfg.wekaWeb.service.UtilsService;
 import com.tfg.wekaWeb.service.wekaService;
 
@@ -48,6 +50,12 @@ public class sessionController {
 
 	@Autowired
 	private FiltrosService filtrosService;
+	
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private FicherosService ficherosService;
 
 	@RequestMapping(value = "/crearSesion", method = RequestMethod.POST)
 	public String createUsuario(String nombre, ModelMap model, HttpServletRequest request, HttpServletResponse response)
@@ -76,22 +84,22 @@ public class sessionController {
 		}
 		if (actual.getIdFile() != null) {
 			session.setAttribute("atributos", (List<String[]>) wekaService.getAtributos(actual.getIdFile()));
+			session.setAttribute("filtroActivo", true);
 		}
 
 		if (actual.getIdFiltros() != null) {
 			Filtros filtro = filtrosService.findByIdFiltros(actual.getIdFiltros());
 			if (filtro != null) {
-				session.setAttribute("filtroActivo", true);
 				session.setAttribute("filtroActivoRemove", filtro.getAtributosRemove());
 				session.setAttribute("filtroActivoRemoveName", filtro.getAtributosRemoveName());
 				session.setAttribute("filtroActivoTipo", Integer.parseInt(filtro.getTipo()) == 1 ? "Supervisado" : "No supervisado");
+				session.setAttribute("algoritmoActivo", true);
 			}
 		}
 
 		if (actual.getIdAlgoritmo() != null) {
 			Algoritmos alg = algoritmoService.findById(actual.getIdAlgoritmo());
-			if (alg != null) {
-				session.setAttribute("algoritmoActivo", true);
+			if (alg != null) {		
 				session.setAttribute("algoritmoActivoId", alg.getIdAlgoritmo());
 				session.setAttribute("algoritmoActivoNombre", alg.getNombreAlg());
 			}
@@ -122,4 +130,22 @@ public class sessionController {
 		return "redirect:/home";
 	}
 
+	@RequestMapping(value = "/configuracion", method = RequestMethod.GET)
+	public String configuracion(HttpServletRequest request) {
+		session = utils.isValidSession(request);
+		session.setAttribute("listaUsuarios", userService.buscarUsuarios());
+		session.setAttribute("listaFicheros", ficherosService.getFiles());
+		return "configuracion";
+	}
+	
+	@RequestMapping(value = "/delete/{idUser}", method = RequestMethod.GET)
+	public String deleteUser(HttpServletRequest request,@PathVariable String idUser) {
+		session = utils.isValidSession(request);
+		User e = userService.findById(Integer.parseInt(idUser));
+		userService.deleteUser(e);
+		session.setAttribute("listaUsuarios", userService.buscarUsuarios());
+		session.setAttribute("listaFicheros", ficherosService.getFiles());
+		return "redirect:/configuracion";
+	}
+	
 }

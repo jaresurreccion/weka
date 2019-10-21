@@ -1,5 +1,7 @@
 package com.tfg.wekaWeb.service;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +20,8 @@ public class UserService {
 		UserRepository userRepository;
 		
 		
-		public Iterable<User> buscarUsuarios(){
-			return userRepository.findAll();
+		public List<User> buscarUsuarios(){
+			return userRepository.findAllUser();
 		}
 		
 		public User findById(int id) {
@@ -55,6 +57,10 @@ public class UserService {
 		
 		public User saveUser(User e) {
 			return userRepository.save(e);
+		}
+		
+		public void deleteUser(User e) {
+		 userRepository.delete(e);
 		}
 		
 	

@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -52,7 +53,7 @@ import weka.core.Utils;
 public class wekaController {
 
 	private static final Logger logger = LoggerFactory.getLogger(fileController.class);
-
+	
 	@Autowired
 	private FicherosService ficherosService;
 	
@@ -69,33 +70,52 @@ public class wekaController {
 	private UtilsService utils = new UtilsService();
 	
 	
-	@GetMapping("/weka/{idFile}")
-    public String  wekaFile(@PathVariable String idFile,@CookieValue(value = "userId", defaultValue = "Attat") String userId,
-    		RedirectAttributes model) {
-      
-      Optional <Ficheros> f = ficherosService.getFichero(Integer.parseInt(idFile));
+	@GetMapping("/weka")
+    public String  wekaFile(HttpServletRequest request,int test, int train, RedirectAttributes model) {
+		session = utils.isValidSession(request);
+		if(session == null) return "redirect:/sessionCaducada";
+		
+      Optional <Ficheros> f = ficherosService.getFichero(Integer.parseInt(session.getAttribute("sesionActivaIdFile").toString()));
       try {
           /* Cargamos el fichero con los datos */
           BufferedReader datafile = new BufferedReader(new FileReader(f.get().getRuta()));
           Instances data = new Instances(datafile);
            
           /* Seleccionamos la columna de los datos a estimar */
+          String removeData = session.getAttribute("filtroActivoRemove").toString();
+          String[] val = removeData.split(";");
+          
+          if(val.length > 0) {
+        	  for(int i = 0;i < val.length; i++) {
+        		  data.remove(Integer.parseInt(val[i]));
+        	  }
+          }
           data.setClassIndex(data.numAttributes() - 1);
           /* Creamos dos grupos uno de entreno y otro de test */
           int numFolds=14;
-          Instances[] trainingSplits=new Instances[numFolds];
-          Instances[] testingSplits= new Instances[numFolds];
+          Instances[] trainingSplits=new Instances[train];
+          Instances[] testingSplits= new Instances[test];
             
-          for (int i = 0; i < numFolds; i++) {
-              trainingSplits[i] = data.trainCV(numFolds, i);
-              testingSplits[i] = data.testCV(numFolds, i);
+          for (int i = 0; i < train; i++) {
+              trainingSplits[i] = data.trainCV(train, i);
               }
+          
+          for (int i = 0; i < test; i++) {
+              testingSplits[i] = data.testCV(test, i);
+              }
+          	int algoritmo = Integer.parseInt(session.getAttribute("algoritmoActivoId").toString());
+    
+          	switch(algoritmo) {
+          	
+          	case 1:
+          		model.addFlashAttribute("BestFirst",ejecutarModelo( new BestFirst(), trainingSplits, testingSplits)); // a decision tree
+          	}
     
           /* Ejecutamos cada diferentes modelos */
-          model.addFlashAttribute("J48",ejecutarModelo( new J48(), trainingSplits, testingSplits)); // a decision tree
-          model.addFlashAttribute("PART",ejecutarModelo( new PART(), trainingSplits, testingSplits));
-          model.addFlashAttribute("TABLE",ejecutarModelo( new DecisionTable(), trainingSplits, testingSplits));//decision table majority classifier
-          model.addFlashAttribute("DECISION",ejecutarModelo( new DecisionStump(), trainingSplits, testingSplits)); //one-level decision tree
+        //  model.addFlashAttribute("J48",ejecutarModelo( new J48(), trainingSplits, testingSplits)); // a decision tree
+        //  model.addFlashAttribute("PART",ejecutarModelo( new PART(), trainingSplits, testingSplits));
+        //  model.addFlashAttribute("TABLE",ejecutarModelo( new DecisionTable(), trainingSplits, testingSplits));//decision table majority classifier
+        //  model.addFlashAttribute("DECISION",ejecutarModelo( new DecisionStump(), trainingSplits, testingSplits)); //one-level decision tree
           return "redirect:/algoritmos";
           
       } catch (Exception ex) { ex.printStackTrace(); }

@@ -52,11 +52,6 @@ public class loginController {
 		
 		@RequestMapping(value="/",method = RequestMethod.GET)
 		public String login(Model model,HttpServletRequest request) {
-		/*	session = request.getSession(false);
-			if(session != null){
-				request.getSession().invalidate();
-			}
-		*/
 			utils.deleteSession(request);	
 			model.addAttribute("index",true);
 			return "index";
@@ -80,6 +75,7 @@ public class loginController {
 				session = utils.isValidSession(request);
 				if(session == null) return "redirect:/sessionCaducada";
 				session.setAttribute("username", e.getUsername());
+				session.setAttribute("rolUser",e.getFlag() == 1 ? true : false);
 				session.setAttribute("idUser", e.getId());
 				session.setAttribute("trabajo", (List<SesionTrabajo>) trabajosService.buscarSesiones(e.getId()));
 				return "home";

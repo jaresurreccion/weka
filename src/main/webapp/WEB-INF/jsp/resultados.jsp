@@ -14,7 +14,7 @@
 		<div id="page-content-wrapper">
 
 			<jsp:include page="headerPage.jsp"></jsp:include>
-
+		<form action="/weka" method="GET" >
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-6 col-sm-12 col-xs-12">
@@ -55,13 +55,14 @@
 										class="form-control" name="train">
 								</div>
 								<br>
-								<button type="button" class="btn btn-primary btn-block"
+								<button type="submit" class="btn btn-primary btn-block"
 									id="create">Aplicar</button>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+			</form>
 		</div>
 	</div>
 

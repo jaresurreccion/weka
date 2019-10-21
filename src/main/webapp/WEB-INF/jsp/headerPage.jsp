@@ -12,15 +12,21 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <c:if test="${sesionActiva}">
-    <span class="badge badge-success">Sesion activa: ${sesionActivaNombre}</span>
-    </c:if>
+	    <span class="badge badge-success">Sesion activa: ${sesionActivaNombre}</span>
+	    </c:if>
           <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
             <li class="nav-item active">
-              <a class="nav-link" href="/perfil"><i class="fa fa-user" aria-hidden="true"> Mi perfil</i>
+              <a class="nav-link" href="/perfil">Mi perfil
  			<span class="sr-only"></span></a>
             </li>
+            <c:if test="${rolUser}">
             <li class="nav-item active">
-              <a class="nav-link" href="/"><i class="fa fa-sign-out" aria-hidden="true"> Cerrar sesion</i>
+              <a class="nav-link" href="/configuracion">Configuracion
+ 			<span class="sr-only"></span></a>
+            </li>
+            </c:if>
+            <li class="nav-item active">
+              <a class="nav-link" href="/">Cerrar sesion
  			<span class="sr-only"></span></a>
             </li>
           </ul>
