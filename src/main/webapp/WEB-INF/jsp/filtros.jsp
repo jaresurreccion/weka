@@ -15,29 +15,38 @@
 		<div id="page-content-wrapper">
 
 			<jsp:include page="headerPage.jsp"></jsp:include>
-			
-			 <div class="modal fade" id="myModalfiltroActivo" role="dialog">
-                <div class="modal-dialog">
 
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header" style="background-color:rgb(22, 154, 24);">
-                            <h4 class="modal-title">Filtro guardado</h4>
-                        </div>
-                        <div class="modal-body" style="word-wrap: break-word;">
-                            <p>Atributos eliminados: <c:out value='${filtroActivoRemoveName}'/><br><br>
-                            Tipo de filtro: <c:out value='${filtroActivoTipo}'/>
-                            </p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                        </div>
-                    </div>
+			<div class="modal fade" id="myModalfiltroActivo" role="dialog">
+				<div class="modal-dialog">
 
-                </div>
-            </div>
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header"
+							style="background-color: rgb(22, 154, 24);">
+							<h4 class="modal-title">Filtro guardado</h4>
+						</div>
+						<div class="modal-body" style="word-wrap: break-word;">
+							<p>
+								Atributos eliminados:
+								<c:out value='${filtroActivoRemoveName}' />
+								<br>
+								<br> Tipo de filtro:
+								<c:out value='${filtroActivoTipo}' />
+							</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal">Cerrar</button>
+						</div>
+					</div>
+
+				</div>
+			</div>
 
 			<div class="container-fluid">
+				<h3>
+					<span class="badge badge-secondary">Selecion automatica</span>
+				</h3>
 				<div class="row">
 					<div class="col-md-6 col-sm-12 col-xs-12">
 						<div class="card">
@@ -62,7 +71,7 @@
 							</div>
 						</div>
 					</div>
-					<br> <br>
+
 					<div class="col-md-6 col-sm-12 col-xs-12">
 						<div class="card">
 							<div class="card-header">Informacion</div>
@@ -70,6 +79,7 @@
 								Utilizando los algoritmos de seleccion de atributos, obtiene una
 								recomendacion para utilziar los atributos más representativos
 								del conjutos de datos. <br>
+								<br>
 								<c:if test="${listaAtributosFiltrosBol}">
 									<div id="filtroActivo" class="alert alert-warning" role="alert">
 										Atributos recomendados:
@@ -84,6 +94,9 @@
 					</div>
 				</div>
 				<hr>
+				<h3>
+					<span class="badge badge-secondary">Seleccion manual</span>
+				</h3>
 				<div class="row">
 					<div class="col-md-6 col-sm-12 col-xs-12">
 						<div class="card">
@@ -138,7 +151,7 @@
 								<form action="/saveFilters" method="POST">
 
 									<textarea disabled class="form-control z-depth-1"
-										id="paramsArea"  rows="10">
+										id="paramsArea" rows="10">
 									</textarea>
 									<input id="params" name="params" type="hidden" value="">
 									<input id="filtro" name="filtro" type="hidden" value="">

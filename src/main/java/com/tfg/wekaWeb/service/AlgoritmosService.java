@@ -34,14 +34,5 @@ public class AlgoritmosService {
 	    return newData;
 	}
 	
-	public Instances ScatterSearch(Instances data) throws Exception {
-		weka.filters.supervised.attribute.AttributeSelection filter = new weka.filters.supervised.attribute.AttributeSelection();
-	    CfsSubsetEval eval = new CfsSubsetEval();
-	    ASSearch search = new 
-	    filter.setEvaluator(eval);
-	    filter.setSearch(search);
-	    filter.setInputFormat(data);
-	    Instances newData = Filter.useFilter(data, filter);
-	    return newData;
-	}
+
 }
