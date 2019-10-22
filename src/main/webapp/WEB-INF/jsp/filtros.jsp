@@ -27,11 +27,8 @@
 						</div>
 						<div class="modal-body" style="word-wrap: break-word;">
 							<p>
-								Atributos eliminados:
-								<c:out value='${filtroActivoRemoveName}' />
-								<br>
-								<br> Tipo de filtro:
-								<c:out value='${filtroActivoTipo}' />
+								Resultado: <br>
+								<c:out value='${filtroResultado}' />
 							</p>
 						</div>
 						<div class="modal-footer">
@@ -78,8 +75,7 @@
 							<div class="card-body">
 								Utilizando los algoritmos de seleccion de atributos, obtiene una
 								recomendacion para utilziar los atributos más representativos
-								del conjutos de datos. <br>
-								<br>
+								del conjutos de datos. <br> <br>
 								<c:if test="${listaAtributosFiltrosBol}">
 									<div id="filtroActivo" class="alert alert-warning" role="alert">
 										Atributos recomendados:
@@ -130,18 +126,59 @@
 						</div>
 					</div>
 					<div class="col-md-6 col-sm-12 col-xs-12">
-						<div class="card">
-							<div class="card-header">Seleccion de filtros</div>
-							<div class="card-body">
-								<div class="radio">
-									<label><input type="radio" name="filter" value="1"
-										onClick="addFiltro(this.value);">Supervisado</label>
-								</div>
-								<div class="radio">
-									<label><input type="radio" value="2" name="filter"
-										onClick="addFiltro(this.value);">No supervisado</label>
+						<div id="accordion">
+							<div class="card">
+								<div class="card-header" id="headingOne">
+									<h5 class="mb-0">
+										<button class="btn btn-link" data-toggle="collapse"
+											data-target="#collapseOne" aria-expanded="true"
+											aria-controls="collapseOne">Supervisado</button>
+									</h5>
 								</div>
 
+								<div id="collapseOne" class="collapse show"
+									aria-labelledby="headingOne" data-parent="#accordion">
+									<div class="card-body">
+										<div class="radio">
+											<label><input type="radio" value="1" name="filter"
+												onClick="addFiltro(this.value);">Discretize</label>
+										</div>
+										<div class="radio">
+											<label><input type="radio" value="2" name="filter"
+												onClick="addFiltro(this.value);">AttributeSelection</label>
+										</div>
+										<div class="radio">
+											<label><input type="radio" value="3" name="filter"
+												onClick="addFiltro(this.value);">Resample</label>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="card">
+								<div class="card-header" id="headingTwo">
+									<h5 class="mb-0">
+										<button class="btn btn-link collapsed" data-toggle="collapse"
+											data-target="#collapseTwo" aria-expanded="false"
+											aria-controls="collapseTwo">No supervisado</button>
+									</h5>
+								</div>
+								<div id="collapseTwo" class="collapse"
+									aria-labelledby="headingTwo" data-parent="#accordion">
+									<div class="card-body">
+									<div class="radio">
+											<label><input type="radio" value="4" name="filter"
+												onClick="addFiltro(this.value);">Normalize</label>
+										</div>
+										<div class="radio">
+											<label><input type="radio" value="5" name="filter"
+												onClick="addFiltro(this.value);">Discretize</label>
+										</div>
+										<div class="radio">
+											<label><input type="radio" value="6" name="filter"
+												onClick="addFiltro(this.value);">Resample</label>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 						<br>
@@ -154,21 +191,18 @@
 										id="paramsArea" rows="10">
 									</textarea>
 									<input id="params" name="params" type="hidden" value="">
-									<input id="filtro" name="filtro" type="hidden" value="">
+									<input id="filtroSelec" name="filtro" type="hidden" value="">
 									<input id="optsArea" name="optsArea" type="hidden" value="">
 									<br>
 									<button type="submit"
 										class="btn btn-md btn-outline-secondary m-0 px-3 py-2 z-depth-0 waves-effect">Guardar
 										filtros</button>
 								</form>
-
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-
-
 		</div>
 	</div>
 
@@ -191,13 +225,13 @@
 		var inputArea = document.getElementById("paramsArea");
 		inputArea.value = inputArea.value.trim() +name + ";";
 		optsArea.value = inputArea.value.trim() +name + ";";
-		inputHidden.value = inputHidden.value.trim() +value+";";
+		inputHidden.value = inputHidden.value.trim() +value+",";
 		dom.remove()
 				}	
 
 	function addFiltro(value){
-var dom = document.getElementById("filtro");
-dom.value = value;
+	var dom = document.getElementById("filtroSelec");
+	dom.value = value;
 		}
 
 	$(document).ready(function() {
@@ -205,7 +239,8 @@ dom.value = value;
         if (filtroActivo) {
             $("#myModalfiltroActivo").modal();
             var inputArea = document.getElementById("paramsArea");
-            inputArea.value = "<c:out value='${filtroActivoRemoveName}'/>" + "<c:out value='${filtroActivoTipo}'/>";
+            inputArea.value = "<c:out value='${filtroActivoRemoveName}'/>" + "<c:out value='${filtroActivoTipo}'/> ";
+            
         }
     });
 	</script>
