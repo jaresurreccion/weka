@@ -32,6 +32,7 @@ import com.tfg.wekaWeb.dao.SesionTrabajoRepository;
 import com.tfg.wekaWeb.dto.Algoritmos;
 import com.tfg.wekaWeb.dto.Ficheros;
 import com.tfg.wekaWeb.dto.Filtros;
+import com.tfg.wekaWeb.service.AlgoritmosService;
 import com.tfg.wekaWeb.service.FicherosService;
 import com.tfg.wekaWeb.service.FiltrosService;
 import com.tfg.wekaWeb.service.SesionTrabajoService;
@@ -65,6 +66,8 @@ public class wekaController {
 	
 	@Autowired
 	private FiltrosService FiltrosService;
+	
+	@Autowired AlgoritmosService algoritmosService;
 	
 	HttpSession session;
 	private UtilsService utils = new UtilsService();
@@ -108,14 +111,9 @@ public class wekaController {
           	switch(algoritmo) {
           	
           	case 1:
-          		model.addFlashAttribute("BestFirst",ejecutarModelo( new BestFirst(), trainingSplits, testingSplits)); // a decision tree
+          		model.addFlashAttribute("BestFirst",algoritmosService.bestFirst(data));
           	}
     
-          /* Ejecutamos cada diferentes modelos */
-        //  model.addFlashAttribute("J48",ejecutarModelo( new J48(), trainingSplits, testingSplits)); // a decision tree
-        //  model.addFlashAttribute("PART",ejecutarModelo( new PART(), trainingSplits, testingSplits));
-        //  model.addFlashAttribute("TABLE",ejecutarModelo( new DecisionTable(), trainingSplits, testingSplits));//decision table majority classifier
-        //  model.addFlashAttribute("DECISION",ejecutarModelo( new DecisionStump(), trainingSplits, testingSplits)); //one-level decision tree
           return "redirect:/algoritmos";
           
       } catch (Exception ex) { ex.printStackTrace(); }
@@ -175,13 +173,15 @@ public class wekaController {
             
     	session = utils.isValidSession(request);
     	if(session == null) return "redirect:/sessionCaducada";
-    	Filtros filter = FiltrosService.guardarFiltro(filtro, params,optsArea,
+    	Filtros filter = FiltrosService.guardarFiltro(Integer.parseInt(session.getAttribute("filtroActivoId").toString()),
+    			filtro, params,optsArea,
     			Integer.parseInt(session.getAttribute("sesionActivaIdSesion").toString()),
     			Integer.parseInt(session.getAttribute("sesionActivaIdFile").toString()));
     	sessionService.actualizarFiltroSesion(Integer.parseInt(session.getAttribute("sesionActivaIdSesion").toString()), filter.getIdFiltros());
             int filtroSelecionado = Integer.parseInt(filtro);
             session = request.getSession(false);
             session.setAttribute("filtroActivo", true);
+            session.setAttribute("filtroActivoId",filter.getIdFiltros());
             session.setAttribute("filtroActivoRemoveName", optsArea);
             session.setAttribute("filtroActivoTipo", filtroSelecionado == 1 ? "Supervisado" : "No supervisado");
 			return "redirect:/filtro";

@@ -91,6 +91,7 @@ public class sessionController {
 			Filtros filtro = filtrosService.findByIdFiltros(actual.getIdFiltros());
 			if (filtro != null) {
 				session.setAttribute("filtroActivoRemove", filtro.getAtributosRemove());
+	            session.setAttribute("filtroActivoId",filtro.getIdFiltros());
 				session.setAttribute("filtroActivoRemoveName", filtro.getAtributosRemoveName());
 				session.setAttribute("filtroActivoTipo", Integer.parseInt(filtro.getTipo()) == 1 ? "Supervisado" : "No supervisado");
 				session.setAttribute("algoritmoActivo", true);
