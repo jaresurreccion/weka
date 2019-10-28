@@ -10,6 +10,7 @@ import weka.attributeSelection.ASSearch;
 import weka.attributeSelection.AttributeSelection;
 import weka.attributeSelection.BestFirst;
 import weka.attributeSelection.CfsSubsetEval;
+import weka.classifiers.Classifier;
 import weka.core.Instances;
 import weka.filters.Filter;
 
@@ -32,6 +33,13 @@ public class AlgoritmosService {
 	    filter.setInputFormat(data);
 	    Instances newData = Filter.useFilter(data, filter);
 	    return newData;
+	}
+	
+	public String NaiveBayes(Instances data) throws Exception {
+		Classifier naives = new weka.classifiers.bayes.NaiveBayes();
+		data.setClassIndex(data.numAttributes()-1);
+		naives.buildClassifier(data);
+		return naives.toString();
 	}
 	
 

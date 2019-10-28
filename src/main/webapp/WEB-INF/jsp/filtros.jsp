@@ -16,29 +16,6 @@
 
 			<jsp:include page="headerPage.jsp"></jsp:include>
 
-			<div class="modal fade" id="myModalfiltroActivo" role="dialog">
-				<div class="modal-dialog">
-
-					<!-- Modal content-->
-					<div class="modal-content">
-						<div class="modal-header"
-							style="background-color: rgb(22, 154, 24);">
-							<h4 class="modal-title">Filtro guardado</h4>
-						</div>
-						<div class="modal-body" style="word-wrap: break-word;">
-							<p>
-								Resultado: <br>
-								<c:out value='${filtroResultado}' />
-							</p>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default"
-								data-dismiss="modal">Cerrar</button>
-						</div>
-					</div>
-
-				</div>
-			</div>
 
 			<div class="container-fluid">
 				<h3>
@@ -93,6 +70,22 @@
 				<h3>
 					<span class="badge badge-secondary">Seleccion manual</span>
 				</h3>
+				<c:if test="${filtroActivo}">
+					<div class="row">
+						<div class="col-md-12 col-sm-12 col-xs-12">
+							<div class="card">
+								<div class="card-header">Filtro guardado</div>
+								<div class="card-body">
+									Resultado: <br>
+									<c:out value='${filtroActivoRemoveName}'/>
+									<br>
+									<c:out value='${filtroActivoTipo}'/> 
+								</div>
+							</div>
+						</div>
+					</div>
+					<br>
+				</c:if>
 				<div class="row">
 					<div class="col-md-6 col-sm-12 col-xs-12">
 						<div class="card">
@@ -165,7 +158,7 @@
 								<div id="collapseTwo" class="collapse"
 									aria-labelledby="headingTwo" data-parent="#accordion">
 									<div class="card-body">
-									<div class="radio">
+										<div class="radio">
 											<label><input type="radio" value="4" name="filter"
 												onClick="addFiltro(this.value);">Normalize</label>
 										</div>
@@ -226,7 +219,7 @@
 		inputArea.value = inputArea.value.trim() +name + ";";
 		optsArea.value = inputArea.value.trim() +name + ";";
 		inputHidden.value = inputHidden.value.trim() +value+",";
-		dom.remove()
+		dom.remove();
 				}	
 
 	function addFiltro(value){
@@ -234,7 +227,7 @@
 	dom.value = value;
 		}
 
-	$(document).ready(function() {
+	/* s$(document).ready(function() {
         var filtroActivo = "<c:out value='${filtroActivo}'/>";
         if (filtroActivo) {
             $("#myModalfiltroActivo").modal();
@@ -242,7 +235,8 @@
             inputArea.value = "<c:out value='${filtroActivoRemoveName}'/>" + "<c:out value='${filtroActivoTipo}'/> ";
             
         }
-    });
+    }); */
+    
 	</script>
 </body>
 

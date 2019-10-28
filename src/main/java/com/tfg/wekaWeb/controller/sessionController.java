@@ -102,6 +102,7 @@ public class sessionController {
 			Algoritmos alg = algoritmoService.findById(actual.getIdAlgoritmo());
 			if (alg != null) {		
 				session.setAttribute("algoritmoActivoId", alg.getIdAlgoritmo());
+				session.setAttribute("sesionActivaIdAlgoritmo", alg.getIdAlgoritmo());
 				session.setAttribute("algoritmoActivoNombre", alg.getNombreAlg());
 			}
 		}
@@ -125,9 +126,14 @@ public class sessionController {
 		session.removeAttribute("filtroActivoRemove");
 		session.removeAttribute("filtroActivoRemoveName");
 		session.removeAttribute("filtroActivoTipo");
+		session.removeAttribute("listaAtributosFiltros");
+		session.removeAttribute("listaAtributosFiltrosBol");
+		session.removeAttribute("filtroResultado");
+		session.removeAttribute("filtroActivo");
 		session.removeAttribute("algoritmoActivo");
 		session.removeAttribute("algoritmoActivoId");
 		session.removeAttribute("algoritmoActivoNombre");
+		
 		return "redirect:/home";
 	}
 

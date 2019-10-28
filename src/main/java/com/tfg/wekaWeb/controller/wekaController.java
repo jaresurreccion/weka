@@ -117,7 +117,7 @@ public class wekaController {
 				model.addFlashAttribute("BestFirst", algoritmosService.bestFirst(data));
 			}
 
-			return "redirect:/algoritmos";
+			return "redirect:/resultados";
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -206,7 +206,9 @@ public class wekaController {
 		session.setAttribute("filtroActivoRemoveName", optsArea);
 		session.setAttribute("filtroActivoTipo", filtroSelecionado);
 		System.out.println(data.toSummaryString());
-		model.addFlashAttribute("filtroResultado", data.toSummaryString());
+		String dataSumary = data.toSummaryString();
+		System.out.println(dataSumary);
+		model.addFlashAttribute("filtroResultado", dataSumary);
 		return "redirect:/filtro";
 	}
 
