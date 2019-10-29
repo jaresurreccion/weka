@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <jsp:include page="header.jsp"></jsp:include>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
 
 <body>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -91,7 +92,7 @@
 						<div class="card">
 							<div class="card-header">Seleccion de atributos</div>
 							<div class="card-body table-responsive">
-								<table class="table table-striped" id="tableSesiones">
+								<table class="table table-striped table-bordered" id="tableSesiones">
 									<thead>
 										<tr>
 											<th scope="col">#</th>
@@ -202,13 +203,19 @@
 	<!-- Bootstrap core JavaScript -->
 	<script src="vendor/jquery/jquery.min.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+	
 	<!-- Menu Toggle Script -->
 	<script>
 		$("#menu-toggle").click(function(e) {
 			e.preventDefault();
 			$("#wrapper").toggleClass("toggled");
 		});
+		
+		$(document).ready(function() {
+		    $('#tableSesiones').DataTable();
+		} );
 
 	function eliminar(value){
 		var dom = document.getElementById(value);
