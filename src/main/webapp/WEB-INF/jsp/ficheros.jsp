@@ -52,8 +52,8 @@
                                                     <th scope="col">Creado</th>
                                                     <th scope="col">Comentario</th>
                                                     <th scope="col">Clase</th>
-                                                    <th scope="col">Numero de atributos</th>
                                                     <th scope="col">Numero de instancias</th>
+                                                    <th scope="col">Numero de atributos</th>
                                                     <th scope="col">Accion</th>
                                                 </tr>
                                             </thead>

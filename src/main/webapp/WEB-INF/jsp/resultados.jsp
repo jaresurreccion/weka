@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<%@page
+	import="org.springframework.web.servlet.mvc.support.RedirectAttributes"%>
 <html lang="es">
 <jsp:include page="header.jsp"></jsp:include>
 <body>
@@ -14,54 +16,65 @@
 		<div id="page-content-wrapper">
 
 			<jsp:include page="headerPage.jsp"></jsp:include>
-		<form action="/weka" method="GET" >
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-md-6 col-sm-12 col-xs-12">
-						<div class="card">
-							<div class="card-header">Algoritmo seleccionado</div>
-							<div class="card-body">
-
-								<div class="form-group">
-									<label for="algoritmo">${algoritmoActivoNombre}</label>
+			<form action="/weka" method="GET">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-12 col-sm-12 col-xs-12">
+							<div class="card">
+								<div class="card-header">Filtros seleccionado</div>
+								<div class="card-body">
+									Atributos a eliminar: ${filtroActivoRemoveName} <br> <br>
+									Tipo de filtros: ${filtroActivoTipo}
 								</div>
 							</div>
 						</div>
 						<br>
 					</div>
-					<div class="col-md-6 col-sm-12 col-xs-12">
-						<div class="card">
-							<div class="card-header">Filtros seleccionado</div>
-							<div class="card-body">
-								Atributos a eliminar: ${filtroActivoRemoveName} <br> <br>
-								Tipo de filtros: ${filtroActivoTipo}
+					<br>
+					<div class="row">
+						<div class="col-md-4 col-sm-12 col-xs-12">
+							<div class="card">
+								<div class="card-header">Conjunto de entrenamiento</div>
+								<div class="card-body">
+									<h4>Numero de instancias totales: ${numInstancias}</h4>
+									<div class="form-group">
+										<label for="nombreUsuario">Conjunto test</label> <input
+											class="form-control" name="test" type="number" value="0">
+									</div>
+									<div class="form-group">
+										<label for="nombreUsuario">Conjunto train</label> <input
+											class="form-control" name="train" type="number" value="0">
+									</div>
+									<br>
+									<button type="submit" class="btn btn-primary btn-block"
+										id="create" onClick="comprobarInstancias()">Aplicar</button>
+								</div>
 							</div>
 						</div>
-					</div>
-					<br>
+						<div class="col-md-4 col-sm-12 col-xs-12">
+							<div class="card">
+								<div class="card-header">Algoritmo seleccionado</div>
+								<div class="card-body">
+
+									<div class="form-group">
+										<label for="algoritmo">${algoritmoActivoNombre}</label>
+									</div>
+								</div>
+							</div>
+							<br>
+						</div>
 					</div>
 					<div class="row">
-					<div class="col-md-6 col-sm-12 col-xs-12">
-						<div class="card">
-							<div class="card-header">Conjunto de entrenamiento</div>
-							<div class="card-body">
-
-								<div class="form-group">
-									<label for="nombreUsuario">Conjunto test</label> <input
-										class="form-control" name="test">
+						<div class="col-md-12 col-sm-12 col-xs-12">
+							<div class="card">
+								<div class="card-header">Resultado</div>
+								<div class="card-body">
+									<textarea class="form-control"  disabled="disabled" rows="30" id="results">${resultado}</textarea>
 								</div>
-								<div class="form-group">
-									<label for="nombreUsuario">Conjunto train</label> <input
-										class="form-control" name="train">
-								</div>
-								<br>
-								<button type="submit" class="btn btn-primary btn-block"
-									id="create">Aplicar</button>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 			</form>
 		</div>
 	</div>
@@ -71,6 +84,7 @@
 	<!-- Bootstrap core JavaScript -->
 	<script src="vendor/jquery/jquery.min.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	
 
 	<!-- Menu Toggle Script -->
 	<script>
@@ -78,6 +92,19 @@
 			e.preventDefault();
 			$("#wrapper").toggleClass("toggled");
 		});
+
+		function comprobarInstancias() {
+		var test = document.getElementsByName("test");
+		var train = document.getElementsByName("train");
+		if (parseInt(test[0].value) + parseInt(train[0].value) > ${numInstancias}){
+				alert("Seleccione el conjunto de test y train correcto");
+				return false;
+			}
+		else {
+			return true;
+			}
+		
+			}
 	</script>
 
 </body>

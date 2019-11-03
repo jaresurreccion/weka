@@ -30,7 +30,7 @@
 				filtro.classList.remove('disabled');
 			}
 
-			var idfiltros = '<c:out value="${listaAtributosFiltrosBol}"/>';
+			var idfiltros = '<c:out value="${filtroActivoTipo}"/>';
 			if (idfiltros != 0 && idfiltros != null && idfiltros != "") {
 				var algoritmos = document.getElementById('algoritmos');
 				algoritmos.classList.remove('disabled');

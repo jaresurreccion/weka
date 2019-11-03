@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <jsp:include page="header.jsp"></jsp:include>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
 
 <body>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -15,29 +16,12 @@
 		<div id="page-content-wrapper">
 
 			<jsp:include page="headerPage.jsp"></jsp:include>
-			
-			 <div class="modal fade" id="myModalfiltroActivo" role="dialog">
-                <div class="modal-dialog">
 
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header" style="background-color:rgb(22, 154, 24);">
-                            <h4 class="modal-title">Filtro guardado</h4>
-                        </div>
-                        <div class="modal-body" style="word-wrap: break-word;">
-                            <p>Atributos eliminados: <c:out value='${filtroActivoRemoveName}'/><br><br>
-                            Tipo de filtro: <c:out value='${filtroActivoTipo}'/>
-                            </p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
 
 			<div class="container-fluid">
+				<h3>
+					<span class="badge badge-secondary">Selecion automatica</span>
+				</h3>
 				<div class="row">
 					<div class="col-md-6 col-sm-12 col-xs-12">
 						<div class="card">
@@ -62,14 +46,14 @@
 							</div>
 						</div>
 					</div>
-					<br> <br>
+
 					<div class="col-md-6 col-sm-12 col-xs-12">
 						<div class="card">
 							<div class="card-header">Informacion</div>
 							<div class="card-body">
 								Utilizando los algoritmos de seleccion de atributos, obtiene una
 								recomendacion para utilziar los atributos más representativos
-								del conjutos de datos. <br>
+								del conjutos de datos. <br> <br>
 								<c:if test="${listaAtributosFiltrosBol}">
 									<div id="filtroActivo" class="alert alert-warning" role="alert">
 										Atributos recomendados:
@@ -84,12 +68,31 @@
 					</div>
 				</div>
 				<hr>
+				<h3>
+					<span class="badge badge-secondary">Seleccion manual</span>
+				</h3>
+				<c:if test="${filtroActivo}">
+					<div class="row">
+						<div class="col-md-12 col-sm-12 col-xs-12">
+							<div class="card">
+								<div class="card-header">Filtro guardado</div>
+								<div class="card-body">
+									Resultado: <br>
+									<c:out value='${filtroActivoRemoveName}'/>
+									<br>
+									<c:out value='${filtroActivoTipo}'/> 
+								</div>
+							</div>
+						</div>
+					</div>
+					<br>
+				</c:if>
 				<div class="row">
 					<div class="col-md-6 col-sm-12 col-xs-12">
 						<div class="card">
 							<div class="card-header">Seleccion de atributos</div>
 							<div class="card-body table-responsive">
-								<table class="table table-striped" id="tableSesiones">
+								<table class="table table-striped table-bordered" id="tableSesiones">
 									<thead>
 										<tr>
 											<th scope="col">#</th>
@@ -117,18 +120,59 @@
 						</div>
 					</div>
 					<div class="col-md-6 col-sm-12 col-xs-12">
-						<div class="card">
-							<div class="card-header">Seleccion de filtros</div>
-							<div class="card-body">
-								<div class="radio">
-									<label><input type="radio" name="filter" value="1"
-										onClick="addFiltro(this.value);">Supervisado</label>
-								</div>
-								<div class="radio">
-									<label><input type="radio" value="2" name="filter"
-										onClick="addFiltro(this.value);">No supervisado</label>
+						<div id="accordion">
+							<div class="card">
+								<div class="card-header" id="headingOne">
+									<h5 class="mb-0">
+										<button class="btn btn-link" data-toggle="collapse"
+											data-target="#collapseOne" aria-expanded="true"
+											aria-controls="collapseOne">Supervisado</button>
+									</h5>
 								</div>
 
+								<div id="collapseOne" class="collapse show"
+									aria-labelledby="headingOne" data-parent="#accordion">
+									<div class="card-body">
+										<div class="radio">
+											<label><input type="radio" value="1" name="filter"
+												onClick="addFiltro(this.value);">Discretize</label>
+										</div>
+										<div class="radio">
+											<label><input type="radio" value="2" name="filter"
+												onClick="addFiltro(this.value);">AttributeSelection</label>
+										</div>
+										<div class="radio">
+											<label><input type="radio" value="3" name="filter"
+												onClick="addFiltro(this.value);">Resample</label>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="card">
+								<div class="card-header" id="headingTwo">
+									<h5 class="mb-0">
+										<button class="btn btn-link collapsed" data-toggle="collapse"
+											data-target="#collapseTwo" aria-expanded="false"
+											aria-controls="collapseTwo">No supervisado</button>
+									</h5>
+								</div>
+								<div id="collapseTwo" class="collapse"
+									aria-labelledby="headingTwo" data-parent="#accordion">
+									<div class="card-body">
+										<div class="radio">
+											<label><input type="radio" value="4" name="filter"
+												onClick="addFiltro(this.value);">Normalize</label>
+										</div>
+										<div class="radio">
+											<label><input type="radio" value="5" name="filter"
+												onClick="addFiltro(this.value);">Discretize</label>
+										</div>
+										<div class="radio">
+											<label><input type="radio" value="6" name="filter"
+												onClick="addFiltro(this.value);">Resample</label>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 						<br>
@@ -138,37 +182,40 @@
 								<form action="/saveFilters" method="POST">
 
 									<textarea disabled class="form-control z-depth-1"
-										id="paramsArea"  rows="10">
+										id="paramsArea" rows="10">
 									</textarea>
 									<input id="params" name="params" type="hidden" value="">
-									<input id="filtro" name="filtro" type="hidden" value="">
+									<input id="filtroSelec" name="filtro" type="hidden" value="">
 									<input id="optsArea" name="optsArea" type="hidden" value="">
 									<br>
 									<button type="submit"
 										class="btn btn-md btn-outline-secondary m-0 px-3 py-2 z-depth-0 waves-effect">Guardar
 										filtros</button>
 								</form>
-
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-
-
 		</div>
 	</div>
 
 	<!-- Bootstrap core JavaScript -->
 	<script src="vendor/jquery/jquery.min.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+	
 	<!-- Menu Toggle Script -->
 	<script>
 		$("#menu-toggle").click(function(e) {
 			e.preventDefault();
 			$("#wrapper").toggleClass("toggled");
 		});
+		
+		$(document).ready(function() {
+		    $('#tableSesiones').DataTable();
+		} );
 
 	function eliminar(value){
 		var dom = document.getElementById(value);
@@ -178,23 +225,25 @@
 		var inputArea = document.getElementById("paramsArea");
 		inputArea.value = inputArea.value.trim() +name + ";";
 		optsArea.value = inputArea.value.trim() +name + ";";
-		inputHidden.value = inputHidden.value.trim() +value+";";
-		dom.remove()
+		inputHidden.value = inputHidden.value.trim() +value+",";
+		dom.remove();
 				}	
 
 	function addFiltro(value){
-var dom = document.getElementById("filtro");
-dom.value = value;
+	var dom = document.getElementById("filtroSelec");
+	dom.value = value;
 		}
 
-	$(document).ready(function() {
+	/* s$(document).ready(function() {
         var filtroActivo = "<c:out value='${filtroActivo}'/>";
         if (filtroActivo) {
             $("#myModalfiltroActivo").modal();
             var inputArea = document.getElementById("paramsArea");
-            inputArea.value = "<c:out value='${filtroActivoRemoveName}'/>" + "<c:out value='${filtroActivoTipo}'/>";
+            inputArea.value = "<c:out value='${filtroActivoRemoveName}'/>" + "<c:out value='${filtroActivoTipo}'/> ";
+            
         }
-    });
+    }); */
+    
 	</script>
 </body>
 

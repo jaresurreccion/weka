@@ -73,7 +73,6 @@ public class fileController {
 		Path path = Paths.get(datasets.getAbsolutePath(), file.getOriginalFilename());
 		Files.write(path, bytes);
 		Ficheros f = ficherosService.guardarFichero(ContentType,OriginalName, idSessionActual, comentario);
-		System.out.println(f.toString());
 		SesionTrabajo.actualizarFileSesion(idSessionActual, f.getIdFichero());
 		sesion.setAttribute("sesionActivaIdFile", f.getIdFichero());
 

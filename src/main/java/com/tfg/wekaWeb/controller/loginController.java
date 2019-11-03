@@ -185,6 +185,9 @@ public class loginController {
 		public String Resultados(ModelMap model,HttpServletRequest request) throws NumberFormatException, IOException {
 			session = utils.isValidSession(request);
 			if(session == null) return "redirect:/sessionCaducada";
+			int idFichero = Integer.parseInt(session.getAttribute("sesionActivaIdFile").toString());
+			Ficheros file = ficherosService.getFichero(idFichero).get();
+			session.setAttribute("numInstancias", file.getNumInstancias());
 			return "resultados";
 		}
 		
