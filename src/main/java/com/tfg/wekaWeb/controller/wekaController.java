@@ -42,14 +42,22 @@ import com.tfg.wekaWeb.service.UtilsService;
 import weka.attributeSelection.*;
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
+import weka.classifiers.bayes.NaiveBayes;
 import weka.classifiers.evaluation.Prediction;
+import weka.classifiers.meta.AttributeSelectedClassifier;
 import weka.classifiers.rules.DecisionTable;
 import weka.classifiers.rules.PART;
 import weka.classifiers.trees.DecisionStump;
 import weka.classifiers.trees.J48;
+import weka.clusterers.ClusterEvaluation;
+import weka.clusterers.Clusterer;
+import weka.clusterers.Cobweb;
+import weka.clusterers.EM;
+import weka.clusterers.SimpleKMeans;
 import weka.core.Attribute;
 import weka.core.Instances;
 import weka.core.Utils;
+import weka.core.pmml.jaxbbindings.SupportVectorMachine;
 
 @Controller
 public class wekaController {
@@ -89,7 +97,7 @@ public class wekaController {
 
 			/* Seleccionamos la columna de los datos a estimar */
 			String removeData = session.getAttribute("filtroActivoRemove").toString();
-			String[] val = removeData.split(";");
+			String[] val = removeData.split(",");
 
 			if (val.length > 0) {
 				for (int i = 0; i < val.length; i++) {
@@ -98,7 +106,7 @@ public class wekaController {
 			}
 			data.setClassIndex(data.numAttributes() - 1);
 			/* Creamos dos grupos uno de entreno y otro de test */
-			int numFolds = 14;
+
 			Instances[] trainingSplits = new Instances[train];
 			Instances[] testingSplits = new Instances[test];
 
@@ -113,9 +121,37 @@ public class wekaController {
 
 			switch (algoritmo) {
 
-			case 1:
-				model.addFlashAttribute("BestFirst", algoritmosService.bestFirst(data));
+			case 1: //BestFirst
+				model.addFlashAttribute("resultado", ejecutarModelo(new BestFirst(), trainingSplits, testingSplits));
+				break;
+			case 2: //ScatterSearch
+				model.addFlashAttribute("resultado", ejecutarModelo(new weka.attributeSelection.ScatterSearchV1(), trainingSplits, testingSplits));
+				break;
+			case 3: //RankSearch
+				model.addFlashAttribute("resultado", ejecutarModelo(new Ranker(), trainingSplits, testingSplits));
+				break;
+			case 4: //simpleKmeans
+				model.addFlashAttribute("resultado", ejecutarModeloClust(new SimpleKMeans(), trainingSplits, testingSplits));
+				break;
+			case 5: //Clustering Conceptual (COBWEB)
+				model.addFlashAttribute("resultado", ejecutarModeloClust(new Cobweb(), trainingSplits, testingSplits));
+				break;
+			case 6: //Clustering Probabilistico (EM)
+				model.addFlashAttribute("resultado", ejecutarModeloClust(new EM(), trainingSplits, testingSplits));
+				break;
+			case 7: //NaivesBayes
+				model.addFlashAttribute("resultado", ejecutarModeloClasi(new NaiveBayes(), trainingSplits, testingSplits));
+				break;
+			case 8: //J48
+				model.addFlashAttribute("resultado", ejecutarModeloClasi(new J48(), trainingSplits, testingSplits));
+				break;
+			case 9: //SVM
+				model.addFlashAttribute("resultado", ejecutarModeloClasi(new weka.classifiers.rules.PART(), trainingSplits, testingSplits));
+				break;
 			}
+			
+			
+			
 
 			return "redirect:/resultados";
 
@@ -124,13 +160,14 @@ public class wekaController {
 		}
 
 		model.addFlashAttribute("error", "true");
-		return "redirect:/algoritmos";
+		return "redirect:/resultados";
 	}
 
-	public String ejecutarModelo(Classifier model, Instances[] trainingSplits, Instances[] testingSplits)
+	public String ejecutarModelo(ASSearch search, Instances[] trainingSplits, Instances[] testingSplits)
 			throws Exception {
 		ArrayList<Prediction> predictions = new ArrayList<Prediction>();
-
+		weka.classifiers.meta.AttributeSelectedClassifier model =  new AttributeSelectedClassifier();
+		model.setSearch(search);
 		/* Entrenamos el modelo */
 		for (int i = 0; i < trainingSplits.length; i++) {
 			model.buildClassifier(trainingSplits[i]);
@@ -145,7 +182,52 @@ public class wekaController {
 
 		/* Calculamos la exactitud del modelo */
 		double accuracy = calculateAccuracy(predictions);
-		return "Exactitud del modelo " + model.getClass().getSimpleName() + ": " + String.format("%.2f%%", accuracy);
+		String s = "Exactitud del modelo " + model.getClass().getSimpleName() + ": " + String.format("%.2f%%", accuracy) + search.toString();
+		System.out.println(s);
+		return s;
+	}
+	
+	public String ejecutarModeloClasi(Classifier search, Instances[] trainingSplits, Instances[] testingSplits)
+			throws Exception {
+		ArrayList<Prediction> predictions = new ArrayList<Prediction>();
+		/* Entrenamos el modelo */
+		for (int i = 0; i < trainingSplits.length; i++) {
+			search.buildClassifier(trainingSplits[i]);
+		}
+
+		/* Testenamos el modelo */
+		for (int i = 0; i < testingSplits.length; i++) {
+			Evaluation evaluation = new Evaluation(testingSplits[i]);
+			evaluation.evaluateModel(search, testingSplits[i]);
+			predictions.addAll(evaluation.predictions());
+		}
+
+		/* Calculamos la exactitud del modelo */
+		double accuracy = calculateAccuracy(predictions);
+		String s = "Exactitud del modelo " + search.getClass().getSimpleName() + ": " + String.format("%.2f%%", accuracy) +"\n" + search.toString();
+		System.out.println(s); 
+		return s;
+	}
+	
+	public String ejecutarModeloClust(Clusterer search, Instances[] trainingSplits, Instances[] testingSplits)
+			throws Exception {
+		
+		/* Entrenamos el modelo */
+		for (int i = 0; i < trainingSplits.length; i++) {
+			search.buildClusterer(trainingSplits[i]);
+		}
+
+		ClusterEvaluation eval = new ClusterEvaluation();
+		eval.setClusterer(search); 
+		/* Testenamos el modelo */
+		for (int i = 0; i < testingSplits.length; i++) {
+			 eval.evaluateClusterer(testingSplits[i]);
+		}
+
+		/* Calculamos la exactitud del modelo */
+		String s = "# of clusters: " + eval.getNumClusters() + "-"+ eval.clusterResultsToString();
+		System.out.println(s);
+		return s;
 	}
 
 	public double calculateAccuracy(ArrayList<Prediction> predictions) {
