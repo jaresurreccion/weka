@@ -3,6 +3,7 @@ package com.tfg.wekaWeb.service;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,6 +15,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.tfg.wekaWeb.dao.FicherosRepository;
 import com.tfg.wekaWeb.dto.Ficheros;
 
@@ -148,5 +156,31 @@ public class FicherosService {
 		return datos;
 	}
 	
+	public String generatePDF() throws IOException, DocumentException {
+		
+		// Se crea el documento
+		Document documento = new Document();
+	      File tempFile = File.createTempFile("result.pdf", ".tmp");
+		// Se crea el OutputStream para el fichero donde queremos dejar el pdf.
+		FileOutputStream ficheroPdf = new FileOutputStream(tempFile);
+		// Se asocia el documento al OutputStream y se indica que el espaciado entre
+		// lineas sera de 20. Esta llamada debe hacerse antes de abrir el documento
+		PdfWriter.getInstance(documento,ficheroPdf).setInitialLeading(20);
 
+		// Se abre el documento.
+		documento.open();
+		
+		Image foto = Image.getInstance(".\\src\\main\\resources\\static\\images\\weka-icon.png");
+		foto.scaleToFit(100, 100);
+		foto.setAlignment(Chunk.ALIGN_LEFT);
+		documento.add(foto);
+		documento.add(new Phrase("Resultados del análisis con la herramienta weka"));
+		documento.add(new Paragraph("Fichero: "));
+		documento.add(new Paragraph("Algoritmo: "));
+		documento.add(new Paragraph("Filtros: "));
+		documento.add(new Paragraph("Resultados: "));
+		documento.close();
+		return tempFile.getAbsolutePath();
+	}
+	
 }

@@ -67,7 +67,9 @@
 					<div class="row">
 						<div class="col-md-12 col-sm-12 col-xs-12">
 							<div class="card">
-								<div class="card-header">Resultado</div>
+								<div class="card-header">Resultado
+								<a href="/generatePDF"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+								</div>
 								<div class="card-body">
 									<textarea class="form-control"  disabled="disabled" rows="30" id="results">${resultado}</textarea>
 								</div>

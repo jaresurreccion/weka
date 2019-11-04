@@ -32,6 +32,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.itextpdf.text.DocumentException;
 import com.tfg.wekaWeb.dto.Ficheros;
 import com.tfg.wekaWeb.service.FicherosService;
 import com.tfg.wekaWeb.service.SesionTrabajoService;
@@ -127,4 +129,14 @@ public class fileController {
 		}
 		return "opendata";
 	}
+	
+	@GetMapping("/generatePDF")
+	public ResponseEntity<Resource> generatePDF(HttpServletRequest request, ModelMap model) throws IOException, DocumentException {
+		sesion = utils.isValidSession(request);
+		InputStreamResource resource = new InputStreamResource(new FileInputStream(ficherosService.generatePDF()));
+		return ResponseEntity.ok().contentType(MediaType.parseMediaType("application/octet-stream"))
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\" resultados.pdf\"")
+				.body(resource);
+	}
+	
 }

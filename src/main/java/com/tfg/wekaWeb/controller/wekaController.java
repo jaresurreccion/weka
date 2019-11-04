@@ -183,7 +183,6 @@ public class wekaController {
 		/* Calculamos la exactitud del modelo */
 		double accuracy = calculateAccuracy(predictions);
 		String s = "Exactitud del modelo " + model.getClass().getSimpleName() + ": " + String.format("%.2f%%", accuracy) + search.toString();
-		System.out.println(s);
 		return s;
 	}
 	
