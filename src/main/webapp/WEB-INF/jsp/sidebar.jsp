@@ -7,6 +7,7 @@
         <a href="/home" class="list-group-item list-group-item-action bg-light">Dashboard</a>
         <a href="/perfil" class="list-group-item list-group-item-action bg-light">Mi Perfil</a>
         <a href="/opendata" class="list-group-item list-group-item-action bg-light">Datos Abiertos</a>
+        <a href="/wekaCommand" class="list-group-item list-group-item-action bg-light">Weka Line</a>
         <a href="/ficheros" id="ficheros" class="list-group-item list-group-item-action bg-light disabled">Dataset</a>
         <a href="/filtro" id="filtro" class="list-group-item list-group-item-action bg-light disabled">Filtro</a>
         <a href="/algoritmos" id="algoritmos" class="list-group-item list-group-item-action bg-light disabled">Algoritmos</a>

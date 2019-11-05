@@ -343,8 +343,20 @@ public class wekaController {
 	public String commandLine(HttpServletRequest request, String idFichero,String params,RedirectAttributes model) throws NumberFormatException, IOException {
 		String resultado = wekaService.gestionarCommandLine(Integer.parseInt(idFichero), params);
 		model.addFlashAttribute("resultCommand", resultado);
-		return "redirect:/wekaLine";
+		return "redirect:/wekaCommand";
 	}
 	
+	@RequestMapping(value = "/wekaCommand", method = RequestMethod.GET)
+	public String returnWekaCommand(HttpServletRequest request,ModelMap model) {
+		session = utils.isValidSession(request);
+		if (session == null)
+			return "redirect:/sessionCaducada";
+		List<Ficheros> f = ficherosService.getFiles();
+		if(f.size() >= 1) {
+			model.addAttribute("listaFicheros",f);	
+		}
+		return "/wekaCommand";
+	}
+
 
 }
