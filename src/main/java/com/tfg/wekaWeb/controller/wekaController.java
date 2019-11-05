@@ -38,6 +38,7 @@ import com.tfg.wekaWeb.service.FicherosService;
 import com.tfg.wekaWeb.service.FiltrosService;
 import com.tfg.wekaWeb.service.SesionTrabajoService;
 import com.tfg.wekaWeb.service.UtilsService;
+import com.tfg.wekaWeb.service.wekaService;
 
 import weka.attributeSelection.*;
 import weka.classifiers.Classifier;
@@ -78,6 +79,9 @@ public class wekaController {
 
 	@Autowired
 	AlgoritmosService algoritmosService;
+	
+	@Autowired
+	wekaService  wekaService;
 
 	HttpSession session;
 	private UtilsService utils = new UtilsService();
@@ -334,5 +338,25 @@ public class wekaController {
 
 		return "redirect:/filtro";
 	}
+	
+	@RequestMapping(value = "/wekaLine", method = RequestMethod.GET)
+	public String commandLine(HttpServletRequest request, String idFichero,String params,RedirectAttributes model) throws NumberFormatException, IOException {
+		String resultado = wekaService.gestionarCommandLine(Integer.parseInt(idFichero), params);
+		model.addFlashAttribute("resultCommand", resultado);
+		return "redirect:/wekaCommand";
+	}
+	
+	@RequestMapping(value = "/wekaCommand", method = RequestMethod.GET)
+	public String returnWekaCommand(HttpServletRequest request,ModelMap model) {
+		session = utils.isValidSession(request);
+		if (session == null)
+			return "redirect:/sessionCaducada";
+		List<Ficheros> f = ficherosService.getFiles();
+		if(f.size() >= 1) {
+			model.addAttribute("listaFicheros",f);	
+		}
+		return "/wekaCommand";
+	}
+
 
 }
