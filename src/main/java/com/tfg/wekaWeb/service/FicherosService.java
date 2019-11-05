@@ -23,7 +23,9 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.tfg.wekaWeb.dao.FicherosRepository;
+import com.tfg.wekaWeb.dto.Algoritmos;
 import com.tfg.wekaWeb.dto.Ficheros;
+import com.tfg.wekaWeb.dto.Filtros;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.system.ApplicationHome;
@@ -156,7 +158,7 @@ public class FicherosService {
 		return datos;
 	}
 	
-	public String generatePDF() throws IOException, DocumentException {
+	public String generatePDF(String resultados, Ficheros file, Filtros filtro, Algoritmos alg) throws IOException, DocumentException {
 		
 		// Se crea el documento
 		Document documento = new Document();
@@ -167,18 +169,42 @@ public class FicherosService {
 		// lineas sera de 20. Esta llamada debe hacerse antes de abrir el documento
 		PdfWriter.getInstance(documento,ficheroPdf).setInitialLeading(20);
 
+		String sFichero = "Fichero: " 
+						+ file.getNombreFichero() 
+						+ " Instancias: " 
+						+ file.getNumInstancias()
+						+ " Atributos: "
+						+ file.getnAtributos()
+						+ " Clase: "
+						+ file.getClase()
+						+ " Comentario: "
+						+ file.getComentario();
+		
+		String sAlg = "Algorimo: " + alg.getNombreAlg();
+		String sFiltro = "Filtro: "
+						+ filtro.getTipo()
+						+ " Atributos eliminados: "
+						+ filtro.getAtributosRemoveName();
+
+		
 		// Se abre el documento.
 		documento.open();
 		
 		Image foto = Image.getInstance(".\\src\\main\\resources\\static\\images\\weka-icon.png");
 		foto.scaleToFit(100, 100);
-		foto.setAlignment(Chunk.ALIGN_LEFT);
+		foto.setAlignment(Chunk.ALIGN_CENTER);
 		documento.add(foto);
+		documento.add(Chunk.NEWLINE);
 		documento.add(new Phrase("Resultados del análisis con la herramienta weka"));
-		documento.add(new Paragraph("Fichero: "));
-		documento.add(new Paragraph("Algoritmo: "));
-		documento.add(new Paragraph("Filtros: "));
-		documento.add(new Paragraph("Resultados: "));
+		documento.add(Chunk.NEWLINE);
+		documento.add(Chunk.NEWLINE);
+		documento.add(new Paragraph(sFichero));
+		documento.add(Chunk.NEWLINE);
+		documento.add(new Paragraph(sFiltro));
+		documento.add(Chunk.NEWLINE);
+		documento.add(new Paragraph(sAlg));
+		documento.add(Chunk.NEWLINE);
+		documento.add(new Paragraph("Resultados: " + resultados));
 		documento.close();
 		return tempFile.getAbsolutePath();
 	}

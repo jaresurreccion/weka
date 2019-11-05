@@ -34,8 +34,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itextpdf.text.DocumentException;
+import com.tfg.wekaWeb.dto.Algoritmos;
 import com.tfg.wekaWeb.dto.Ficheros;
+import com.tfg.wekaWeb.dto.Filtros;
+import com.tfg.wekaWeb.service.AlgoritmosService;
 import com.tfg.wekaWeb.service.FicherosService;
+import com.tfg.wekaWeb.service.FiltrosService;
 import com.tfg.wekaWeb.service.SesionTrabajoService;
 import com.tfg.wekaWeb.service.UtilsService;
 
@@ -50,6 +54,12 @@ public class fileController {
 
 	@Autowired
 	private FicherosService ficherosService;
+	
+	@Autowired
+	private FiltrosService filtrosService;
+	
+	@Autowired
+	private AlgoritmosService algoritmoService;
 
 	private UtilsService utils = new UtilsService();
 	// Folder to upload File
@@ -130,10 +140,14 @@ public class fileController {
 		return "opendata";
 	}
 	
-	@GetMapping("/generatePDF")
-	public ResponseEntity<Resource> generatePDF(HttpServletRequest request, ModelMap model) throws IOException, DocumentException {
+	@PostMapping("/generatePDF")
+	public ResponseEntity<Resource> generatePDF(String resultadosHidden, HttpServletRequest request, ModelMap model) throws IOException, DocumentException {
 		sesion = utils.isValidSession(request);
-		InputStreamResource resource = new InputStreamResource(new FileInputStream(ficherosService.generatePDF()));
+		String resultado = resultadosHidden;
+		Ficheros file = ficherosService.getFichero(Integer.parseInt(sesion.getAttribute("sesionActivaIdFile").toString())).get();
+		Filtros filtros = filtrosService.findByIdFiltros(Integer.parseInt(sesion.getAttribute("sesionActivaIdFiltros").toString()));
+		Algoritmos algoritmos = algoritmoService.findById(Integer.parseInt(sesion.getAttribute("sesionActivaIdAlgoritmo").toString()));
+		InputStreamResource resource = new InputStreamResource(new FileInputStream(ficherosService.generatePDF(resultado,file,filtros,algoritmos)));
 		return ResponseEntity.ok().contentType(MediaType.parseMediaType("application/octet-stream"))
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\" resultados.pdf\"")
 				.body(resource);

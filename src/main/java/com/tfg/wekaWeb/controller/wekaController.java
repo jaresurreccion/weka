@@ -152,7 +152,7 @@ public class wekaController {
 			
 			
 			
-
+			session.setAttribute("resutadosBool", "true");
 			return "redirect:/resultados";
 
 		} catch (Exception ex) {

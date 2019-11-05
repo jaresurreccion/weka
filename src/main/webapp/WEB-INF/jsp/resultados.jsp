@@ -16,8 +16,8 @@
 		<div id="page-content-wrapper">
 
 			<jsp:include page="headerPage.jsp"></jsp:include>
-			<form action="/weka" method="GET">
 				<div class="container-fluid">
+				<form action="/weka" method="GET">
 					<div class="row">
 						<div class="col-md-12 col-sm-12 col-xs-12">
 							<div class="card">
@@ -64,20 +64,31 @@
 							<br>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-md-12 col-sm-12 col-xs-12">
-							<div class="card">
-								<div class="card-header">Resultado
-								<a href="/generatePDF"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
-								</div>
-								<div class="card-body">
-									<textarea class="form-control"  disabled="disabled" rows="30" id="results">${resultado}</textarea>
+					</form>
+					<c:if test="${resutadosBool}">
+						<form action="/generatePDF" method="POST" >
+							<div class="row">
+								<div class="col-md-12 col-sm-12 col-xs-12">
+									<div class="card">
+
+										<div class="card-header">Resultado</div>
+										<div class="card-body">
+											<button type="submit" class="btn btn-secondary">
+												<i class="fa fa-file-pdf-o" aria-hidden="true"> Exportar
+													a PDF</i>
+											</button>
+											<br>
+											<br>
+											<textarea class="form-control" name="resultados" 
+												disabled="disabled" rows="30" id="resultados">${resultado}</textarea>
+												<input type="hidden" value="${resultado}" name="resultadosHidden">
+										</div>
+									</div>
 								</div>
 							</div>
-						</div>
-					</div>
+						</form>
+					</c:if>
 				</div>
-			</form>
 		</div>
 	</div>
 
@@ -86,7 +97,7 @@
 	<!-- Bootstrap core JavaScript -->
 	<script src="vendor/jquery/jquery.min.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-	
+
 
 	<!-- Menu Toggle Script -->
 	<script>
