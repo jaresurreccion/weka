@@ -15,7 +15,7 @@
                             <h4 class="modal-title">Bienvenido a miWekaWeb</h4>
                         </div>
                         <div class="modal-body">
-                            <p>Para poder utilizar la aplicaci�n correctamente, deber� seleccionar una sesi�n o crear una nueva.</p>
+                            <p>Para poder utilizar la aplicacion, debera seleccionar una sesion ya creada o, crear una nueva.</p>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

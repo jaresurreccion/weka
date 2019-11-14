@@ -59,6 +59,8 @@ import weka.core.Attribute;
 import weka.core.Instances;
 import weka.core.Utils;
 import weka.core.pmml.jaxbbindings.SupportVectorMachine;
+import weka.filters.Filter;
+import weka.filters.unsupervised.attribute.Remove;
 
 @Controller
 public class wekaController {
@@ -98,7 +100,7 @@ public class wekaController {
 			/* Cargamos el fichero con los datos */
 			BufferedReader datafile = new BufferedReader(new FileReader(f.get().getRuta()));
 			Instances data = new Instances(datafile);
-
+			Instances dataClus = data;
 			/* Seleccionamos la columna de los datos a estimar */
 			String removeData = session.getAttribute("filtroActivoRemove").toString();
 			String[] val = removeData.split(",");
@@ -106,9 +108,12 @@ public class wekaController {
 			if (val.length > 0) {
 				for (int i = 0; i < val.length; i++) {
 					data.remove(Integer.parseInt(val[i]));
+					dataClus.remove(Integer.parseInt(val[i]));
 				}
 			}
 			data.setClassIndex(data.numAttributes() - 1);
+			
+			
 			/* Creamos dos grupos uno de entreno y otro de test */
 
 			Instances[] trainingSplits = new Instances[train];
@@ -135,13 +140,17 @@ public class wekaController {
 				model.addFlashAttribute("resultado", ejecutarModelo(new Ranker(), trainingSplits, testingSplits));
 				break;
 			case 4: //simpleKmeans
-				model.addFlashAttribute("resultado", ejecutarModeloClust(new SimpleKMeans(), trainingSplits, testingSplits));
+				SimpleKMeans kMeans = new SimpleKMeans();
+				kMeans.setSeed(10);
+				kMeans.setPreserveInstancesOrder(true);
+		        kMeans.setNumClusters(3);
+				model.addFlashAttribute("resultado", ejecutarModeloClust(kMeans,dataClus));
 				break;
 			case 5: //Clustering Conceptual (COBWEB)
-				model.addFlashAttribute("resultado", ejecutarModeloClust(new Cobweb(), trainingSplits, testingSplits));
+				model.addFlashAttribute("resultado", ejecutarModeloClust(new Cobweb(),dataClus));
 				break;
 			case 6: //Clustering Probabilistico (EM)
-				model.addFlashAttribute("resultado", ejecutarModeloClust(new EM(), trainingSplits, testingSplits));
+				model.addFlashAttribute("resultado", ejecutarModeloClust(new EM(),dataClus));
 				break;
 			case 7: //NaivesBayes
 				model.addFlashAttribute("resultado", ejecutarModeloClasi(new NaiveBayes(), trainingSplits, testingSplits));
@@ -212,20 +221,24 @@ public class wekaController {
 		return s;
 	}
 	
-	public String ejecutarModeloClust(Clusterer search, Instances[] trainingSplits, Instances[] testingSplits)
+	public String ejecutarModeloClust(Clusterer search, Instances data)
 			throws Exception {
+		Remove remove = new Remove();
+		String x = String.valueOf(data.numAttributes());
+		System.out.println("data.numAttributes()"+ data.numAttributes());
+		String[] options = new String[2];
+        options[0] = "-R";                                    // "range"
+        options[1] = x;
+        remove.setOptions(options);                           // set options
+        remove.setInputFormat(data);
+        Instances newData = Filter.useFilter(data, remove);	
+		search.buildClusterer(newData);
 		
-		/* Entrenamos el modelo */
-		for (int i = 0; i < trainingSplits.length; i++) {
-			search.buildClusterer(trainingSplits[i]);
-		}
 
 		ClusterEvaluation eval = new ClusterEvaluation();
 		eval.setClusterer(search); 
 		/* Testenamos el modelo */
-		for (int i = 0; i < testingSplits.length; i++) {
-			 eval.evaluateClusterer(testingSplits[i]);
-		}
+			 eval.evaluateClusterer(newData);
 
 		/* Calculamos la exactitud del modelo */
 		String s = "# of clusters: " + eval.getNumClusters() + "-"+ eval.clusterResultsToString();
@@ -254,6 +267,7 @@ public class wekaController {
 		sessionService.actualizarAlgoritmoSesion(idSession, idAlgoritmo);
 		Optional<Algoritmos> alg = algoritmoRepository.findById(idAlgoritmo);
 		session.setAttribute("algoritmoActivo", true);
+		session.setAttribute("sesionActivaIdAlgoritmo", true);
 		session.setAttribute("algoritmoActivoId", idAlgoritmo);
 		session.setAttribute("algoritmoActivoNombre", alg.get().getNombreAlg());
 		return "redirect:/algoritmos";
@@ -279,6 +293,12 @@ public class wekaController {
 		sessionService.actualizarFiltroSesion(Integer.parseInt(session.getAttribute("sesionActivaIdSesion").toString()),
 				filter.getIdFiltros());
 		int filtroSelecionado = Integer.parseInt(filtro);
+		String filtroActivoString = "";
+		if (filtroSelecionado > 0 | filtroSelecionado <= 3) {
+			filtroActivoString = "Supervisado";
+		} else {
+			filtroActivoString = "No Supervisado";
+		}
 		try {
 			data = FiltrosService.aplicarfiltros(filter);
 			
@@ -288,8 +308,9 @@ public class wekaController {
 		//Gestionar filtro -> filter
 		session.setAttribute("filtroActivo", true);
 		session.setAttribute("filtroActivoId", filter.getIdFiltros());
+		session.setAttribute("filtroActivoRemove",params);
 		session.setAttribute("filtroActivoRemoveName", optsArea);
-		session.setAttribute("filtroActivoTipo", filtroSelecionado);
+		session.setAttribute("filtroActivoTipo", filtroActivoString);
 		System.out.println(data.toSummaryString());
 		String dataSumary = data.toSummaryString();
 		System.out.println(dataSumary);

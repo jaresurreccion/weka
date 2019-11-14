@@ -81,6 +81,7 @@
 									<c:out value='${filtroActivoRemoveName}'/>
 									<br>
 									<c:out value='${filtroActivoTipo}'/> 
+									<textarea class="form-control" rows="10" >${filtroResultado}</textarea>
 								</div>
 							</div>
 						</div>
@@ -214,7 +215,16 @@
 		});
 		
 		$(document).ready(function() {
-		    $('#tableSesiones').DataTable();
+		    $('#tableSesiones').DataTable(
+				{ "language": {
+                "lengthMenu": "Mostrando _MENU_ atributos por pagina",
+                "zeroRecords": "No coincide - sorry",
+                "info": "Mostrando pagina _PAGE_ de _PAGES_",
+                "infoEmpty": "No tiene atributos",
+                "infoFiltered": "(Fitrado de _MAX_ total )",
+                "search":         "Buscar:"
+				}
+            });
 		} );
 
 	function eliminar(value){

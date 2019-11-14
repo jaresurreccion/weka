@@ -18,11 +18,12 @@
 
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-4">
+                            <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">Informacion</div>
                                     <div class="card-body">
-                                        Lorem psun
+                                       Información publica abierta a todo el mundo disponible a partir de datos en bruto (sin procesar), bien estructurados y en formatos conocidos que faciliten su reutilización.
+La apertura de datos de la aplicación WekaWeb permite que cualquier persona u organización pueda acceder a ellos haciendo crecer el potencial y, favoreciendo la transparencia, participación y colaboración entre usuarios.
                                     </div>
                                 </div>
                             </div>

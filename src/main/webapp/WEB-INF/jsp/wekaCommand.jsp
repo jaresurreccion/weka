@@ -22,7 +22,15 @@
 							<div class="card-body">En esta pantalla podrá configurar de
 								forma manual las propiedades para usar sobre el fichero que vaya
 								a seleccionar. A continuación, una vez ejecute esa
-								configuración, se le mostrara los resultados.</div>
+								configuración, se le mostrara los resultados.
+								<br><br>
+								Ejemplo:
+								<br>
+								weka.classifiers.bayes.BayesNet -D -Q weka.classifiers.bayes.net.search.local.K2 -- -P 1 -S BAYES -E weka.classifiers.bayes.net.estimate.SimpleEstimator -- -A 0.5
+								<br><br>
+								Podrá encontrar mas informacion en: <a href="https://waikato.github.io/weka-wiki/making_predictions/" target="_blank">Weka-Wiki</a>
+								
+								</div>
 						</div>
 					</div>
 					<div class="col-md-6 col-sm-12 col-xs-12">

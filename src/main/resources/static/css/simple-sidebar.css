@@ -8,6 +8,13 @@ body {
     overflow-x: hidden;
 }
 
+.wekaweb{
+	font-family: Arial;
+    font-size: 25px !important;
+    COLOR: #f8f9fa;
+    text-shadow: 0px 0px 9px #e9ecef;
+}
+
 #sidebar-wrapper {
     min-height: 100vh;
     margin-left: -10rem;
@@ -41,6 +48,9 @@ body {
 a.list-group-item.list-group-item-action.bg-light {
     background-color: darkslategrey !important;
     color: white;
+}
+.disabled{
+	color: #6c757d !important;
 }
 .badge-success {
     margin-left: auto !important;

@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <div class="bg-light border-right" id="sidebar-wrapper">
-      <div class="sidebar-heading">WekaWeb</div>
+      <div class="sidebar-heading wekaweb">WekaWeb</div>
       <div class="list-group list-group-flush">
         <a href="/home" class="list-group-item list-group-item-action bg-light">Dashboard</a>
         <a href="/perfil" class="list-group-item list-group-item-action bg-light">Mi Perfil</a>
