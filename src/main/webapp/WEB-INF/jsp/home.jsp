@@ -37,7 +37,7 @@
 
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-md-8 col-sm-12 col-xs-12">
+                            <div class="col-md-10 col-sm-12 col-xs-12">
                                 <div class="card">
                                     <div class="card-header">Areas de trabajo disponibles</div>
                                     <div class="card-body table-responsive">
@@ -47,6 +47,7 @@
                                                     <th scope="col">#</th>
                                                     <th scope="col">Nombre</th>
                                                     <th scope="col">Fichero</th>
+                                                    <th scope="col">Filtro</th>
                                                     <th scope="col">Algoritmo</th>
                                                     <th scope="col">fechaCreacion</th>
                                                     <th scope="col">fechaActualizacion</th>
@@ -61,10 +62,13 @@
                                                             <c:out value="${element.nombre}" />
                                                         </td>
                                                         <td>
-                                                            <c:out value="${element.idFile}" />
+                                                            <c:out value="${element.nombreFile}" />
                                                         </td>
                                                         <td>
-                                                            <c:out value="${element.idAlgoritmo}" />
+                                                            <c:out value="${element.nombreFiltros}" />
+                                                        </td>
+                                                        <td>
+                                                            <c:out value="${element.nombreAlg}" />
                                                         </td>
                                                         <td>
                                                             <fmt:formatDate value="${element.fechaCreacion}" pattern="dd-MMM-yyyy" />
@@ -84,8 +88,11 @@
                                         </table>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-4 col-sm-12 col-xs-12">
+                            </div>                        
+                        </div>
+                        <br>
+                        <div class="row">
+                        <div class="col-md-4 col-sm-12 col-xs-12">
                                 <div class="card ">
                                     <div class="card-header">Crear nueva area de trabajo</div>
                                     <div class="card-body">
@@ -102,9 +109,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <br>
-                        <div class="row">
+                        
                             <div class="col-md-4 col-sm-12 col-xs-12">
                                 <div class="card">
                                     <div class="card-header">Conexiones ultima semana</div>

@@ -53,6 +53,7 @@
 
 								</c:when>
 								<c:otherwise>
+
 									<div class="card">
 										<div class="card-header">Agrupamiento</div>
 										<div class="card-body">

@@ -85,7 +85,7 @@ public class fileController {
 		Path path = Paths.get(datasets.getAbsolutePath(), file.getOriginalFilename());
 		Files.write(path, bytes);
 		Ficheros f = ficherosService.guardarFichero(ContentType,OriginalName, idSessionActual, comentario);
-		SesionTrabajo.actualizarFileSesion(idSessionActual, f.getIdFichero());
+		SesionTrabajo.actualizarFileSesion(idSessionActual, f.getIdFichero(),OriginalName);
 		sesion.setAttribute("sesionActivaIdFile", f.getIdFichero());
 
 		return "redirect:/ficheros";
@@ -98,7 +98,7 @@ public class fileController {
 		if(sesion == null) return "redirect:/sessionCaducada";
 		Integer idSessionActual = Integer.parseInt(sesion.getAttribute("sesionActivaIdSesion").toString());
 		ficherosService.deleteFicherosById(Integer.parseInt(fileId));
-		SesionTrabajo.actualizarFileSesion(idSessionActual, null);
+		SesionTrabajo.actualizarFileSesion(idSessionActual, null,null);
 		return "redirect:/ficheros";
 	}
 

@@ -4,15 +4,15 @@
 <jsp:include page="header.jsp"></jsp:include>
 <body class="bg">
 	<section class="container-fluid">
-		<section class="row justify-content-center">
-			
+		<section class="row justify-content-center">		
 			<section class="col-12 col-sm-6 col-md-3">
 			<c:if test="${error}">
 				<div class="alert alert-danger" role="alert">
-  				 El usuario / contraseña son incorrectos o, no existe ese usuario"
+  				 El usuario / contraseña son incorrectos
 				</div>
-			</c:if>
+			</c:if>		
 				<form class="form-container" action="/home" method="POST">
+				<img src="images/weka-min.png" id="miImagen">
 					<div class="form-group">
 						<label for="exampleInputEmail1">Usuario</label> <input
 							class="form-control" name="user" aria-describedby="emailHelp"

@@ -22,15 +22,21 @@ public class SesionTrabajo {
 	Date fechaCreacion;
 	Date fechaActualizacion;
 	Integer idFiltros;
+	String nombreFiltros;
+	String nombreFile;
+	String nombreAlg;
 
 	public SesionTrabajo(Integer idUsuario, String nombre, Integer idFile, Integer idAlgoritmo, Integer idFiltros,Date fechaCreacion,
-			Date fechaActualizacion) {
+			Date fechaActualizacion,String nombreFile, String nombreAlg,String nombreFiltros) {
 		this.nombre = nombre;
 		this.idUsuario = idUsuario;
 		this.idFile = idFile;
 		this.idAlgoritmo = idAlgoritmo;
 		this.fechaCreacion = fechaCreacion;
 		this.idFiltros = idFiltros;
+		this.nombreFile= nombreFile;
+		this.nombreAlg = nombreAlg;
+		this.nombreFiltros = nombreFiltros;
 		this.fechaActualizacion = fechaActualizacion;
 	}
 
@@ -100,6 +106,32 @@ public class SesionTrabajo {
 
 	public void setIdFiltros(Integer idFiltros) {
 		this.idFiltros = idFiltros;
+	}
+	
+	
+
+	public String getNombreFiltros() {
+		return nombreFiltros;
+	}
+
+	public void setNombreFiltros(String nombreFiltros) {
+		this.nombreFiltros = nombreFiltros;
+	}
+
+	public String getNombreFile() {
+		return nombreFile;
+	}
+
+	public void setNombreFile(String nombreFile) {
+		this.nombreFile = nombreFile;
+	}
+
+	public String getNombreAlg() {
+		return nombreAlg;
+	}
+
+	public void setNombreAlg(String nombreAlg) {
+		this.nombreAlg = nombreAlg;
 	}
 
 	@Override

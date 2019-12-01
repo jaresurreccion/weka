@@ -2,11 +2,14 @@ package com.tfg.wekaWeb.service;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringReader;
+import java.nio.charset.Charset;
 import java.nio.file.FileSystemException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,10 +21,14 @@ import java.util.regex.Pattern;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
+import com.itextpdf.text.html.simpleparser.HTMLWorker;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.tool.xml.XMLWorkerHelper;
 import com.tfg.wekaWeb.dao.FicherosRepository;
 import com.tfg.wekaWeb.dto.Algoritmos;
 import com.tfg.wekaWeb.dto.Ficheros;
@@ -161,51 +168,51 @@ public class FicherosService {
 	public String generatePDF(String resultados, Ficheros file, Filtros filtro, Algoritmos alg) throws IOException, DocumentException {
 		
 		// Se crea el documento
-		Document documento = new Document();
+		Document document = new Document();
 	      File tempFile = File.createTempFile("result.pdf", ".tmp");
 		// Se crea el OutputStream para el fichero donde queremos dejar el pdf.
 		FileOutputStream ficheroPdf = new FileOutputStream(tempFile);
 		// Se asocia el documento al OutputStream y se indica que el espaciado entre
 		// lineas sera de 20. Esta llamada debe hacerse antes de abrir el documento
-		PdfWriter.getInstance(documento,ficheroPdf).setInitialLeading(20);
+		PdfWriter pdfWriter = PdfWriter.getInstance(document,ficheroPdf);
+		
+		pdfWriter.setLinearPageMode();
+        pdfWriter.setFullCompression();
 
-		String sFichero = "Fichero: " 
-						+ file.getNombreFichero() 
-						+ " Instancias: " 
-						+ file.getNumInstancias()
-						+ " Atributos: "
-						+ file.getnAtributos()
-						+ " Clase: "
-						+ file.getClase()
-						+ " Comentario: "
-						+ file.getComentario();
-		
-		String sAlg = "Algorimo: " + alg.getNombreAlg();
-		String sFiltro = "Filtro: "
-						+ filtro.getTipo()
-						+ " Atributos eliminados: "
-						+ filtro.getAtributosRemoveName();
 
+        // document header attributes
+        document.addAuthor("WekaWeb");
+        document.addCreationDate();
+        document.addProducer();
+        document.addCreator("WekaWeb");
+        document.addTitle("");
+        document.setPageSize(PageSize.A4);
 		
-		// Se abre el documento.
-		documento.open();
+
+		String html = "<h1><img alt=\"\" src=\"C:\\Users\\Jose\\Documents\\repositorio\\src\\main\\resources\\static\\images\\weka-min.png\" style=\"width: 90px; height: 90px;\" />&nbsp; &nbsp; Resultados del an&aacute;lisis con la herramienta weka&nbsp;</h1>\r\n" + 
+				"\r\n" + 
+				"<hr />\r\n" + 
+				"<p>A continuaci&oacute;n se resumir&aacute; las propiedades aplicadas en el proceso de miner&iacute;a de datos:</p>\r\n" + 
+				"\r\n\n" + 
+				"<p><strong>Fichero</strong>: "+ file.getNombreFichero() +" <strong>Numero de atributos</strong>: "+file.getNumInstancias()+" <strong>Numero de instancias</strong>: "+file.getnAtributos()+" <strong>Clase</strong>: "+file.getClase()+" <strong>Comentario</strong>: "+file.getComentario()+"</p>\r\n" + 
+				"\r\n\n" + 
+				"<p><strong>Tipo de filtro</strong>: "+filtro.getTipo()+" <strong>Atributos eliminados:</strong>"+filtro.getAtributosRemoveName()+"</p>\r\n" + 
+				"\r\n\n" + 
+				"<p><strong>Algorimo</strong>: "+alg.getNombreAlg()+"</p>\r\n" + 
+				"\r\n\n" + 
+				"<h3 style=\"color:#aaa;font-style:italic;\">Resultados del proceso:</h3>\r\n" + 
+				"\r\n" + 
+				"<hr />\r\n";
+				
 		
-		Image foto = Image.getInstance(".\\src\\main\\resources\\static\\images\\weka-icon.png");
-		foto.scaleToFit(100, 100);
-		foto.setAlignment(Chunk.ALIGN_CENTER);
-		documento.add(foto);
-		documento.add(Chunk.NEWLINE);
-		documento.add(new Phrase("Resultados del análisis con la herramienta weka"));
-		documento.add(Chunk.NEWLINE);
-		documento.add(Chunk.NEWLINE);
-		documento.add(new Paragraph(sFichero));
-		documento.add(Chunk.NEWLINE);
-		documento.add(new Paragraph(sFiltro));
-		documento.add(Chunk.NEWLINE);
-		documento.add(new Paragraph(sAlg));
-		documento.add(Chunk.NEWLINE);
-		documento.add(new Paragraph("Resultados: " + resultados));
-		documento.close();
+		document.open();
+        XMLWorkerHelper worker = XMLWorkerHelper.getInstance();
+        byte[] byteArray = html.getBytes(Charset.forName("UTF-8"));
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArray);
+        worker.parseXHtml(pdfWriter, document, byteArrayInputStream, Charset.forName("UTF-8"));
+		document.add(new Paragraph(resultados));
+		document.close();
+		pdfWriter.close();
 		return tempFile.getAbsolutePath();
 	}
 	

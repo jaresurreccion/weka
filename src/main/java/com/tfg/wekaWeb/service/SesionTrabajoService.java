@@ -25,32 +25,35 @@ public class SesionTrabajoService {
 		}
 	   
 	   public SesionTrabajo nuevaSesionTrabajo(Integer idUsuario,String nombre) {
-		   SesionTrabajo nuevoTrabajo = new SesionTrabajo(idUsuario,nombre,null,null,null,new Date(), new Date());
+		   SesionTrabajo nuevoTrabajo = new SesionTrabajo(idUsuario,nombre,null,null,null,new Date(), new Date(),null,null,null);
 		  return trabajo.save(nuevoTrabajo);
 	   }
 	   
-	   public void actualizarFileSesion(Integer idSesion,Integer idFile) {
+	   public void actualizarFileSesion(Integer idSesion,Integer idFile, String nombreFile) {
 		   Optional<SesionTrabajo> updateFile = trabajo.findById(idSesion);
 		   if(updateFile.isPresent()) {
 			   updateFile.get().setIdFile(idFile);
+			   updateFile.get().setNombreFile(nombreFile);
 			   updateFile.get().setFechaActualizacion(new Date());
 			  trabajo.save(updateFile.get());
 		   }
 	   }
 	   
-	   public void actualizarAlgoritmoSesion(Integer idSesion,Integer idAlgoritmo) {
+	   public void actualizarAlgoritmoSesion(Integer idSesion,Integer idAlgoritmo, String nombreAlg) {
 		   Optional<SesionTrabajo> updateFile = trabajo.findById(idSesion);
 		   if(updateFile.isPresent()) {
 			   updateFile.get().setIdAlgoritmo(idAlgoritmo);
+			   updateFile.get().setNombreAlg(nombreAlg);
 			   updateFile.get().setFechaActualizacion(new Date());
 			   trabajo.save(updateFile.get());
 		   }
 	   }
 	   
-	   public void actualizarFiltroSesion(Integer idSesion,Integer idFiltro) {
+	   public void actualizarFiltroSesion(Integer idSesion,Integer idFiltro, String nombreFiltros) {
 		   Optional<SesionTrabajo> updateFile = trabajo.findById(idSesion);
 		   if(updateFile.isPresent()) {
 			   updateFile.get().setIdFiltros(idFiltro);
+			   updateFile.get().setNombreFiltros(nombreFiltros);
 			   updateFile.get().setFechaActualizacion(new Date());
 			   trabajo.save(updateFile.get());
 		   }

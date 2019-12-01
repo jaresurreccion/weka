@@ -104,8 +104,8 @@ public class wekaController {
 			/* Seleccionamos la columna de los datos a estimar */
 			String removeData = session.getAttribute("filtroActivoRemove").toString();
 			String[] val = removeData.split(",");
-
-			if (val.length > 0) {
+			
+			if (val.length > 0 && val != null && removeData != "" && removeData.length() > 0) {
 				for (int i = 0; i < val.length; i++) {
 					data.remove(Integer.parseInt(val[i]));
 					dataClus.remove(Integer.parseInt(val[i]));
@@ -264,8 +264,8 @@ public class wekaController {
 			return "redirect:/sessionCaducada";
 		Integer idSession = Integer.parseInt(session.getAttribute("sesionActivaIdSesion").toString());
 		Integer idAlgoritmo = Integer.parseInt(optradio);
-		sessionService.actualizarAlgoritmoSesion(idSession, idAlgoritmo);
 		Optional<Algoritmos> alg = algoritmoRepository.findById(idAlgoritmo);
+		sessionService.actualizarAlgoritmoSesion(idSession, idAlgoritmo,alg.get().getNombreAlg());		
 		session.setAttribute("algoritmoActivo", true);
 		session.setAttribute("sesionActivaIdAlgoritmo", true);
 		session.setAttribute("algoritmoActivoId", idAlgoritmo);
@@ -290,8 +290,7 @@ public class wekaController {
 		Filtros filter = FiltrosService.guardarFiltro(filtroid, filtro, params, optsArea,
 				Integer.parseInt(session.getAttribute("sesionActivaIdSesion").toString()),
 				Integer.parseInt(session.getAttribute("sesionActivaIdFile").toString()));
-		sessionService.actualizarFiltroSesion(Integer.parseInt(session.getAttribute("sesionActivaIdSesion").toString()),
-				filter.getIdFiltros());
+		
 		int filtroSelecionado = Integer.parseInt(filtro);
 		String filtroActivoString = "";
 		if (filtroSelecionado > 0 | filtroSelecionado <= 3) {
@@ -305,6 +304,8 @@ public class wekaController {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		sessionService.actualizarFiltroSesion(Integer.parseInt(session.getAttribute("sesionActivaIdSesion").toString()),
+				filter.getIdFiltros(),filtroActivoString);
 		//Gestionar filtro -> filter
 		session.setAttribute("filtroActivo", true);
 		session.setAttribute("filtroActivoId", filter.getIdFiltros());
